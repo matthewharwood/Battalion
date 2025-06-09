@@ -51,5 +51,8 @@ Your app will be running on: [http://localhost:6969](http://localhost:6969)
 
 A CRM-like platform to form a battalion of cracked engineers and designers. 
 
+### Design
+
+https://www.figma.com/design/MNbbfknT22njnVnzXA75wz/Battalion?node-id=1-2&t=zjVcLXCFi04DTDh4-1
 
 
