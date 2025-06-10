@@ -14,7 +14,7 @@
     <list default="true" id="c8e5422f-c404-4442-ba0c-0b9af92f990a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/apply.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/apply.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/variables.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/variables.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +124,7 @@
       <updated>1749360039917</updated>
       <workItem from="1749360040959" duration="8538000" />
       <workItem from="1749596423077" duration="56000" />
-      <workItem from="1749596490413" duration="457000" />
+      <workItem from="1749596490413" duration="1489000" />
     </task>
     <servers />
   </component>

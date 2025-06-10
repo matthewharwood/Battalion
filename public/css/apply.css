@@ -286,3 +286,189 @@ progress::-ms-fill {
     border-radius: var(--rounded);
     transition: width 0.3s;
 }
+
+
+@import url("./variables.css");
+
+/* ─────────── General reset ─────────── */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--secondary);
+    color: var(--primary);
+    line-height: 1.45;
+}
+
+/* Screen‑reader‑only utility  */
+.sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ─────────── Layout ─────────── */
+.container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-8);
+    max-width: 1200px;
+    margin: var(--space-8) auto;
+    padding-inline: var(--space-4);
+}
+
+@media (max-width: 900px) {
+    .container { grid-template-columns: 1fr; }
+    .right-container-section { order: -1; margin-bottom: var(--space-8); }
+}
+
+/* ─────────── Form sections ─────────── */
+form {
+    width: 100%;
+}
+
+.event-section,
+.qa-block,
+.truths {
+    border: none;
+    padding: 0;
+    margin: 0 0 var(--space-8);
+}
+
+.label-bold,
+legend:not(.sr-only) {
+    font-size: var(--text-xl);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: var(--space-4);
+}
+
+/* Event area */
+.event-row {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-end;
+}
+
+@media (max-width: 600px) {
+    .event-row { flex-direction: column; align-items: stretch; }
+}
+
+.event-date {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-date);
+    margin-bottom: var(--space-1);
+}
+
+.event-title {
+    width: 100%;
+    font-size: var(--text-base);
+    font-weight: 700;
+    padding: var(--space-3) var(--space-2);
+    border: none;
+    border-bottom: 2px solid var(--primary);
+    background: transparent;
+}
+
+.event-title:focus-visible { outline: 2px solid currentColor; }
+
+/* Job link styled as button but keeps semantic <a> */
+.job-link-btn {
+    display: inline-block;
+    padding: var(--space-4) var(--space-8);
+    background: var(--primary);
+    color: var(--secondary);
+    font: 700 var(--text-lg) / 1 var(--font-sans);
+    text-align: center;
+    text-decoration: none;
+    border-radius: var(--rounded-md);
+    transition: background .2s ease-in-out;
+}
+.job-link-btn:hover,
+.job-link-btn:focus-visible { background: var(--color-btn-bg-hover); }
+
+/* Two‑column pairs */
+.flex-pair {
+    display: flex;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+.flex-pair > div { flex: 1; }
+@media (max-width: 600px) { .flex-pair { flex-direction: column; } }
+
+/* Generic inputs & textarea */
+input,
+select,
+textarea {
+    width: 100%;
+    padding: var(--space-2);
+    font: inherit;
+    border: 2px solid var(--primary);
+    border-radius: var(--rounded-sm);
+    background: var(--secondary);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 6rem;
+    max-height: 200px;
+}
+
+/* Question ‘field’ wrapper for consistent gap */
+.field { margin-bottom: var(--space-4); }
+
+/* ─────────── Side panel ─────────── */
+.right-container-section {
+    border: 2px solid var(--primary);
+    padding: var(--space-4);
+}
+
+.headline {
+    font-family: var(--font-narrow);
+    font-size: var(--text-2xl);
+    margin-top: 0;
+}
+
+.checklist {
+    margin: var(--space-4) 0;
+    padding-left: 1.5em;
+    list-style: decimal;
+    font-weight: 800;
+}
+.checklist li + li { margin-top: var(--space-1); }
+
+.progress-label { font-weight: 700; margin: var(--space-4) 0 var(--space-1); }
+
+/* Native <progress> with full‑width bar */
+progress {
+    width: 100%;
+    height: 12px;
+    appearance: none;
+    border: none;
+    background: var(--color-progress-bg);
+    border-radius: var(--rounded);
+    overflow: hidden;
+}
+progress::-webkit-progress-value,
+progress::-moz-progress-bar,
+progress::-ms-fill {
+    background: var(--primary);
+    border-radius: var(--rounded);
+    transition: width .3s;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: var(--space-4) 0;
+    margin-top: var(--space-6);
+    background: var(--color-submit-bg);
+    color: var(--secondary);
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+}
+.submit-btn:focus-visible { outline: 2px solid var(--primary); }

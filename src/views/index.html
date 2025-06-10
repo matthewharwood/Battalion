@@ -1,131 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Review</title>
-    <link rel="stylesheet" href="/css/main.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Résumé Review</title>
+
+    <!-- Type & core variables -->
+    <link rel="stylesheet" href="/css/variables.css">
+    <!-- The main stylesheet shown further below -->
+    <link rel="stylesheet" href="/css/main.css">
 </head>
+
 <body>
-    <div class="container">
-        <div class="form-section">
-            <div class="event-section">
-                <div class="event-header">
-                    <label class="label-bold">SELECT EVENT:</label>
-                </div>
-                <div class="event-row">
-                    <div class="event-details">
-                    <div class="event-date">JUNE 23RD, 2025</div>
-                    <select class="event-title">
-                        <option value="option1">SOFTWARE ENG II @ UBER – CODE REVIEW</option>
-                        <option value="option2">SOFTWARE ENG II @ UBER – ADS</option>
-                        <option value="option3">PRODUCT MANAGER @ UBER – UX STRATEGY</option>
-                        <option value="option4">FRONTEND DEV @ UBER – MAPS</option>
-                        <option value="option5">DEVOPS ENG @ UBER – CLOUD INFRASTRUCTURE</option>
+<main class="container" aria-labelledby="page-title">
+    <h1 id="page-title" class="sr-only">Résumé readiness form</h1>
+
+    <!-- ────────────────  FORM  ──────────────── -->
+    <form class="form-section" action="#" method="post" novalidate>
+        <!-- Event selector -->
+        <fieldset class="event-section">
+            <legend class="label-bold">Select event</legend>
+
+            <div class="event-row">
+                <div class="event-details">
+                    <time class="event-date" datetime="2025-06-23">June 23<sup>rd</sup>, 2025</time>
+
+                    <label for="event-title" class="sr-only">Event title</label>
+                    <select id="event-title" name="event" class="event-title" required>
+                        <option value="" disabled selected>Select an option&nbsp;…</option>
+                        <option>Software Eng II @ Uber — Code Review</option>
+                        <option>Software Eng II @ Uber — Ads</option>
+                        <option>Product Manager @ Uber — UX Strategy</option>
+                        <option>Frontend Dev @ Uber — Maps</option>
+                        <option>DevOps Eng @ Uber — Cloud Infrastructure</option>
                     </select>
-                    </div>
-                    <button class="job-link-btn">JOB LINK</button>
                 </div>
+
+                <a class="job-link-btn" href="#" target="_blank" rel="noopener">Job link</a>
             </div>
-            <div class="flex-pair">
-                <div class="flex-item">
-                    <label>NAME:</label>
-                    <input type="text">
-                </div>
-                <div>
-                    <label>GITHUB:</label>
-                    <input type="text">
-                </div>
-            </div>
-            <div class="flex-pair">
-                <div class="flex-item">
-                    <label>EMAIL:</label>
-                    <input type="email">
-                </div>
-                <div class="flex-item">
-                    <label>RESUME:</label>
-                    <input type="text">
-                </div>
-            </div>
-            <div class="flex-pair">
-                <div class="flex-item">
-                    <label>MOST CODE WRITTEN FOR:</label>
-                    <input type="text">
-                </div>
-                <div>
-                    <label>LINKEDIN:</label>
-                    <input type="text">
-                </div>
-            </div>
-            <div class="flex-pair">
-                <div class="flex-item">
-                    <label>MOST USED LANGUAGE:</label>
-                    <input type="text">
-                </div>
-                <div>
-                    <label>PORTFOLIO:</label>
-                    <input type="text">
-                </div>
-            </div>
+        </fieldset>
 
-            <label>5WS GOT YOU INTO PROGRAMMING?</label>
-            <textarea rows="3"></textarea>
-
-            <label>WHAT WOULD BE YOUR ULTIMATE PROJECT RIGHT NOW?</label>
-            <textarea rows="3"></textarea>
-
-            <label>WHAT IS ONE PIECE OF WORK YOU ARE MOST PROUD OF</label>
-            <textarea rows="3"></textarea>
-
-            <label>WHAT SKILLS DO YOU WANT TO MASTER IN NEXT 3-5 YEARS</label>
-            <textarea rows="3"></textarea>
-
-            <label>ANY ONCALL HORROR STORIES?</label>
-            <textarea rows="3"></textarea>
-
-            <label>WHAT STRATEGIES DO YOU USE TO STAY FOCUSED AND PRESENT WHILE WORKING ON A TASK?</label>
-            <textarea rows="3"></textarea>
-
-            <label>WHAT SUPPORT SYSTEM DO YOU CURRENTLY RELY ON TO STAY FOCUSED, AND HOW CAN WE HELP ENHANCE THEM?</label>
-            <textarea rows="3"></textarea>
-
-            <label>WHAT'S YOUR FAVORITE COMFORT FOOD AND WHY?</label>
-            <textarea rows="3"></textarea>
-
-            <label>HOW DO YOU TYPICALLY SPEND YOUR WEEKENDS?</label>
-            <textarea rows="3"></textarea>
-
-            <label>IF YOU COULD TRAVEL ANYWHERE, WHERE WOULD YOU GO?</label>
-            <textarea rows="3"></textarea>
-
+        <!-- Compact two‑column pairs -->
+        <div class="flex-pair">
             <div>
-                <div style="padding-bottom: 8px; font-size: 16px; font-weight: 700;">
-                    TWO TRUTHS AND A LIE
-                </div>
-                <label>TRUTH #1</label>
-                <input type="text">
-                <label>TRUTH #2</label>
-                <input type="text">
-                <label>LIE</label>
-                <input type="text">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div>
+                <label for="github">GitHub</label>
+                <input id="github" name="github" type="url" placeholder="https://github.com/you">
             </div>
         </div>
 
-        <div class="right-container-section">
-            <h2>EVALUATING YOUR JOB–READINESS—ONE RESUME AT A TIME.</h2>
-            <div class="checklist-box">
-                <ol style="padding-left: 2em; font-weight: 800;">
-                    <li>REVIEW THE JOB POST</li>
-                    <li>FILL OUT FORM</li>
-                    <li>ADD TO CALENDAR</li>
-                </ol>
+        <div class="flex-pair">
+            <div>
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" required>
             </div>
-            <!-- TODO change 50% into a variable  -->
-             <div class="progress-label">50% COMPLETE</div>
-             <progress value="50" max="100">50 %</progress>
-
-            <button class="submit-btn">SUBMIT</button>
+            <div>
+                <label for="resume">Résumé link</label>
+                <input id="resume" name="resume" type="url" placeholder="URL or file share link">
+            </div>
         </div>
-    </div>
+
+        <div class="flex-pair">
+            <div>
+                <label for="code-base">Most code written for</label>
+                <input id="code-base" name="codeBase" type="text">
+            </div>
+            <div>
+                <label for="linkedin">LinkedIn</label>
+                <input id="linkedin" name="linkedin" type="url">
+            </div>
+        </div>
+
+        <div class="flex-pair">
+            <div>
+                <label for="language">Most‑used language</label>
+                <input id="language" name="language" type="text">
+            </div>
+            <div>
+                <label for="portfolio">Portfolio</label>
+                <input id="portfolio" name="portfolio" type="url">
+            </div>
+        </div>
+
+        <!-- Open‑ended questions -->
+        <fieldset class="qa-block">
+            <legend class="sr-only">Questionnaire</legend>
+
+            <!-- 50‑char max label so screen readers don’t repeat huge strings -->
+            <div class="field">
+                <label for="q1">5 Ws got you into programming?</label>
+                <textarea id="q1" name="whyProgramming" rows="3" maxlength="1000"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="q2">Ultimate project right now?</label>
+                <textarea id="q2" name="ultimateProject" rows="3" maxlength="1000"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="q3">One piece of work you’re most proud of</label>
+                <textarea id="q3" name="proudWork" rows="3" maxlength="1000"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="q4">Skills you want to master in 3‑5 years</label>
+                <textarea id="q4" name="futureSkills" rows="3" maxlength="1000"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="q5">Any on‑call horror stories?</label>
+                <textarea id="q5" name="oncallStories" rows="3" maxlength="1000"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="q6">Strategies to stay focused &amp; present</label>
+                <textarea id="q6" name="focusStrategies" rows="3" maxlength="1000"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="q7">Support systems you rely on &amp; how we can help</label>
+                <textarea id="q7" name="supportSystems" rows="3" maxlength="1000"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="q8">Favourite comfort food &amp; why</label>
+                <textarea id="q8" name="comfortFood" rows="3" maxlength="1000"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="q9">How do you spend your weekends?</label>
+                <textarea id="q9" name="weekend" rows="3" maxlength="1000"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="q10">If you could travel anywhere …</label>
+                <textarea id="q10" name="travelWish" rows="3" maxlength="1000"></textarea>
+            </div>
+        </fieldset>
+
+        <!-- Two truths & a lie -->
+        <fieldset class="truths">
+            <legend>Two truths & a lie</legend>
+
+            <div class="field">
+                <label for="truth1">Truth #1</label>
+                <input id="truth1" name="truth1" type="text" maxlength="120">
+            </div>
+
+            <div class="field">
+                <label for="truth2">Truth #2</label>
+                <input id="truth2" name="truth2" type="text" maxlength="120">
+            </div>
+
+            <div class="field">
+                <label for="lie">Lie</label>
+                <input id="lie" name="lie" type="text" maxlength="120">
+            </div>
+        </fieldset>
+    </form><!-- /form-section -->
+
+
+    <!-- ────────────────  SIDE PANEL  ──────────────── -->
+    <aside class="right-container-section" aria-label="Submission progress">
+        <h2 class="headline">Evaluating your job‑readiness—one résumé at a time.</h2>
+
+        <ol class="checklist" aria-label="Checklist">
+            <li>Review the job post</li>
+            <li>Fill out form</li>
+            <li>Add to calendar</li>
+        </ol>
+
+        <label id="progress-label" class="progress-label" for="progress-bar">50 % completed</label>
+        <progress id="progress-bar" value="50" max="100"
+                  aria-labelledby="progress-label"></progress>
+
+        <button type="submit" form="__not_needed__" class="submit-btn">
+            Submit
+        </button>
+    </aside>
+</main>
 </body>
 </html>
