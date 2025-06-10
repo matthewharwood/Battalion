@@ -1,3 +1,4 @@
+use std::path::Path;
 use std::sync::Arc;
 use axum::response::{Html, IntoResponse};
 use axum::{Form, Router};
@@ -8,6 +9,7 @@ use surrealdb::engine::remote::ws::{Client as WsClient, Ws};
 use surrealdb::opt::auth::Root;
 use surrealdb::Surreal;
 use tera::Tera;
+use tower_http::services::ServeDir;
 
 struct AppState {
     pub views: Arc<Tera>,
@@ -16,7 +18,9 @@ struct AppState {
 
 #[tokio::main]
 async fn main() {
-    println!("1");
+    let public_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("public");
+    println!("Public Dir: {:?}", public_dir);
+    let static_files_service = ServeDir::new(public_dir).append_index_html_on_directories(false);
     let db = match Surreal::new::<Ws>("127.0.0.1:8000").await {
         Ok(s) => {
             println!("Surreal instance created");
@@ -26,7 +30,7 @@ async fn main() {
             panic!("Surreal initialization error: {}", e);
         }
     };
-    println!("2");
+    
     if let Err(e) = db
         .signin(Root {
             username: "root",
@@ -37,7 +41,7 @@ async fn main() {
         eprintln!("FATAL: Could not sign in to SurrealDB: {:?}", e);
         ::std::process::exit(1);
     };
-    println!("3");
+    
     if let Err(e) = db.use_ns("test").use_db("test").await {
         eprintln!(
             "FATAL: Could not use namespace/database in SurrealDB: {:?}",
@@ -52,10 +56,11 @@ async fn main() {
         views: arc_views,
         db: shared_db,
     });
-    println!("4");
+    
     let app  = Router::new()
         .route("/", get(|| async { "Hello, World!" }))
         .route("/apply", get(show_form).post(accept_form))
+        .fallback_service(static_files_service)
         .with_state(app_state);
     let listener = tokio::net::TcpListener::bind("127.0.0.1:6969").await.unwrap();
     axum::serve(listener, app).await.unwrap();
