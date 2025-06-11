@@ -1,0 +1,13 @@
+{% macro text_input(name, label) %}
+<div class="field">
+  <label for="{{ name }}">{{ label }}</label>
+  <input id="{{ name }}" name="{{ name }}" type="text">
+</div>
+{% endmacro %}
+
+{% macro textarea(name, label) %}
+<div class="field">
+  <label for="{{ name }}">{{ label }}</label>
+  <textarea id="{{ name }}" name="{{ name }}" rows="3"></textarea>
+</div>
+{% endmacro %}
