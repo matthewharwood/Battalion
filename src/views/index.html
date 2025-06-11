@@ -1,3 +1,4 @@
+{% import "macros/forms.html" as forms %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,103 +46,38 @@
 
         <!-- Compact two‑column pairs -->
         <div class="flex-pair">
-            <div>
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" autocomplete="name" required>
-            </div>
-            <div>
-                <label for="github">GitHub</label>
-                <input id="github" name="github" type="url" placeholder="https://github.com/you">
-            </div>
+            {{ forms::text_input(name="name", label="Name") }}
+            {{ forms::text_input(name="github", label="Github") }}
         </div>
 
         <div class="flex-pair">
-            <div>
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" autocomplete="email" required>
-            </div>
-            <div>
-                <label for="resume">Résumé link</label>
-                <input id="resume" name="resume" type="url" placeholder="URL or file share link">
-            </div>
+            {{ forms::text_input(name="email", label="Email", type="email", autocomplete="email") }}
+            {{ forms::text_input(name="resume", label="Résumé link", type="resume", autocomplete="", placeholder="URL or file share link") }}
         </div>
 
         <div class="flex-pair">
-            <div>
-                <label for="code-base">Most code written for</label>
-                <input id="code-base" name="codeBase" type="text">
-            </div>
-            <div>
-                <label for="linkedin">LinkedIn</label>
-                <input id="linkedin" name="linkedin" type="url">
-            </div>
+            {{ forms::text_input(name="code-base", label="Most code written for", type="text") }}
+            {{ forms::text_input(name="linkedin", label="LinkedIn", type="url") }}
         </div>
 
         <div class="flex-pair">
-            <div>
-                <label for="language">Most‑used language</label>
-                <input id="language" name="language" type="text">
-            </div>
-            <div>
-                <label for="portfolio">Portfolio</label>
-                <input id="portfolio" name="portfolio" type="url">
-            </div>
+            {{ forms::text_input(name="language", label="Most‑used language") }}
+            {{ forms::text_input(name="portfolio", label="Portfolio", type="url") }}
         </div>
 
         <!-- Open‑ended questions -->
         <fieldset class="section-qa">
             <legend class="sr-only">Questionnaire</legend>
-
-            <!-- 50‑char max label so screen readers don’t repeat huge strings -->
-            <div class="field">
-                <label for="q1">5Ws got you into programming?</label>
-                <textarea id="q1" name="whyProgramming" rows="3" maxlength="1000"></textarea>
-            </div>
-
-            <div class="field">
-                <label for="q2">Ultimate project right now?</label>
-                <textarea id="q2" name="ultimateProject" rows="3" maxlength="1000"></textarea>
-            </div>
-
-            <div class="field">
-                <label for="q3">One piece of work you’re most proud of</label>
-                <textarea id="q3" name="proudWork" rows="3" maxlength="1000"></textarea>
-            </div>
-
-            <div class="field">
-                <label for="q4">Skills you want to master in 3‑5 years</label>
-                <textarea id="q4" name="futureSkills" rows="3" maxlength="1000"></textarea>
-            </div>
-
-            <div class="field">
-                <label for="q5">Any on‑call horror stories?</label>
-                <textarea id="q5" name="oncallStories" rows="3" maxlength="1000"></textarea>
-            </div>
-
-            <div class="field">
-                <label for="q6">Strategies to stay focused &amp; present</label>
-                <textarea id="q6" name="focusStrategies" rows="3" maxlength="1000"></textarea>
-            </div>
-
-            <div class="field">
-                <label for="q7">Support systems you rely on &amp; how we can help</label>
-                <textarea id="q7" name="supportSystems" rows="3" maxlength="1000"></textarea>
-            </div>
-
-            <div class="field">
-                <label for="q8">Favourite comfort food &amp; why</label>
-                <textarea id="q8" name="comfortFood" rows="3" maxlength="1000"></textarea>
-            </div>
-
-            <div class="field">
-                <label for="q9">How do you spend your weekends?</label>
-                <textarea id="q9" name="weekend" rows="3" maxlength="1000"></textarea>
-            </div>
-
-            <div class="field">
-                <label for="q10">If you could travel anywhere …</label>
-                <textarea id="q10" name="travelWish" rows="3" maxlength="1000"></textarea>
-            </div>
+            {{ forms::textarea(name="whyProgramming", label="5Ws got you into programming?") }}
+            {{ forms::textarea(name="ultimateProject", label="Ultimate project right now?") }}
+            {{ forms::textarea(name="proudWork", label="One piece of work you’re most proud of?") }}
+            {{ forms::textarea(name="futureSkills", label="Skills you want to master in 3‑5 years?") }}
+            {{ forms::textarea(name="oncallStories", label="Any on‑call horror stories?") }}
+            {{ forms::textarea(name="focusStrategies", label="Strategies to stay focused &amp; present?") }}
+            {{ forms::textarea(name="supportSystems", label="Support systems you rely on &amp; how we can help?") }}
+            {{ forms::textarea(name="comfortFood", label="Favourite comfort food &amp; why?") }}
+            {{ forms::textarea(name="comfortFood", label="How do you spend your weekends?") }}
+            {{ forms::textarea(name="travelWish", label="If you could travel anywhere?") }}
         </fieldset>
 
         <!-- Two truths & a lie -->
@@ -149,12 +85,12 @@
             <legend>Two truths & a lie</legend>
 
             <div class="field">
-                <label for="truth1">Truth #1</label>
+                <label for="truth1">Truth #1</label>
                 <input id="truth1" name="truth1" type="text" maxlength="120">
             </div>
 
             <div class="field">
-                <label for="truth2">Truth #2</label>
+                <label for="truth2">Truth #2</label>
                 <input id="truth2" name="truth2" type="text" maxlength="120">
             </div>
 
