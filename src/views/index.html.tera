@@ -13,41 +13,41 @@
 <main class="container" aria-labelledby="page-title">
     <h1 id="page-title" class="sr-only">Résumé readiness form</h1>
     <form class="form-section" action="/apply" method="post" novalidate>
-        {{ forms.text_input("event", "Event") }}
+        {{ forms::text_input("event", "Event") }}
         <div class="flex-pair">
-            {{ forms.text_input("name", "Name") }}
-            {{ forms.text_input("github", "GitHub") }}
+            {{ forms::text_input("name", "Name") }}
+            {{ forms::text_input("github", "GitHub") }}
         </div>
         <div class="flex-pair">
-            {{ forms.text_input("email", "Email") }}
-            {{ forms.text_input("resume", "Résumé link") }}
+            {{ forms::text_input("email", "Email") }}
+            {{ forms::text_input("resume", "Résumé link") }}
         </div>
         <div class="flex-pair">
-            {{ forms.text_input("codeBase", "Most code written for") }}
-            {{ forms.text_input("linkedin", "LinkedIn") }}
+            {{ forms::text_input("codeBase", "Most code written for") }}
+            {{ forms::text_input("linkedin", "LinkedIn") }}
         </div>
         <div class="flex-pair">
-            {{ forms.text_input("language", "Most‑used language") }}
-            {{ forms.text_input("portfolio", "Portfolio") }}
+            {{ forms::text_input("language", "Most‑used language") }}
+            {{ forms::text_input("portfolio", "Portfolio") }}
         </div>
         <fieldset class="section-qa">
             <legend class="sr-only">Questionnaire</legend>
-            {{ forms.textarea("whyProgramming", "5Ws got you into programming?") }}
-            {{ forms.textarea("ultimateProject", "Ultimate project right now?") }}
-            {{ forms.textarea("proudWork", "One piece of work you’re most proud of") }}
-            {{ forms.textarea("futureSkills", "Skills you want to master in 3‑5 years") }}
-            {{ forms.textarea("oncallStories", "Any on‑call horror stories?") }}
-            {{ forms.textarea("focusStrategies", "Strategies to stay focused & present") }}
-            {{ forms.textarea("supportSystems", "Support systems you rely on & how we can help") }}
-            {{ forms.textarea("comfortFood", "Favourite comfort food & why") }}
-            {{ forms.textarea("weekend", "How do you spend your weekends?") }}
-            {{ forms.textarea("travelWish", "If you could travel anywhere …") }}
+            {{ forms::textarea("whyProgramming", "5Ws got you into programming?") }}
+            {{ forms::textarea("ultimateProject", "Ultimate project right now?") }}
+            {{ forms::textarea("proudWork", "One piece of work you’re most proud of") }}
+            {{ forms::textarea("futureSkills", "Skills you want to master in 3‑5 years") }}
+            {{ forms::textarea("oncallStories", "Any on‑call horror stories?") }}
+            {{ forms::textarea("focusStrategies", "Strategies to stay focused & present") }}
+            {{ forms::textarea("supportSystems", "Support systems you rely on & how we can help") }}
+            {{ forms::textarea("comfortFood", "Favourite comfort food & why") }}
+            {{ forms::textarea("weekend", "How do you spend your weekends?") }}
+            {{ forms::textarea("travelWish", "If you could travel anywhere …") }}
         </fieldset>
         <fieldset class="section-truths">
             <legend>Two truths & a lie</legend>
-            {{ forms.text_input("truth1", "Truth #1") }}
-            {{ forms.text_input("truth2", "Truth #2") }}
-            {{ forms.text_input("lie", "Lie") }}
+            {{ forms::text_input("truth1", "Truth #1") }}
+            {{ forms::text_input("truth2", "Truth #2") }}
+            {{ forms::text_input("lie", "Lie") }}
         </fieldset>
         <button type="submit" class="btn-submit">Submit</button>
     </form>

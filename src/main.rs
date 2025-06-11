@@ -72,7 +72,7 @@ fn views() -> Arc<Tera> {
     tera.add_template_files(vec![
         ("src/views/index.html.tera", Some("index.html.tera")),
         ("src/templates/macros/forms.html", Some("macros/forms.html")),
-    ]).unwrap();
+    ]).expect("Failed to load templates");
     Arc::new(tera)
 }
 
