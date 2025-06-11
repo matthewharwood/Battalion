@@ -41,7 +41,7 @@ impl Apply {
     }
 
     pub async fn update(db: &Surreal<WsClient>, id: &str, data: &Self) -> surrealdb::Result<Option<Self>> {
-        db.update(("apply", id)).content(data).await
+        db.update(("apply", id)).content(data.clone()).await
     }
 
     pub async fn delete(db: &Surreal<WsClient>, id: &str) -> surrealdb::Result<()> {

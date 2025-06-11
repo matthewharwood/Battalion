@@ -1,5 +1,5 @@
 use std::sync::Arc;
-use axum::{Form, Router, routing::{get, post}, extract::State, response::{Html, IntoResponse}};
+use axum::{Form, Router, routing::get, extract::State, response::{Html, IntoResponse}};
 use schemars::schema_for;
 use serde_json::Value;
 use crate::AppState;
