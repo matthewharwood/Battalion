@@ -17,7 +17,7 @@ async fn show_form(State(state): State<Arc<AppState>>) -> impl IntoResponse {
     let tera = &state.views;
     let mut ctx = tera::Context::new();
     ctx.insert("schema", &schema_json);
-    let rendered = tera.render("index.html.tera", &ctx).unwrap();
+    let rendered = tera.render("index.html", &ctx).unwrap();
     Html(rendered)
 }
 
