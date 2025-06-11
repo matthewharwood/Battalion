@@ -45,6 +45,9 @@ legend:not(.sr-only){
     letter-spacing:.05em;
     margin-bottom:var(--space-4);
 }
+label {
+    text-transform:uppercase;
+}
 
 /* Event area */
 .event-row{
@@ -97,7 +100,8 @@ select,
 textarea{
     width:100%;
     padding:var(--space-2);
-    font:inherit;
+    font-family:var(--font-mono);
+    font-weight:700;
     border:4px solid var(--primary);
     border-radius:var(--rounded-sm);
     background:var(--secondary);
