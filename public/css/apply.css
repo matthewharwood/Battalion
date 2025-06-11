@@ -80,10 +80,11 @@ label {
     padding:var(--space-4) var(--space-8);
     background:var(--primary);
     color:var(--secondary);
-    font:700 var(--text-lg)/1 var(--font-sans);
+    line-height:1;
+    font-size:var(--text-sm);
     text-align:center;
     text-decoration:none;
-    border-radius:var(--rounded-md);
+    text-transform:uppercase;
     transition:background .2s ease-in-out;
 }
 .btn-job-link:hover,
@@ -146,13 +147,14 @@ progress[value]::-webkit-progress-bar {
 
 /* Submit button */
 .btn-submit{
+    font-family:var(--font-sans);
+    text-transform:uppercase;
     display:block;
     width:100%;
     padding:var(--space-4) 0;
     margin-top:var(--space-6);
-    background:var(--color-submit-bg);
+    background: var(--primary);
     color:var(--secondary);
-    font-weight:700;
     border:none;
     cursor:pointer;
 }
