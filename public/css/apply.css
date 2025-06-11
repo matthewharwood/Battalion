@@ -126,22 +126,22 @@ textarea{resize:vertical;min-height:6rem;max-height:200px;}
 .checklist li+li{margin-top:var(--space-1);}
 .progress-label{font-weight:700;margin:var(--space-4) 0 var(--space-1);}
 
-/* Native progress bar */
-progress{
-    width:100%;
-    height:12px;
+
+.progress[value]{
+    width: 100%;
+    height: 8px;
     appearance:none;
     border:none;
+    background-color: whiteSmoke;
+    border-radius: 0;
     background:var(--color-progress-bg);
-    border-radius:var(--rounded);
     overflow:hidden;
 }
-progress::-webkit-progress-value,
-progress::-moz-progress-bar,
-progress::-ms-fill{
-    background:var(--primary);
-    border-radius:var(--rounded);
-    transition:width .3s;
+progress[value]::-webkit-progress-bar {
+    background-color: #ccc;
+}
+.progress::-webkit-progress-value {
+    background-color: var(--primary);
 }
 
 /* Submit button */
