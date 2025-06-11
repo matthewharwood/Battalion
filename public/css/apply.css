@@ -45,6 +45,9 @@ legend:not(.sr-only){
     letter-spacing:.05em;
     margin-bottom:var(--space-4);
 }
+label {
+    text-transform:uppercase;
+}
 
 /* Event area */
 .event-row{
