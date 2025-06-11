@@ -2,7 +2,7 @@ use std::sync::Arc;
 use axum::{Form, Router, routing::{get, post}, extract::State, response::{Html, IntoResponse}};
 use schemars::schema_for;
 use serde_json::Value;
-use crate::{AppState, views};
+use crate::AppState;
 use crate::models::apply::Apply;
 
 pub fn routes() -> Router<Arc<AppState>> {
@@ -22,10 +22,10 @@ async fn show_form(State(state): State<Arc<AppState>>) -> impl IntoResponse {
 
 async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Apply>) -> impl IntoResponse {
     match form.create(&state.db).await {
-        Ok(_rec) => Html("Success".into()),
+        Ok(_rec) => Html(String::from("Success")),
         Err(e) => {
             eprintln!("Failed to insert: {:?}", e);
-            Html("Error".into())
+            Html(String::from("Error"))
         }
     }
 }

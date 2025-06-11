@@ -32,20 +32,20 @@ pub struct Apply {
 
 impl Apply {
     pub async fn create(self, db: &Surreal<WsClient>) -> surrealdb::Result<Self> {
-        let mut res: Vec<Self> = db.create("apply").content(self).await?;
-        Ok(res.pop().unwrap())
+        let created: Option<Self> = db.create("apply").content(self).await?;
+        Ok(created.expect("create returned none"))
     }
 
-    pub async fn get(db: &Surreal<WsClient>, id: &str) -> surrealdb::Result<Self> {
+    pub async fn get(db: &Surreal<WsClient>, id: &str) -> surrealdb::Result<Option<Self>> {
         db.select(("apply", id)).await
     }
 
-    pub async fn update(db: &Surreal<WsClient>, id: &str, data: &Self) -> surrealdb::Result<Self> {
+    pub async fn update(db: &Surreal<WsClient>, id: &str, data: &Self) -> surrealdb::Result<Option<Self>> {
         db.update(("apply", id)).content(data).await
     }
 
     pub async fn delete(db: &Surreal<WsClient>, id: &str) -> surrealdb::Result<()> {
-        db.delete(("apply", id)).await.map(|(_: Option<Apply>)| ())
+        db.delete(("apply", id)).await.map(|_: Option<Self>| ())
     }
 }
 
