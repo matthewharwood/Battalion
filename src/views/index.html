@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Résumé Review</title>
+    <title>Resume Review</title>
 
     <!-- JetBrains Mono Bold font -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
@@ -13,14 +13,15 @@
     <link rel="stylesheet" href="/css/variables.css">
     <!-- The main stylesheet shown further below -->
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/apply.css">
 </head>
 
 <body>
 <main class="container" aria-labelledby="page-title">
-    <h1 id="page-title" class="sr-only">Résumé readiness form</h1>
+    <h1 id="page-title" class="sr-only">Resume readiness form</h1>
 
 
-    <form class="form-section" action="#" method="post" novalidate>
+    <form id="resume-form" class="form-section" action="#" method="post" novalidate>
         <!-- Event selector -->
         <fieldset class="section-event">
             <legend class="label-bold">Select event</legend>
@@ -46,23 +47,59 @@
 
         <!-- Compact two‑column pairs -->
         <div class="flex-pair">
-            {{ forms::text_input(name="name", label="Name") }}
-            {{ forms::text_input(name="github", label="Github") }}
+            {{ forms::text_input(name="name", label="Name", placeholder="Enter your name") }}
+            {{ forms::text_input(
+                name="github",
+                label="Github",
+                placeholder="Github URL",
+                type="url",
+                pattern="https?://(www\.)?github\.com/[A-Za-z0-9_.-]+/?",
+                title="Enter a valid GitHub profile URL (e.g., https://github.com/username)"
+            ) }}
         </div>
 
         <div class="flex-pair">
-            {{ forms::text_input(name="email", label="Email", type="email", autocomplete="email") }}
-            {{ forms::text_input(name="resume", label="Résumé link", type="resume", autocomplete="", placeholder="URL or file share link") }}
+            {{ forms::text_input(
+                name="email",
+                label="Email",
+                type="email",
+                placeholder="Email",
+                autocomplete="email",
+                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+                title="Enter a valid email address"
+            ) }}
+            {{ forms::text_input(
+                name="resume",
+                label="Resume link",
+                type="url",
+                placeholder="URL or file share link",
+                pattern="https?://.+",
+                title="Enter a valid URL for your résumé"
+            ) }}
         </div>
 
         <div class="flex-pair">
             {{ forms::text_input(name="code-base", label="Most code written for", type="text") }}
-            {{ forms::text_input(name="linkedin", label="LinkedIn", type="url") }}
+            {{ forms::text_input(
+                name="linkedin",
+                label="LinkedIn URL",
+                placeholder="LinkedIn URL",
+                type="url",
+                pattern="https?://(www\.)?linkedin\.com/.*",
+                title="Enter a valid LinkedIn profile URL (e.g., https://linkedin.com/in/username)"
+            ) }}
         </div>
 
         <div class="flex-pair">
-            {{ forms::text_input(name="language", label="Most‑used language") }}
-            {{ forms::text_input(name="portfolio", label="Portfolio", type="url") }}
+            {{ forms::text_input(name="language", label="Most‑used language", placeholder="Javascript") }}
+            {{ forms::text_input(
+                name="portfolio",
+                label="Portfolio",
+                placeholder="Portfolio URL",
+                type="url",
+                pattern="https?://.+",
+                title="Enter a valid portfolio URL"
+            ) }}
         </div>
 
         <!-- Open‑ended questions -->
@@ -76,7 +113,7 @@
             {{ forms::textarea(name="focusStrategies", label="Strategies to stay focused &amp; present?") }}
             {{ forms::textarea(name="supportSystems", label="Support systems you rely on &amp; how we can help?") }}
             {{ forms::textarea(name="comfortFood", label="Favourite comfort food &amp; why?") }}
-            {{ forms::textarea(name="comfortFood", label="How do you spend your weekends?") }}
+            {{ forms::textarea(name="weekends", label="How do you spend your weekends?") }}
             {{ forms::textarea(name="travelWish", label="If you could travel anywhere?") }}
         </fieldset>
 
@@ -116,10 +153,110 @@
         <progress id="progress-bar" class="progress" value="50" max="100"
                   aria-labelledby="progress-label"></progress>
 
-        <button type="submit" form="__not_needed__" class="btn-submit">
+        <button type="submit" form="resume-form" class="btn-submit">
             Submit
         </button>
     </aside>
 </main>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.form-section');
+    const fields = [
+        {
+            name: 'email',
+            pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            message: 'Enter a valid email address',
+            errorClass: 'input-error'
+        },
+        {
+            name: 'github',
+            pattern: /^https?:\/\/(www\.)?github\.com\/[A-Za-z0-9_.-]+\/?$/,
+            message: 'Enter a valid GitHub profile URL (e.g., https://github.com/username)',
+            errorClass: 'input-error'
+        },
+        {
+            name: 'resume',
+            pattern: /^https?:\/\/.+/,
+            message: 'Enter a valid URL for your resume',
+            errorClass: 'input-error'
+        },
+        {
+            name: 'linkedin',
+            pattern: /^https?:\/\/(www\.)?linkedin\.com\/.+/,
+            message: 'Enter a valid LinkedIn profile URL (e.g., https://linkedin.com/in/username)',
+            errorClass: 'input-error'
+        },
+        {
+            name: 'portfolio',
+            pattern: /^https?:\/\/.+/,
+            message: 'Enter a valid portfolio URL',
+            errorClass: 'input-error'
+        }
+    ];
+
+    fields.forEach(f => {
+        const input = document.getElementById(f.name);
+        const errorDiv = document.getElementById(f.name + '-error');
+        if (input && errorDiv) {
+            input.addEventListener('keyup', function() {
+                input.classList.remove(f.errorClass);
+                errorDiv.textContent = '';
+            });
+        }
+    });
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        let valid = true;
+
+        // Clear previous errors
+        fields.forEach(f => {
+            const errorDiv = document.getElementById(f.name + '-error');
+            if (errorDiv) errorDiv.textContent = '';
+        });
+
+        // Validate each field
+        fields.forEach(f => {
+            const input = document.getElementById(f.name);
+            const errorDiv = document.getElementById(f.name + '-error');
+            if (input) {
+                input.classList.remove(f.errorClass);
+            }
+            if (input && !f.pattern.test(input.value.trim())) {
+                errorDiv.textContent = f.message;
+                errorDiv.style.color = '#e74c3c';
+                errorDiv.style.fontWeight = '600';
+                errorDiv.style.fontSize = '0.625em';
+                if (input) input.classList.add(f.errorClass);
+                valid = false;
+            } else if (errorDiv) {
+                errorDiv.removeAttribute('style');
+            }
+        });
+
+        if (valid) {
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => { data[key] = value; });
+            debugger
+            try {
+                const response = await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    alert('Form submitted successfully!');
+                    form.reset();
+                } else {
+                    alert('Submission failed.');
+                }
+            } catch (err) {
+                alert('Network error.');
+            }
+        }
+    });
+});
+</script>
 </body>
 </html>
