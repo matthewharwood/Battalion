@@ -234,26 +234,27 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // TODO Backend Integration
         if (valid) {
-            const formData = new FormData(form);
-            const data = {};
-            formData.forEach((value, key) => { data[key] = value; });
-            debugger
-            try {
-                const response = await fetch('/api/submit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                if (response.ok) {
-                    alert('Form submitted successfully!');
-                    form.reset();
-                } else {
-                    alert('Submission failed.');
-                }
-            } catch (err) {
-                alert('Network error.');
-            }
+            // const formData = new FormData(form);
+            // const data = {};
+            // formData.forEach((value, key) => { data[key] = value; });
+            // debugger
+            // try {
+            //     const response = await fetch('/api/submit', {
+            //         method: 'POST',
+            //         headers: { 'Content-Type': 'application/json' },
+            //         body: JSON.stringify(data)
+            //     });
+            //     if (response.ok) {
+            //         alert('Form submitted successfully!');
+            //         form.reset();
+            //     } else {
+            //         alert('Submission failed.');
+            //     }
+            // } catch (err) {
+            //     alert('Network error.');
+            // }
         }
     });
 });
