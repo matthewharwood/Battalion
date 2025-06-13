@@ -1,4 +1,4 @@
-{% macro text_input(name, label, type="text", autocomplete="", placeholder="") %}
+{% macro text_input(name, label, type="text", autocomplete="", placeholder="", pattern="", title="") %}
 <div class="field">
   <label for="{{ name }}">{{ label }}</label>
   <input
@@ -7,7 +7,29 @@
           type="{{ type }}"
           {% if autocomplete | length > 0 %}autocomplete="{{ autocomplete }}" {% endif %}
           {% if placeholder | length > 0 %}placeholder="{{ placeholder }}" {% endif %}
+          {% if pattern | length > 0 %}pattern="{{ pattern }}" {% endif %}
+          {% if title | length > 0 %}title="{{ title }}" {% endif %}
   />
+  <div class="error-message" id="{{ name }}-error"></div>
+</div>
+{% endmacro %}
+
+{% macro select_input(name, label, options, placeholder) %}
+{% if options is not defined %}
+  {% set options = [] %}
+{% endif %}
+{% if placeholder is not defined %}
+  {% set placeholder = "Select an option…" %}
+{% endif %}
+<div>
+  <label for="{{ name }}">{{ label }}</label>
+  <select id="{{ name }}" name="{{ name }}" required>
+    <option value="" disabled selected>{{ placeholder }}</option>
+    {% for opt in options %}
+      <option>{{ opt }}</option>
+    {% endfor %}
+  </select>
+  <div class="error-message" id="{{ name }}-error"></div>
 </div>
 {% endmacro %}
 

@@ -158,4 +158,13 @@ progress[value]::-webkit-progress-bar {
     border:none;
     cursor:pointer;
 }
-.btn-submit:focus-visible{outline:2px solid var(--primary);}
+.btn-submit:focus-visible{
+    outline:2px solid var(--primary);
+}
+
+.error-message.visible {
+  color: var(--color-danger);
+  font-weight: 600;
+  font-size: var(--text-xs);
+}
+

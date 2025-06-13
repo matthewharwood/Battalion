@@ -31,6 +31,7 @@
     --color-border-light: #ccc;
     --color-progress-bg: #ddd;
     --color-submit-bg: #555;
+    --color-danger: #e74c3c;
 
       /* Spacing (Tailwind scale) */
     --space-0: 0rem;
