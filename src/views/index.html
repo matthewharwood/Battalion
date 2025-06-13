@@ -30,15 +30,18 @@
                 <div class="event-details">
                     <time class="event-date" datetime="2025-06-23">June 23<sup>rd</sup>, 2025</time>
 
-                    <label for="event-title" class="sr-only">Event title</label>
-                    <select id="event-title" name="event" class="event-title" required>
-                        <option value="" disabled selected>Select an option&nbsp;…</option>
-                        <option>Software Eng II @ Uber — Code Review</option>
-                        <option>Software Eng II @ Uber — Ads</option>
-                        <option>Product Manager @ Uber — UX Strategy</option>
-                        <option>Frontend Dev @ Uber — Maps</option>
-                        <option>DevOps Eng @ Uber — Cloud Infrastructure</option>
-                    </select>
+                    {{ forms::select_input(
+                        name="event",
+                        label="Select event",
+                        options=[
+                            "Software Eng II @ Uber — Code Review",
+                            "Software Eng II @ Uber — Ads",
+                            "Product Manager @ Uber — UX Strategy",
+                            "Frontend Dev @ Uber — Maps",
+                            "DevOps Eng @ Uber — Cloud Infrastructure"
+                        ],
+                        placeholder="Select an option…"
+                    ) }}
                 </div>
 
                 <a class="btn-job-link" href="#" target="_blank" rel="noopener">Job link</a>
@@ -79,7 +82,7 @@
         </div>
 
         <div class="flex-pair">
-            {{ forms::text_input(name="code-base", label="Most code written for", type="text") }}
+            {{ forms::text_input(name="codeBase", label="Most code written for", type="text") }}
             {{ forms::text_input(
                 name="linkedin",
                 label="LinkedIn URL",
@@ -113,7 +116,7 @@
             {{ forms::textarea(name="focusStrategies", label="Strategies to stay focused &amp; present?") }}
             {{ forms::textarea(name="supportSystems", label="Support systems you rely on &amp; how we can help?") }}
             {{ forms::textarea(name="comfortFood", label="Favourite comfort food &amp; why?") }}
-            {{ forms::textarea(name="weekends", label="How do you spend your weekends?") }}
+            {{ forms::textarea(name="weekend", label="How do you spend your weekends?") }}
             {{ forms::textarea(name="travelWish", label="If you could travel anywhere?") }}
         </fieldset>
 
@@ -234,27 +237,26 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // TODO Backend Integration
         if (valid) {
-            // const formData = new FormData(form);
-            // const data = {};
-            // formData.forEach((value, key) => { data[key] = value; });
-            // debugger
-            // try {
-            //     const response = await fetch('/api/submit', {
-            //         method: 'POST',
-            //         headers: { 'Content-Type': 'application/json' },
-            //         body: JSON.stringify(data)
-            //     });
-            //     if (response.ok) {
-            //         alert('Form submitted successfully!');
-            //         form.reset();
-            //     } else {
-            //         alert('Submission failed.');
-            //     }
-            // } catch (err) {
-            //     alert('Network error.');
-            // }
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => { data[key] = value; });
+            
+            try {
+                const response = await fetch('/apply', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    alert('Form submitted successfully!');
+                    form.reset();
+                } else {
+                    alert('Submission failed.');
+                }
+            } catch (err) {
+                alert('Network error.');
+            }
         }
     });
 });

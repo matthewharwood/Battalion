@@ -14,6 +14,25 @@
 </div>
 {% endmacro %}
 
+{% macro select_input(name, label, options, placeholder) %}
+{% if options is not defined %}
+  {% set options = [] %}
+{% endif %}
+{% if placeholder is not defined %}
+  {% set placeholder = "Select an option…" %}
+{% endif %}
+<div>
+  <label for="{{ name }}">{{ label }}</label>
+  <select id="{{ name }}" name="{{ name }}" required>
+    <option value="" disabled selected>{{ placeholder }}</option>
+    {% for opt in options %}
+      <option>{{ opt }}</option>
+    {% endfor %}
+  </select>
+  <div class="error-message" id="{{ name }}-error"></div>
+</div>
+{% endmacro %}
+
 {% macro textarea(name, label, row="3", maxlength="1000") %}
 <div class="field">
   <label for="{{ name }}">{{ label }}</label>
