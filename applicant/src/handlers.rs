@@ -1,27 +1,21 @@
 use std::sync::Arc;
-use axum::{Form, Json, Router, routing::{get, post, put, delete}, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
+use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
 use schemars::schema_for;
 use serde_json::Value;
 use crate::AppState;
-use crate::models::apply::Apply;
+use crate::models::Apply;
 
-pub fn routes() -> Router<Arc<AppState>> {
-    Router::new()
-        .route("/apply", get(show_form).post(submit_form))
-        .route("/apply/{id}", get(fetch_form).put(update_form).delete(delete_form))
-}
-
-async fn show_form(State(state): State<Arc<AppState>>) -> impl IntoResponse {
+pub(crate) async fn show_form(State(state): State<Arc<AppState>>) -> impl IntoResponse {
     let schema = schema_for!(Apply);
     let schema_json: Value = serde_json::to_value(schema).unwrap();
     let tera = &state.views;
     let mut ctx = tera::Context::new();
     ctx.insert("schema", &schema_json);
-    let rendered = tera.render("index.html", &ctx).unwrap();
+    let rendered = tera.render("applicant_form.html", &ctx).unwrap();
     Html(rendered)
 }
 
-async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Apply>) -> impl IntoResponse {
+pub(crate) async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Apply>) -> impl IntoResponse {
     eprintln!("Received form data: {:?}", form);
     match form.create(&state.db).await {
         Ok(_rec) => Html(String::from("Success")),
@@ -32,7 +26,7 @@ async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Apply>
     }
 }
 
-async fn fetch_form(State(state): State<Arc<AppState>>, Path(id): Path<String>) -> impl IntoResponse {
+pub(crate) async fn fetch_form(State(state): State<Arc<AppState>>, Path(id): Path<String>) -> impl IntoResponse {
     match Apply::get(&state.db, &id).await {
         Ok(Some(app)) => Json(app).into_response(),
         Ok(None) => StatusCode::NOT_FOUND.into_response(),
@@ -43,7 +37,7 @@ async fn fetch_form(State(state): State<Arc<AppState>>, Path(id): Path<String>) 
     }
 }
 
-async fn update_form(State(state): State<Arc<AppState>>, Path(id): Path<String>, Form(data): Form<Apply>) -> impl IntoResponse {
+pub(crate) async fn update_form(State(state): State<Arc<AppState>>, Path(id): Path<String>, Form(data): Form<Apply>) -> impl IntoResponse {
     match Apply::update(&state.db, &id, &data).await {
         Ok(Some(updated)) => Json(updated).into_response(),
         Ok(None) => StatusCode::NOT_FOUND.into_response(),
@@ -54,7 +48,7 @@ async fn update_form(State(state): State<Arc<AppState>>, Path(id): Path<String>,
     }
 }
 
-async fn delete_form(State(state): State<Arc<AppState>>, Path(id): Path<String>) -> impl IntoResponse {
+pub(crate) async fn delete_form(State(state): State<Arc<AppState>>, Path(id): Path<String>) -> impl IntoResponse {
     match Apply::delete(&state.db, &id).await {
         Ok(()) => StatusCode::NO_CONTENT.into_response(),
         Err(e) => {
