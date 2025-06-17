@@ -1,20 +1,13 @@
 use std::path::Path;
 use std::sync::Arc;
-use axum::{Router};
+use axum::Router;
 use axum::routing::get;
-use surrealdb::engine::remote::ws::{Client as WsClient, Ws};
+use surrealdb::engine::remote::ws::Ws;
 use surrealdb::opt::auth::Root;
 use surrealdb::Surreal;
 use tera::Tera;
 use tower_http::services::ServeDir;
-
-mod models;
-mod routes;
-
-pub struct AppState {
-    pub views: Arc<Tera>,
-    pub db: Arc<Surreal<WsClient>>,
-}
+use applicant::{self, AppState};
 
 #[tokio::main]
 async fn main() {
@@ -59,7 +52,7 @@ async fn main() {
     
     let app  = Router::new()
         .route("/", get(|| async { "Hello, World!" }))
-        .merge(routes::apply::routes())
+        .merge(applicant::routes::routes())
         .fallback_service(static_files_service)
         .with_state(app_state);
     println!("Here in port 6969");
@@ -71,8 +64,9 @@ async fn main() {
 fn views() -> Arc<Tera> {
     let mut tera = Tera::default();
     tera.add_template_files(vec![
-        ("src/views/index.html", Some("index.html")),
-        ("src/views/macros/forms.html", Some("macros/forms.html")), // <-- fix path here
+        ("./applicant/templates/applicant_form.html", Some("applicant_form.html")),
+        ("./applicant/templates/macros/forms.html", Some("macros/forms.html")),
+        ("./applicant/templates/applicant_list.html", Some("applicant_list.html")),
     ]).expect("Failed to load templates");
     Arc::new(tera)
 }
