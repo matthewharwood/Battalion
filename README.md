@@ -4,10 +4,12 @@
 surreal start --user root --pass root memory
 
 ## 2. Run migrations
-surreal migrate event/migrations job/migrations applicant/migrations
+chmod +x run_all_migrations.sh
+./run_all_migrations.sh
 
 ## 3. Run the site
 cargo run -p website
 
 ## 4. Smoke test
 open http://localhost:3000/events
+
