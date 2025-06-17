@@ -1,5 +1,5 @@
 use std::sync::Arc;
-use axum::{Form, Router, routing::{get, post, put, delete}, extract::{State, Path}, response::{Html, IntoResponse}, Json, http::StatusCode};
+use axum::{Form, Json, Router, routing::{get, post, put, delete}, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
 use schemars::schema_for;
 use serde_json::Value;
 use crate::AppState;
@@ -21,7 +21,7 @@ async fn show_form(State(state): State<Arc<AppState>>) -> impl IntoResponse {
     Html(rendered)
 }
 
-async fn submit_form(State(state): State<Arc<AppState>>, Json(form): Json<Apply>) -> impl IntoResponse {
+async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Apply>) -> impl IntoResponse {
     eprintln!("Received form data: {:?}", form);
     match form.create(&state.db).await {
         Ok(_rec) => Html(String::from("Success")),
@@ -43,7 +43,7 @@ async fn fetch_form(State(state): State<Arc<AppState>>, Path(id): Path<String>) 
     }
 }
 
-async fn update_form(State(state): State<Arc<AppState>>, Path(id): Path<String>, Json(data): Json<Apply>) -> impl IntoResponse {
+async fn update_form(State(state): State<Arc<AppState>>, Path(id): Path<String>, Form(data): Form<Apply>) -> impl IntoResponse {
     match Apply::update(&state.db, &id, &data).await {
         Ok(Some(updated)) => Json(updated).into_response(),
         Ok(None) => StatusCode::NOT_FOUND.into_response(),

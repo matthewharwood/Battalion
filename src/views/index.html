@@ -21,7 +21,7 @@
     <h1 id="page-title" class="sr-only">Resume readiness form</h1>
 
 
-    <form id="resume-form" class="form-section" action="#" method="post" novalidate>
+    <form id="resume-form" class="form-section" action="/apply" method="post">
         <!-- Event selector -->
         <fieldset class="section-event">
             <legend class="label-bold">Select event</legend>
@@ -161,105 +161,5 @@
         </button>
     </aside>
 </main>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('.form-section');
-    const fields = [
-        {
-            name: 'email',
-            pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-            message: 'Enter a valid email address',
-            errorClass: 'input-error'
-        },
-        {
-            name: 'github',
-            pattern: /^https?:\/\/(www\.)?github\.com\/[A-Za-z0-9_.-]+\/?$/,
-            message: 'Enter a valid GitHub profile URL (e.g., https://github.com/username)',
-            errorClass: 'input-error'
-        },
-        {
-            name: 'resume',
-            pattern: /^https?:\/\/.+/,
-            message: 'Enter a valid URL for your resume',
-            errorClass: 'input-error'
-        },
-        {
-            name: 'linkedin',
-            pattern: /^https?:\/\/(www\.)?linkedin\.com\/.+/,
-            message: 'Enter a valid LinkedIn profile URL (e.g., https://linkedin.com/in/username)',
-            errorClass: 'input-error'
-        },
-        {
-            name: 'portfolio',
-            pattern: /^https?:\/\/.+/,
-            message: 'Enter a valid portfolio URL',
-            errorClass: 'input-error'
-        }
-    ];
-
-    fields.forEach(f => {
-        const input = document.getElementById(f.name);
-        const errorDiv = document.getElementById(f.name + '-error');
-        if (input && errorDiv) {
-            input.addEventListener('keyup', function() {
-                input.classList.remove(f.errorClass);
-                errorDiv.textContent = '';
-            });
-        }
-    });
-
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        let valid = true;
-
-        // Clear previous errors
-        fields.forEach(f => {
-            const errorDiv = document.getElementById(f.name + '-error');
-            if (errorDiv) errorDiv.textContent = '';
-        });
-
-        // Validate each field
-        fields.forEach(f => {
-            const input = document.getElementById(f.name);
-            const errorDiv = document.getElementById(f.name + '-error');
-            if (input) {
-                input.classList.remove(f.errorClass);
-            }
-            if (input && !f.pattern.test(input.value.trim())) {
-                errorDiv.textContent = f.message;
-                errorDiv.style.color = '#e74c3c';
-                errorDiv.style.fontWeight = '600';
-                errorDiv.style.fontSize = '0.625em';
-                if (input) input.classList.add(f.errorClass);
-                valid = false;
-            } else if (errorDiv) {
-                errorDiv.removeAttribute('style');
-            }
-        });
-
-        if (valid) {
-            const formData = new FormData(form);
-            const data = {};
-            formData.forEach((value, key) => { data[key] = value; });
-            
-            try {
-                const response = await fetch('/apply', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                if (response.ok) {
-                    alert('Form submitted successfully!');
-                    form.reset();
-                } else {
-                    alert('Submission failed.');
-                }
-            } catch (err) {
-                alert('Network error.');
-            }
-        }
-    });
-});
-</script>
 </body>
 </html>
