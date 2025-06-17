@@ -1,0 +1,12 @@
+[package]
+name = "applicant"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+schemars = { workspace = true, features = ["derive", "url"] }
+surrealdb = { workspace = true }
+url = { workspace = true, features = ["serde"] }
+tera = { workspace = true, optional = true }

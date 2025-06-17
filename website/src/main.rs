@@ -1,15 +1,16 @@
 use std::path::Path;
 use std::sync::Arc;
-use axum::{Router};
 use axum::routing::get;
+use axum::Router;
 use surrealdb::engine::remote::ws::{Client as WsClient, Ws};
 use surrealdb::opt::auth::Root;
 use surrealdb::Surreal;
 use tera::Tera;
 use tower_http::services::ServeDir;
 
-mod models;
-mod routes;
+use event::routes as event_routes;
+use job::routes as job_routes;
+use applicant::routes as applicant_routes;
 
 pub struct AppState {
     pub views: Arc<Tera>,
@@ -59,9 +60,10 @@ async fn main() {
     
     let app  = Router::new()
         .route("/", get(|| async { "Hello, World!" }))
-        .merge(routes::apply::routes())
-        .fallback_service(static_files_service)
-        .with_state(app_state);
+        .merge(event_routes::router())
+        .merge(job_routes::router())
+        .merge(applicant_routes::router())
+        .fallback_service(static_files_service);
     println!("Here in port 6969");
     let listener = tokio::net::TcpListener::bind("127.0.0.1:6969").await.unwrap();
     axum::serve(listener, app).await.unwrap();
@@ -72,7 +74,14 @@ fn views() -> Arc<Tera> {
     let mut tera = Tera::default();
     tera.add_template_files(vec![
         ("src/views/index.html", Some("index.html")),
-        ("src/views/macros/forms.html", Some("macros/forms.html")), // <-- fix path here
+        ("src/views/base.html", Some("base.html")),
+        ("src/views/macros/forms.html", Some("macros/forms.html")),
+        ("../event/templates/event_form.html", Some("event_form.html")),
+        ("../event/templates/event_list.html", Some("event_list.html")),
+        ("../job/templates/job_form.html", Some("job_form.html")),
+        ("../job/templates/job_list.html", Some("job_list.html")),
+        ("../applicant/templates/applicant_form.html", Some("applicant_form.html")),
+        ("../applicant/templates/applicant_list.html", Some("applicant_list.html")),
     ]).expect("Failed to load templates");
     Arc::new(tera)
 }
