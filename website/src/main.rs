@@ -8,6 +8,9 @@ use surrealdb::Surreal;
 use tera::Tera;
 use tower_http::services::ServeDir;
 use applicant::{self, AppState};
+use event; 
+use job;
+use shared_macros;
 
 #[tokio::main]
 async fn main() {
@@ -53,6 +56,8 @@ async fn main() {
     let app  = Router::new()
         .route("/", get(|| async { "Hello, World!" }))
         .merge(applicant::routes::routes())
+        .merge(event::routes::routes())
+        .merge(job::routes::routes())
         .fallback_service(static_files_service)
         .with_state(app_state);
     println!("Here in port 6969");
@@ -63,10 +68,14 @@ async fn main() {
 
 fn views() -> Arc<Tera> {
     let mut tera = Tera::default();
+    shared_macros::add_templates(&mut tera);
     tera.add_template_files(vec![
         ("./applicant/templates/applicant_form.html", Some("applicant_form.html")),
-        ("./applicant/templates/macros/forms.html", Some("macros/forms.html")),
         ("./applicant/templates/applicant_list.html", Some("applicant_list.html")),
+        ("./event/templates/event_form.html", Some("event_form.html")),
+        ("./event/templates/event_list.html", Some("event_list.html")),
+        ("./job/templates/job_form.html", Some("job_form.html")),
+        ("./job/templates/job_list.html", Some("job_list.html")),
     ]).expect("Failed to load templates");
     Arc::new(tera)
 }

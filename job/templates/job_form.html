@@ -1,0 +1,18 @@
+{% import "macros/forms.html" as forms %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Job Form</title>
+</head>
+<body>
+    <form action="/jobs" method="post">
+        {{ forms::text_input(name="title", label="Title") }}
+        {{ forms::text_input(name="level", label="Level") }}
+        {{ forms::text_input(name="team", label="Team") }}
+        {{ forms::text_input(name="location", label="Location") }}
+        {{ forms::textarea(name="description", label="Description") }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

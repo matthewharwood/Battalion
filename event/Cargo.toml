@@ -1,19 +1,17 @@
 [package]
-name = "website"
+name = "event"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
 axum = { workspace = true }
-tokio = { workspace = true }
-tower-http = { workspace = true }
-tera = { workspace = true }
-surrealdb = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
+surrealdb = { workspace = true }
+tokio = { workspace = true }
+tera = { workspace = true }
 schemars = { workspace = true }
 url = { workspace = true }
 applicant = { path = "../applicant" }
-event = { path = "../event" }
-job = { path = "../job" }
-shared_macros = { path = "../shared_macros" }
+chrono = { workspace = true }
+uuid = { workspace = true }

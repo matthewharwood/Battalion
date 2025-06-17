@@ -1075,6 +1075,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "event"
+version = "0.1.0"
+dependencies = [
+ "applicant",
+ "axum",
+ "chrono",
+ "schemars",
+ "serde",
+ "serde_json",
+ "surrealdb",
+ "tera",
+ "tokio",
+ "url",
+ "uuid",
+]
+
+[[package]]
 name = "event-listener"
 version = "5.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1846,6 +1863,22 @@ name = "itoa"
 version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4a5f13b858c8d314ee3e8f639011f7ccefe71f97f96e50151fb991f267928e2c"
+
+[[package]]
+name = "job"
+version = "0.1.0"
+dependencies = [
+ "applicant",
+ "axum",
+ "schemars",
+ "serde",
+ "serde_json",
+ "surrealdb",
+ "tera",
+ "tokio",
+ "url",
+ "uuid",
+]
 
 [[package]]
 name = "js-sys"
@@ -3222,11 +3255,13 @@ version = "0.8.22"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3fbf2ae1b8bc8e02df939598064d22402220cd5bbcca1c76f7d6a310974d5615"
 dependencies = [
+ "chrono",
  "dyn-clone",
  "schemars_derive",
  "serde",
  "serde_json",
  "url",
+ "uuid",
 ]
 
 [[package]]
@@ -3405,6 +3440,13 @@ dependencies = [
  "cfg-if",
  "cpufeatures",
  "digest",
+]
+
+[[package]]
+name = "shared_macros"
+version = "0.1.0"
+dependencies = [
+ "tera",
 ]
 
 [[package]]
@@ -4599,9 +4641,12 @@ version = "0.1.0"
 dependencies = [
  "applicant",
  "axum",
+ "event",
+ "job",
  "schemars",
  "serde",
  "serde_json",
+ "shared_macros",
  "surrealdb",
  "tera",
  "tokio",
