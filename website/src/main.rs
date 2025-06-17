@@ -64,9 +64,9 @@ async fn main() {
 fn views() -> Arc<Tera> {
     let mut tera = Tera::default();
     tera.add_template_files(vec![
-        ("../applicant/templates/applicant_form.html", Some("applicant_form.html")),
-        ("../applicant/templates/macros/forms.html", Some("macros/forms.html")),
-        ("../applicant/templates/applicant_list.html", Some("applicant_list.html")),
+        ("./applicant/templates/applicant_form.html", Some("applicant_form.html")),
+        ("./applicant/templates/macros/forms.html", Some("macros/forms.html")),
+        ("./applicant/templates/applicant_list.html", Some("applicant_list.html")),
     ]).expect("Failed to load templates");
     Arc::new(tera)
 }
