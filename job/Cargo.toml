@@ -8,6 +8,9 @@ axum = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 uuid = { workspace = true }
 chrono = { workspace = true }
-tera = { workspace = true, optional = true }
+tera = { workspace = true }
 surrealdb = { workspace = true }
+schemars = { workspace = true, features = ["derive"] }
+shared = { path = "../shared" }
+serde_json = { workspace = true }
 

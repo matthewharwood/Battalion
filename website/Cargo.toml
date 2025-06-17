@@ -20,4 +20,5 @@ uuid = { workspace = true }
 event = { path = "../event" }
 job = { path = "../job" }
 applicant = { path = "../applicant" }
+shared = { path = "../shared" }
 

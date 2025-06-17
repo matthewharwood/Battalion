@@ -1,4 +1,13 @@
-{% extends "base.html" %}
+{% extends "website/src/views/base.html" %}
+{% import "components/templates/macros/forms.html" as forms %}
 {% block content %}
-<form></form>
+<h1>Create Job</h1>
+<form action="/jobs" method="post">
+  {{ forms::text_input("title", "Title") }}
+  {{ forms::select_input("level", "Level", ["Intern", "Junior", "Mid", "Senior", "Staff"], "Select level") }}
+  {{ forms::text_input("team", "Team") }}
+  {{ forms::text_input("location", "Location") }}
+  {{ forms::textarea("description", "Description") }}
+  <button type="submit">Submit</button>
+</form>
 {% endblock %}

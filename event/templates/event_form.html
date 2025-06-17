@@ -1,4 +1,14 @@
-{% extends "base.html" %}
+{% extends "website/src/views/base.html" %}
+{% import "components/templates/macros/forms.html" as forms %}
 {% block content %}
-<form></form>
+<h1>Create Event</h1>
+<form action="/events" method="post">
+  {{ forms::text_input("title", "Title") }}
+  {{ forms::textarea("description", "Description") }}
+  {{ forms::select_input("status", "Status", ["Scheduled", "Lobby", "Live", "Ended", "Archived"], "Select status") }}
+  {{ forms::text_input("start_date", "Start Date", type="date") }}
+  {{ forms::text_input("end_date", "End Date", type="date") }}
+  {{ forms::text_input("spotlight_job_id", "Spotlight Job ID") }}
+  <button type="submit">Submit</button>
+</form>
 {% endblock %}

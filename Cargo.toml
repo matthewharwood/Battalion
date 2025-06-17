@@ -1,5 +1,5 @@
 [workspace]
-members = ["website", "event", "job", "applicant"]
+members = ["website", "event", "job", "applicant", "components", "shared"]
 
 [workspace.dependencies]
 axum = "0.8.4"

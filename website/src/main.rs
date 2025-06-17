@@ -11,11 +11,8 @@ use tower_http::services::ServeDir;
 use event::routes as event_routes;
 use job::routes as job_routes;
 use applicant::routes as applicant_routes;
+use shared::AppState;
 
-pub struct AppState {
-    pub views: Arc<Tera>,
-    pub db: Arc<Surreal<WsClient>>,
-}
 
 #[tokio::main]
 async fn main() {
@@ -58,12 +55,13 @@ async fn main() {
         db: shared_db,
     });
     
-    let app  = Router::new()
+    let app = Router::new()
         .route("/", get(|| async { "Hello, World!" }))
         .merge(event_routes::router())
         .merge(job_routes::router())
         .merge(applicant_routes::router())
-        .fallback_service(static_files_service);
+        .fallback_service(static_files_service)
+        .with_state(app_state.clone());
     println!("Here in port 6969");
     let listener = tokio::net::TcpListener::bind("127.0.0.1:6969").await.unwrap();
     axum::serve(listener, app).await.unwrap();
@@ -71,18 +69,8 @@ async fn main() {
 }
 
 fn views() -> Arc<Tera> {
-    let mut tera = Tera::default();
-    tera.add_template_files(vec![
-        ("src/views/index.html", Some("index.html")),
-        ("src/views/base.html", Some("base.html")),
-        ("src/views/macros/forms.html", Some("macros/forms.html")),
-        ("../event/templates/event_form.html", Some("event_form.html")),
-        ("../event/templates/event_list.html", Some("event_list.html")),
-        ("../job/templates/job_form.html", Some("job_form.html")),
-        ("../job/templates/job_list.html", Some("job_list.html")),
-        ("../applicant/templates/applicant_form.html", Some("applicant_form.html")),
-        ("../applicant/templates/applicant_list.html", Some("applicant_list.html")),
-    ]).expect("Failed to load templates");
+    let pattern = concat!(env!("CARGO_MANIFEST_DIR"), "/../**/*.html");
+    let tera = Tera::new(pattern).expect("Failed to load templates");
     Arc::new(tera)
 }
 

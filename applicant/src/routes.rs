@@ -1,10 +1,15 @@
-use axum::{Router, routing::{get, post}};
+use std::sync::Arc;
+use axum::{Router, routing::{get, post, put, delete}};
 use crate::handlers;
+use shared::AppState;
 
-pub fn router() -> Router {
+pub fn router() -> Router<Arc<AppState>> {
     Router::new()
-        .route("/applicants", get(handlers::list).post(handlers::create))
-        .route("/applicants/new", get(handlers::new_form))
-        .route("/applicants/:id/edit", get(handlers::edit))
-        .route("/applicants/:id/delete", post(handlers::delete))
+        .route("/apply", get(handlers::show_form).post(handlers::submit_form))
+        .route(
+            "/apply/:id",
+            get(handlers::fetch_form)
+                .put(handlers::update_form)
+                .delete(handlers::delete_form),
+        )
 }

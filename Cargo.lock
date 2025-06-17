@@ -3,19 +3,6 @@
 version = 4
 
 [[package]]
-name = "Battalion"
-version = "0.1.0"
-dependencies = [
- "axum",
- "serde",
- "serde_json",
- "surrealdb",
- "tera",
- "tokio",
- "tower-http 0.5.2",
-]
-
-[[package]]
 name = "Inflector"
 version = "0.11.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -133,6 +120,20 @@ name = "any_ascii"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ea50b14b7a4b9343f8c627a7a53c52076482bd4bdad0a24fd3ec533ed616cc2c"
+
+[[package]]
+name = "applicant"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "schemars",
+ "serde",
+ "serde_json",
+ "shared",
+ "surrealdb",
+ "tera",
+ "url",
+]
 
 [[package]]
 name = "approx"
@@ -765,6 +766,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "components"
+version = "0.1.0"
+dependencies = [
+ "tera",
+]
+
+[[package]]
 name = "concurrent-queue"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1012,6 +1020,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "dyn-clone"
+version = "1.0.19"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1c7a8fb8a9fbf66c1f703fe16184d10ca0ee9d23be5b4436400408ba54a95005"
+
+[[package]]
 name = "earcutr"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1065,6 +1079,21 @@ checksum = "cea14ef9355e3beab063703aa9dab15afd25f0667c341310c1e5274bb1d0da18"
 dependencies = [
  "libc",
  "windows-sys 0.59.0",
+]
+
+[[package]]
+name = "event"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "chrono",
+ "schemars",
+ "serde",
+ "serde_json",
+ "shared",
+ "surrealdb",
+ "tera",
+ "uuid",
 ]
 
 [[package]]
@@ -1839,6 +1868,21 @@ name = "itoa"
 version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4a5f13b858c8d314ee3e8f639011f7ccefe71f97f96e50151fb991f267928e2c"
+
+[[package]]
+name = "job"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "chrono",
+ "schemars",
+ "serde",
+ "serde_json",
+ "shared",
+ "surrealdb",
+ "tera",
+ "uuid",
+]
 
 [[package]]
 name = "js-sys"
@@ -3210,6 +3254,31 @@ dependencies = [
 ]
 
 [[package]]
+name = "schemars"
+version = "0.8.22"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3fbf2ae1b8bc8e02df939598064d22402220cd5bbcca1c76f7d6a310974d5615"
+dependencies = [
+ "dyn-clone",
+ "schemars_derive",
+ "serde",
+ "serde_json",
+ "url",
+]
+
+[[package]]
+name = "schemars_derive"
+version = "0.8.22"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "32e265784ad618884abaea0600a9adf15393368d840e0222d101a072f3f7534d"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "serde_derive_internals",
+ "syn 2.0.102",
+]
+
+[[package]]
 name = "scopeguard"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3271,6 +3340,17 @@ name = "serde_derive"
 version = "1.0.219"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5b0276cf7f2c73365f7157c8123c21cd9a50fbbd844757af28ca1f5925fc2a00"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.102",
+]
+
+[[package]]
+name = "serde_derive_internals"
+version = "0.29.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "18d26a20a969b9e3fdf2fc2d9f21eda6c40e2de84c9408bb5d3b05d499aae711"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3362,6 +3442,14 @@ dependencies = [
  "cfg-if",
  "cpufeatures",
  "digest",
+]
+
+[[package]]
+name = "shared"
+version = "0.1.0"
+dependencies = [
+ "surrealdb",
+ "tera",
 ]
 
 [[package]]
@@ -4318,6 +4406,7 @@ dependencies = [
  "form_urlencoded",
  "idna",
  "percent-encoding",
+ "serde",
 ]
 
 [[package]]
@@ -4547,6 +4636,27 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2853738d1cc4f2da3a225c18ec6c3721abb31961096e9dbf5ab35fa88b19cfdb"
 dependencies = [
  "rustls-pki-types",
+]
+
+[[package]]
+name = "website"
+version = "0.1.0"
+dependencies = [
+ "applicant",
+ "axum",
+ "chrono",
+ "event",
+ "job",
+ "schemars",
+ "serde",
+ "serde_json",
+ "shared",
+ "surrealdb",
+ "tera",
+ "tokio",
+ "tower-http 0.5.2",
+ "url",
+ "uuid",
 ]
 
 [[package]]

@@ -1,10 +1,15 @@
-use axum::{Router, routing::{get, post}};
+use std::sync::Arc;
+use axum::{Router, routing::{get, post, put, delete}};
 use crate::handlers;
+use shared::AppState;
 
-pub fn router() -> Router {
+pub fn router() -> Router<Arc<AppState>> {
     Router::new()
-        .route("/events", get(handlers::list).post(handlers::create))
-        .route("/events/new", get(handlers::new_form))
-        .route("/events/:id/edit", get(handlers::edit))
-        .route("/events/:id/delete", post(handlers::delete))
+        .route("/events", get(handlers::show_form).post(handlers::submit_form))
+        .route(
+            "/events/:id",
+            get(handlers::fetch)
+                .put(handlers::update)
+                .delete(handlers::delete),
+        )
 }

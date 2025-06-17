@@ -9,4 +9,6 @@ serde = { workspace = true, features = ["derive"] }
 schemars = { workspace = true, features = ["derive", "url"] }
 surrealdb = { workspace = true }
 url = { workspace = true, features = ["serde"] }
-tera = { workspace = true, optional = true }
+tera = { workspace = true }
+shared = { path = "../shared" }
+serde_json = { workspace = true }
