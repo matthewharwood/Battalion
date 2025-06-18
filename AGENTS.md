@@ -1,4 +1,10 @@
 <agent-spec>
+  <objective>
+    Battalion is a live, community-driven platform that merges applicant tracking
+    with social-media content creation. Each 90-minute livestream publicly
+    reviews résumés, capturing votes and comments that export to Google Sheets
+    and social posts.
+  </objective>
   <code-style>
     Use Rust edition 2024 across all crates. Format code using `cargo fmt` with default settings before committing. Run `cargo clippy --workspace --all-targets -- -D warnings` to ensure no warnings. Follow snake_case for functions and variables and CamelCase for types. Include module-level and function-level doc comments where appropriate. Ensure files end with a single newline.
   </code-style>
@@ -31,7 +37,8 @@
     "programmatic-checks": "Commands or scripts to verify code quality, functionality, or adherence to standards.",
     "agent": "An AI entity designed to perform tasks, particularly code generation and modification.",
     "container": "A GitHub repository where the AGENTS.md file resides.",
-    "scope": "The set of files and directories to which a particular AGENTS.md file's instructions apply."
+    "scope": "The set of files and directories to which a particular AGENTS.md file's instructions apply.",
+    "objective": "Mission statement summarizing the project's purpose."
   }
 }
 ```
