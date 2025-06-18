@@ -4,6 +4,7 @@ members = [
     "applicant",
     "event",
     "job",
+    "review",
     "shared_macros",
 ]
 
