@@ -11,6 +11,7 @@ use applicant::{self, AppState};
 use event;
 use job;
 use review;
+use vote;
 use shared_macros;
 
 #[tokio::main]
@@ -60,6 +61,7 @@ async fn main() {
         .merge(event::routes::routes())
         .merge(job::routes::routes())
         .merge(review::routes::routes())
+        .merge(vote::routes::routes())
         .fallback_service(static_files_service)
         .with_state(app_state);
     println!("Here in port 6969");
@@ -79,6 +81,7 @@ fn views() -> Arc<Tera> {
         ("./job/templates/job_form.html", Some("job_form.html")),
         ("./job/templates/job_list.html", Some("job_list.html")),
         ("./review/templates/grid.html", Some("grid.html")),
+        ("./vote/templates/vote_widget.html", Some("vote_widget.html")),
     ]).expect("Failed to load templates");
     Arc::new(tera)
 }

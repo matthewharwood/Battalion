@@ -5,6 +5,7 @@ members = [
     "event",
     "job",
     "review",
+    "vote",
     "shared_macros",
 ]
 

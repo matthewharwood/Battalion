@@ -17,4 +17,5 @@ applicant = { path = "../applicant" }
 event = { path = "../event" }
 job = { path = "../job" }
 review = { path = "../review" }
+vote = { path = "../vote" }
 shared_macros = { path = "../shared_macros" }

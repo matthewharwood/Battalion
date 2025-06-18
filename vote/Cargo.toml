@@ -1,0 +1,17 @@
+[package]
+name = "vote"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+surrealdb = { workspace = true }
+tokio = { workspace = true }
+tera = { workspace = true }
+schemars = { workspace = true }
+url = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+applicant = { path = "../applicant" }
