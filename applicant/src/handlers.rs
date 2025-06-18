@@ -19,6 +19,7 @@ pub async fn show_form(State(state): State<Arc<AppState>>) -> impl IntoResponse 
 }
 
 pub async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Apply>) -> impl IntoResponse {
+    println!("Received form submission: {:?}", form);
     match form.create(&state.db).await {
         Ok(_) => Html(String::from("Success")),
         Err(e) => {

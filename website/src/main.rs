@@ -2,7 +2,7 @@ use std::path::Path;
 use std::sync::Arc;
 use axum::routing::get;
 use axum::Router;
-use surrealdb::engine::remote::ws::{Client as WsClient, Ws};
+use surrealdb::engine::remote::ws::Ws;
 use surrealdb::opt::auth::Root;
 use surrealdb::Surreal;
 use tera::Tera;
@@ -16,7 +16,7 @@ use shared::AppState;
 
 #[tokio::main]
 async fn main() {
-    let public_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("public");
+    let public_dir = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap().join("public");
     println!("Public Dir: {:?}", public_dir);
     let static_files_service = ServeDir::new(public_dir).append_index_html_on_directories(false);
     let db = match Surreal::new::<Ws>("127.0.0.1:8000").await {
