@@ -10,8 +10,23 @@ pub(crate) async fn show_page(State(state): State<Arc<AppState>>) -> impl IntoRe
     let schema_json: Value = serde_json::to_value(schema).unwrap();
     let tera = &state.views;
     let mut ctx = tera::Context::new();
+    #[derive(serde::Serialize)]
+    struct ScoreBox<'a> {
+        count: u32,
+        label: &'a str,
+        class: &'a str,
+    }
+
+    let scoreboard = vec![
+        ScoreBox { count: 2,  label: "YAY", class: "yay" },
+        ScoreBox { count: 0,  label: "MAY", class: "may" },
+        ScoreBox { count: 12, label: "NAY", class: "nay" },
+    ];
+
+    let mut ctx = tera::Context::new();
+    ctx.insert("scoreboard", &scoreboard);
     ctx.insert("schema", &schema_json);
-    let rendered = tera.render("grid.html.tera", &ctx).unwrap();
+    let rendered = tera.render("grid.html", &ctx).unwrap();
     Html(rendered)
 }
 

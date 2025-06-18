@@ -78,7 +78,7 @@ fn views() -> Arc<Tera> {
         ("./event/templates/event_list.html", Some("event_list.html")),
         ("./job/templates/job_form.html", Some("job_form.html")),
         ("./job/templates/job_list.html", Some("job_list.html")),
-        ("./review/templates/grid.html.tera", Some("grid.html.tera")),
+        ("./review/templates/grid.html", Some("grid.html")),
     ]).expect("Failed to load templates");
     Arc::new(tera)
 }
