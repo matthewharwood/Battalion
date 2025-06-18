@@ -32,6 +32,14 @@
     --color-progress-bg: #ddd;
     --color-submit-bg: #555;
     --color-danger: #e74c3c;
+    --color-blue: #007bff;
+
+
+    --shadow-offset-x: 0;
+    --shadow-offset-y: 4px;
+    --shadow-blur: 12px;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --form-box-shadow: var(--shadow-offset-x) var(--shadow-offset-y) var(--shadow-blur) var(--shadow-color);
 
       /* Spacing (Tailwind scale) */
     --space-0: 0rem;

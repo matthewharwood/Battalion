@@ -1,0 +1,19 @@
+@import url('./variables.css');
+
+.container-center {
+    background: var(--color-progress-bg);
+    color: var(--color-btn-bg-hover);
+    padding: var(--space-10);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: var(--font-sans);
+}
+.event-form {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 500px;
+}
