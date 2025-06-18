@@ -16,15 +16,9 @@
             <!-- {{ forms::text_input(name="status", label="Status") }} -->
             {{ forms::select_input(
                 name="status",
-                label="Select status",
-                options=[
-                    "Scheduled",
-                    "Lobby",
-                    "Live",
-                    "Ended",
-                    "Archived"
-                ],
-                placeholder="Select an option"
+                label="Status",
+                options=["scheduled", "lobby", "live", "ended", "archived"],
+                placeholder="Select a status"
             ) }}
             {{ forms::text_input(name="startDate", label="Start Date", type="date") }}
             {{ forms::text_input(name="endDate", label="End Date", type="date") }}

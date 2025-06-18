@@ -11,7 +11,12 @@
     <div class="container-center">
         <form action="/jobs" method="post" class="event-form"> 
             {{ forms::text_input(name="title", label="Title") }}
-            {{ forms::text_input(name="level", label="Level") }}
+            {{ forms::select_input(
+                name="level",
+                label="Level",
+                options=["intern", "junior", "mid", "senior", "staff"],
+                placeholder="Select level"
+            ) }}
             {{ forms::text_input(name="team", label="Team") }}
             {{ forms::text_input(name="location", label="Location") }}
             {{ forms::textarea(name="description", label="Description") }}

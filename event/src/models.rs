@@ -2,7 +2,6 @@ use chrono::NaiveDate;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use surrealdb::{Surreal, engine::remote::ws::Client as WsClient};
-use uuid::Uuid;
 
 #[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "camelCase")]
@@ -17,7 +16,6 @@ pub enum EventStatus {
 #[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct Event {
-    pub id: Uuid,
     pub title: String,
     pub description: String,
     pub status: EventStatus,
