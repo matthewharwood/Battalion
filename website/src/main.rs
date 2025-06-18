@@ -8,8 +8,9 @@ use surrealdb::Surreal;
 use tera::Tera;
 use tower_http::services::ServeDir;
 use applicant::{self, AppState};
-use event; 
+use event;
 use job;
+use review;
 use shared_macros;
 
 #[tokio::main]
@@ -58,6 +59,7 @@ async fn main() {
         .merge(applicant::routes::routes())
         .merge(event::routes::routes())
         .merge(job::routes::routes())
+        .merge(review::routes::routes())
         .fallback_service(static_files_service)
         .with_state(app_state);
     println!("Here in port 6969");
@@ -76,6 +78,7 @@ fn views() -> Arc<Tera> {
         ("./event/templates/event_list.html", Some("event_list.html")),
         ("./job/templates/job_form.html", Some("job_form.html")),
         ("./job/templates/job_list.html", Some("job_list.html")),
+        ("./review/templates/grid.html", Some("grid.html")),
     ]).expect("Failed to load templates");
     Arc::new(tera)
 }

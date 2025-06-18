@@ -16,4 +16,5 @@ url = { workspace = true }
 applicant = { path = "../applicant" }
 event = { path = "../event" }
 job = { path = "../job" }
+review = { path = "../review" }
 shared_macros = { path = "../shared_macros" }
