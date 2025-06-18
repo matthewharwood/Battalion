@@ -9,7 +9,6 @@ pub(crate) async fn show_page(State(state): State<Arc<AppState>>) -> impl IntoRe
     let schema = schema_for!(Review);
     let schema_json: Value = serde_json::to_value(schema).unwrap();
     let tera = &state.views;
-    let mut ctx = tera::Context::new();
     #[derive(serde::Serialize)]
     struct ScoreBox<'a> {
         count: u32,
