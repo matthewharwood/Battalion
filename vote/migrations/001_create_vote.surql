@@ -1,0 +1,1 @@
+DEFINE TABLE vote_record SCHEMAFULL;
