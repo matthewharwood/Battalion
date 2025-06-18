@@ -34,7 +34,13 @@ curl -sSf https://install.surrealdb.com | sh
 surreal start --log trace --user root --pass root memory
 ```
 
-5. Run the App
+5. Run db migrations
+```bash
+chmod +x run_all_migrations.sh
+./run_all_migrations.sh
+```
+
+6. Run the App
 ```bash
 cargo run
 ```

@@ -4,16 +4,27 @@
 <head>
     <meta charset="utf-8">
     <title>Event Form</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/event.css">
 </head>
+
 <body>
-    <form action="/events" method="post">
-        {{ forms::text_input(name="title", label="Title") }}
-        {{ forms::text_input(name="description", label="Description") }}
-        {{ forms::text_input(name="status", label="Status") }}
-        {{ forms::text_input(name="startDate", label="Start Date", type="date") }}
-        {{ forms::text_input(name="endDate", label="End Date", type="date") }}
-<!--        {{ forms::text_input(name="spotlightJobId", label="Spotlight Job ID") }}-->
-        <button type="submit">Submit</button>
-    </form>
+    <div class="container-center">
+        <form id="resume-form" class="event-form" action="/events" method="post"> 
+            {{ forms::text_input(name="title", label="Title") }}
+            {{ forms::text_input(name="description", label="Description") }}
+            <!-- {{ forms::text_input(name="status", label="Status") }} -->
+            {{ forms::select_input(
+                name="status",
+                label="Status",
+                options=["scheduled", "lobby", "live", "ended", "archived"],
+                placeholder="Select a status"
+            ) }}
+            {{ forms::text_input(name="startDate", label="Start Date", type="date") }}
+            {{ forms::text_input(name="endDate", label="End Date", type="date") }}
+    <!--        {{ forms::text_input(name="spotlightJobId", label="Spotlight Job ID") }}-->
+            <button type="submit" form="resume-form" class="btn-submit">Submit</button>
+        </form>
+    </div>
 </body>
 </html>

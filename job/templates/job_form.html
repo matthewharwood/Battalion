@@ -4,15 +4,24 @@
 <head>
     <meta charset="utf-8">
     <title>Job Form</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/event.css">
 </head>
 <body>
-    <form action="/jobs" method="post">
-        {{ forms::text_input(name="title", label="Title") }}
-        {{ forms::text_input(name="level", label="Level") }}
-        {{ forms::text_input(name="team", label="Team") }}
-        {{ forms::text_input(name="location", label="Location") }}
-        {{ forms::textarea(name="description", label="Description") }}
-        <button type="submit">Submit</button>
-    </form>
+    <div class="container-center">
+        <form action="/jobs" method="post" class="event-form"> 
+            {{ forms::text_input(name="title", label="Title") }}
+            {{ forms::select_input(
+                name="level",
+                label="Level",
+                options=["intern", "junior", "mid", "senior", "staff"],
+                placeholder="Select level"
+            ) }}
+            {{ forms::text_input(name="team", label="Team") }}
+            {{ forms::text_input(name="location", label="Location") }}
+            {{ forms::textarea(name="description", label="Description") }}
+            <button type="submit" class="btn-submit">Submit</button>
+        </form>
+    </div>
 </body>
 </html>
