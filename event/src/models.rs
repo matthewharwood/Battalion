@@ -23,7 +23,7 @@ pub struct Event {
     pub status: EventStatus,
     pub start_date: NaiveDate,
     pub end_date: NaiveDate,
-    pub spotlight_job_id: Option<Uuid>,
+    // pub spotlight_job_id: Option<Uuid>,
 }
 
 impl Event {
