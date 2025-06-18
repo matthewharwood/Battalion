@@ -1,0 +1,149 @@
+/* ---------- 1. TOKEN DEFINITIONS ---------- */
+:root {
+    --gap: 1rem;
+    --clr-bg: #0d0d0d;
+    --clr-panel: #151515;
+    --clr-fg: #e7e7e7;
+    --clr-subtle: #999;
+
+    --clr-yay: #2ae187;
+    --clr-may: #ffd740;
+    --clr-nay: #ff6363;
+
+    font-family: "Inter", system-ui, sans-serif;
+    color-scheme: dark;
+}
+
+html, body {
+    margin: 0;
+    background: var(--clr-bg);
+    color: var(--clr-fg);
+}
+
+/* ---------- 2. SCOREBOARD STRIP ---------- */
+.scoreboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap);
+    padding: var(--gap);
+}
+
+.score {
+    background: var(--clr-panel);
+    border-radius: .25rem;
+    padding: .75rem .5rem;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: .75rem;
+    letter-spacing: .05em;
+}
+.score .count   { display:block; font-size:1.25rem; font-weight:600; line-height:1; }
+.score.yay  { --accent: var(--clr-yay); }
+.score.may  { --accent: var(--clr-may); }
+.score.nay  { --accent: var(--clr-nay); }
+.score::before{
+    content:"";
+    display:block;
+    width:.5rem;height:.5rem;
+    border-radius:50%;
+    background:var(--accent);
+    margin:0 auto .25rem;
+}
+
+/* ---------- 3. MAIN LAYOUT GRID ---------- */
+.layout {
+    display: grid;
+    gap: var(--gap);
+    padding: 0 var(--gap) var(--gap);
+}
+
+/* -------- 3A. Left column ------------- */
+.entry {
+    background: var(--clr-panel);
+    border-radius: .25rem;
+    padding: var(--gap);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* metadata row inside left panel */
+.entry-meta {
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: .825rem;
+    color: var(--clr-subtle);
+}
+
+.qa .question { 
+    font-size: .9rem; 
+    margin: 0 0 .25rem; 
+    color: var(--clr-subtle);
+    text-transform: capitalize;
+}
+.qa .answer   { margin: 0; line-height: 1.5; }
+
+/* -------- 3B. Right column ------------- */
+.sidebar {
+    background: var(--clr-panel);
+    border-radius: .25rem;
+    padding: var(--gap);
+    display: grid;
+    gap: var(--gap);
+}
+
+/* internal sub‑grid (rows)  */
+@media (min-width: 48rem) {
+    .sidebar {
+        grid-template-rows: auto auto auto 1fr auto;
+    }
+}
+/* headline area */
+.detail h1 { margin:.25rem 0 0; font-size:1.1rem; line-height:1.3; }
+.detail small { font-weight:400; color:var(--clr-subtle); }
+.role { margin:.5rem 0 0; font-size:.75rem; color:var(--clr-subtle); }
+
+/* two‑column bar */
+.subbar {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:var(--gap);
+}
+.subbar strong { font-weight:600; font-variant-numeric: tabular-nums; }
+.subbar small  { font-size:.7rem; color:var(--clr-subtle); }
+.subbar .total { color:var(--clr-subtle); font-size:.75em; }
+
+/* notes grow to fill remaining height */
+.notes { font-size:.85rem; line-height:1.5; }
+.notes h2 { margin:0 0 .5rem; font-size:.8rem; color:var(--clr-subtle); }
+
+/* footer actions */
+.actions {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: var(--gap);
+}
+button {
+    font: inherit;
+    cursor: pointer;
+    border: 0;
+    border-radius: .25rem;
+    padding: .75rem 1rem;
+}
+.primary   { background: var(--clr-fg); color: #000; }
+.secondary { background: var(--clr-panel); color: var(--clr-fg); }
+
+/* ---------- 4. RESPONSIVE RULES ---------- */
+@media (min-width: 48rem) {           /* ≥768 px  ─ Desktop / Tablet */
+    .layout {
+        grid-template-columns: 2fr 1fr;  /* big left / narrow right */
+    }
+}
+
+@media (max-width: 47.999rem) {       /* <768 px ─ Mobile  */
+    .layout      { grid-template-columns: 1fr; }
+    .sidebar     { grid-template-rows: repeat(5,auto); }
+    .actions     { grid-template-columns: 1fr; }
+    .actions button + button { margin-top: .5rem; }
+}

@@ -2966,6 +2966,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "review"
+version = "0.1.0"
+dependencies = [
+ "applicant",
+ "axum",
+ "schemars",
+ "serde",
+ "serde_json",
+ "surrealdb",
+ "tera",
+ "tokio",
+ "url",
+]
+
+[[package]]
 name = "revision"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4643,6 +4658,7 @@ dependencies = [
  "axum",
  "event",
  "job",
+ "review",
  "schemars",
  "serde",
  "serde_json",
