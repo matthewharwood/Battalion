@@ -6,6 +6,7 @@ use crate::models::Apply;
 pub(crate) async fn show_form(State(state): State<Arc<AppState>>) -> impl IntoResponse {
     let tera = &state.views;
     let ctx = tera::Context::new();
+
     let rendered = tera.render("applicant_form.html", &ctx).unwrap();
     Html(rendered)
 }

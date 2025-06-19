@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
+use shared::impl_id_to_string_for;   // bring the macro into scope
+
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -10,6 +12,8 @@ pub struct Review {
     pub score: i8,
     pub comment: Option<String>,
 }
+
+impl_id_to_string_for!(Review);
 
 impl Review {
     pub async fn create(self, db: &Surreal<WsClient>) -> surrealdb::Result<Self> {

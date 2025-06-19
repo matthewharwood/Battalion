@@ -12,7 +12,7 @@ use event;
 use job;
 use review;
 use vote;
-use shared_macros;
+use shared;
 
 #[tokio::main]
 async fn main() {
@@ -72,7 +72,7 @@ async fn main() {
 
 fn views() -> Arc<Tera> {
     let mut tera = Tera::default();
-    shared_macros::add_templates(&mut tera);
+    shared::add_templates(&mut tera);
     tera.add_template_files(vec![
         ("./applicant/templates/applicant_form.html", Some("applicant_form.html")),
         ("./applicant/templates/applicant_list.html", Some("applicant_list.html")),

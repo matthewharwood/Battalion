@@ -6,7 +6,7 @@ members = [
     "job",
     "review",
     "vote",
-    "shared_macros",
+    "shared",
 ]
 
 resolver = "3"
