@@ -18,31 +18,24 @@ pub(crate) struct EventForm {
     end_date: NaiveDate,
     spotlight_job_id: Option<String>,
 }
+fn internal_error<E: std::fmt::Display>(e: E) -> (StatusCode, String) {
+    (StatusCode::INTERNAL_SERVER_ERROR, e.to_string())
+}
 
-pub(crate) async fn show_form(State(state): State<Arc<AppState>>) -> impl IntoResponse {
-    let jobs: Vec<Job> = match state.db.select("job").await {
-        Ok(jobs) => jobs,
-        Err(e) => {
-            eprintln!("Failed to fetch jobs: {e:?}");
-            Vec::new()
-        }
-    };
+pub async fn show_form(State(state): State<Arc<AppState>>) -> Result<Html<String>, (StatusCode, String)> {
 
-    let select_opts: Vec<Json> = jobs
-        .into_iter()
-        .map(|j| {
-            json!({
-                "value": j.id_string(),
-                "label": format!("{} – {}", j.title, j.location)
-            })
-        })
-        .collect();
+    let select_opts: Vec<Json> = state
+        .db
+        .query("SELECT record::id(id) AS value, title as title FROM job;")
+        .await
+        .map_err(internal_error)?
+        .take::<Vec<Json>>(0)
+        .map_err(internal_error)?;
 
     let mut ctx = tera::Context::new();
     ctx.insert("job_options", &select_opts);
-
     let rendered = state.views.render("event_form.html", &ctx).unwrap();
-    Html(rendered)
+    Ok(Html(rendered))
 }
 
 pub(crate) async fn submit_form(
