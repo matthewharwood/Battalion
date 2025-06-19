@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
+use shared::impl_id_to_string_for;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -21,6 +22,8 @@ pub struct Job {
     pub location: String,
     pub description: String,
 }
+
+impl_id_to_string_for!(Job);
 
 impl Job {
     pub async fn create(self, db: &Surreal<WsClient>) -> surrealdb::Result<Self> {

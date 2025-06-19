@@ -1,20 +1,76 @@
 use std::sync::Arc;
-use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
+use axum::{Form, Json as AxumJson, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
 use applicant::AppState;
-use crate::models::Event;
+use crate::models::{Event, EventStatus};
+use job::models::Job;
+use serde_json::{json, Value as Json};
+use shared::IdToString;
+use surrealdb::sql::Thing;
+use chrono::NaiveDate;
+
+#[derive(serde::Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct EventForm {
+    title: String,
+    description: String,
+    status: EventStatus,
+    start_date: NaiveDate,
+    end_date: NaiveDate,
+    spotlight_job_id: Option<String>,
+}
 
 pub(crate) async fn show_form(State(state): State<Arc<AppState>>) -> impl IntoResponse {
-    let tera = &state.views;
-    let ctx = tera::Context::new();
-    let rendered = tera.render("event_form.html", &ctx).unwrap();
+    let jobs: Vec<Job> = match state.db.select("job").await {
+        Ok(jobs) => jobs,
+        Err(e) => {
+            eprintln!("Failed to fetch jobs: {e:?}");
+            Vec::new()
+        }
+    };
+
+    let select_opts: Vec<Json> = jobs
+        .into_iter()
+        .map(|j| {
+            json!({
+                "value": j.id_string(),
+                "label": format!("{} – {}", j.title, j.location)
+            })
+        })
+        .collect();
+
+    let mut ctx = tera::Context::new();
+    ctx.insert("job_options", &select_opts);
+
+    let rendered = state.views.render("event_form.html", &ctx).unwrap();
     Html(rendered)
 }
 
-pub(crate) async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Event>) -> impl IntoResponse {
-    match form.create(&state.db).await {
+pub(crate) async fn submit_form(
+    State(state): State<Arc<AppState>>,
+    Form(form): Form<EventForm>,
+) -> impl IntoResponse {
+    let spotlight_job_id = match form.spotlight_job_id.as_deref() {
+        Some("") | None => None,
+        Some(s) => Some(
+            s.parse::<Thing>()
+                .expect("frontend <select> always sends valid job:<id>")
+        ),
+    };
+
+    let new_event = Event {
+        id: None,
+        title: form.title,
+        description: form.description,
+        status: form.status,
+        start_date: form.start_date,
+        end_date: form.end_date,
+        spotlight_job_id,
+    };
+
+    match new_event.create(&state.db).await {
         Ok(_) => Html(String::from("Success")),
         Err(e) => {
-            eprintln!("Failed to insert: {:?}", e);
+            eprintln!("Failed to insert event: {e:?}");
             Html(String::from("Error"))
         }
     }
@@ -22,7 +78,7 @@ pub(crate) async fn submit_form(State(state): State<Arc<AppState>>, Form(form): 
 
 pub(crate) async fn fetch_form(State(state): State<Arc<AppState>>, Path(id): Path<String>) -> impl IntoResponse {
     match Event::get(&state.db, &id).await {
-        Ok(Some(event)) => Json(event).into_response(),
+        Ok(Some(event)) => AxumJson(event).into_response(),
         Ok(None) => StatusCode::NOT_FOUND.into_response(),
         Err(e) => {
             eprintln!("Fetch error: {:?}", e);
@@ -33,7 +89,7 @@ pub(crate) async fn fetch_form(State(state): State<Arc<AppState>>, Path(id): Pat
 
 pub(crate) async fn update_form(State(state): State<Arc<AppState>>, Path(id): Path<String>, Form(data): Form<Event>) -> impl IntoResponse {
     match Event::update(&state.db, &id, &data).await {
-        Ok(Some(updated)) => Json(updated).into_response(),
+        Ok(Some(updated)) => AxumJson(updated).into_response(),
         Ok(None) => StatusCode::NOT_FOUND.into_response(),
         Err(e) => {
             eprintln!("Update error: {:?}", e);
