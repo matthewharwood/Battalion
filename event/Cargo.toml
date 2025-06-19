@@ -14,3 +14,5 @@ schemars = { workspace = true }
 url = { workspace = true }
 applicant = { path = "../applicant" }
 chrono = { workspace = true }
+job = { path = "../job" }
+shared = { path = "../shared" }

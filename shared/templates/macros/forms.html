@@ -47,6 +47,22 @@
 </div>
 {% endmacro %}
 
+{# -- select_input_ref(name, label, options, placeholder="Select an option…") -- #}
+{% macro select_input_ref(name, label, options, placeholder) %}
+  {% if placeholder is not defined %}
+    {% set placeholder = "Select an option…" %}
+  {% endif %}
+  <label>
+    <span>{{ label }}</span>
+    <select name="{{ name }}" id="{{ name }}">
+      <option value="">{{ placeholder }}</option>
+      {% for opt in options %}
+        <option value="{{ opt.value }}">{{ opt.title }}</option>
+      {% endfor %}
+    </select>
+  </label>
+{% endmacro %}
+
 {% macro textarea(name, label, row="3", maxlength="1000") %}
 <div class="field">
   <label for="{{ name }}">{{ label }}</label>

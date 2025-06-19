@@ -22,7 +22,12 @@
             ) }}
             {{ forms::text_input(name="startDate", label="Start Date", type="date") }}
             {{ forms::text_input(name="endDate", label="End Date", type="date") }}
-            {{ forms::text_input(name="spotlightJobId", label="Spotlight Job ID") }}
+            {{ forms::select_input_ref(
+                 name        = "spotlightJobId",
+                 label       = "Spotlight Job",
+                 options     = job_options,
+                 placeholder = "No spotlight job"
+            ) }}
             <button type="submit" form="resume-form" class="btn-submit">Submit</button>
         </form>
     </div>
