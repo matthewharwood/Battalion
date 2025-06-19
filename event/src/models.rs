@@ -1,9 +1,8 @@
 use chrono::NaiveDate;
-use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-use surrealdb::{Surreal, engine::remote::ws::Client as WsClient};
+use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
 
-#[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum EventStatus {
     Scheduled,
@@ -13,15 +12,16 @@ pub enum EventStatus {
     Archived,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Event {
+    pub id: Option<Thing>,
     pub title: String,
     pub description: String,
     pub status: EventStatus,
     pub start_date: NaiveDate,
     pub end_date: NaiveDate,
-    // pub spotlight_job_id: Option<Uuid>,
+    pub spotlight_job_id: Option<Thing>,
 }
 
 impl Event {

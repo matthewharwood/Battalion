@@ -1,16 +1,11 @@
 use std::sync::Arc;
 use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
-use schemars::schema_for;
-use serde_json::Value;
 use applicant::AppState;
 use crate::models::Job;
 
 pub(crate) async fn show_form(State(state): State<Arc<AppState>>) -> impl IntoResponse {
-    let schema = schema_for!(Job);
-    let schema_json: Value = serde_json::to_value(schema).unwrap();
     let tera = &state.views;
-    let mut ctx = tera::Context::new();
-    ctx.insert("schema", &schema_json);
+    let ctx = tera::Context::new();
     let rendered = tera.render("job_form.html", &ctx).unwrap();
     Html(rendered)
 }

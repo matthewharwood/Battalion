@@ -22,4 +22,3 @@ tower-http = { version = "0.5", features = ["fs"] }
 schemars = { version = "0.8", features = ["derive", "url", "chrono", "uuid1"] }
 url = { version = "2.5", features = ["serde"] }
 chrono = { version = "0.4", features = ["serde"] }
-uuid = { version = "1.8", features = ["serde", "v4"] }

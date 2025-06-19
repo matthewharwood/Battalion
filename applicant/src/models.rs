@@ -1,12 +1,12 @@
-use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-use surrealdb::{Surreal, engine::remote::ws::Client as WsClient};
+use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
 use url::Url;
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Apply {
-    pub event: String,
+    pub id: Option<Thing>,
+    pub event: Thing,
     pub name: String,
     pub github: Option<Url>,
     pub email: String,
@@ -49,15 +49,3 @@ impl Apply {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use schemars::schema_for;
-
-    #[test]
-    fn schema_has_email() {
-        let schema = schema_for!(Apply);
-        let value = serde_json::to_value(schema).unwrap();
-        assert!(value["properties"].get("email").is_some());
-    }
-}

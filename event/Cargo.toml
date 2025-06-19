@@ -14,4 +14,3 @@ schemars = { workspace = true }
 url = { workspace = true }
 applicant = { path = "../applicant" }
 chrono = { workspace = true }
-uuid = { workspace = true }
