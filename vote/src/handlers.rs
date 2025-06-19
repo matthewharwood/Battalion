@@ -11,8 +11,8 @@ pub(crate) async fn submit_vote(
     // Check if vote already exists
     let existing: surrealdb::Result<Option<VoteRecord>> = state.db
         .query("SELECT * FROM vote_record WHERE applicant_id = $a AND session_id = $s LIMIT 1")
-        .bind(("a", data.applicant_id))
-        .bind(("s", data.session_id))
+        .bind(("a", data.applicant_id.clone()))
+        .bind(("s", data.session_id.clone()))
         .await
         .and_then(|mut r| r.take(0));
 
@@ -20,6 +20,7 @@ pub(crate) async fn submit_vote(
         Ok(Some(_)) => StatusCode::CONFLICT.into_response(),
         Ok(None) => {
             let record = VoteRecord {
+                id: None,
                 applicant_id: data.applicant_id,
                 event_id: data.event_id,
                 session_id: data.session_id,

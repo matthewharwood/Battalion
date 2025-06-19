@@ -13,5 +13,4 @@ tera = { workspace = true }
 schemars = { workspace = true }
 url = { workspace = true }
 chrono = { workspace = true }
-uuid = { workspace = true }
 applicant = { path = "../applicant" }

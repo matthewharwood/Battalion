@@ -1,15 +1,19 @@
-use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-use surrealdb::{Surreal, engine::remote::ws::Client as WsClient};
+use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
+use shared::impl_id_to_string_for;   // bring the macro into scope
 
-#[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Review {
-    pub event: String,
-    pub applicant: String,
+    pub id: Option<Thing>,
+    pub event: Thing,
+    pub applicant: Thing,
     pub score: i8,
     pub comment: Option<String>,
 }
+
+impl_id_to_string_for!(Review);
 
 impl Review {
     pub async fn create(self, db: &Surreal<WsClient>) -> surrealdb::Result<Self> {
@@ -30,15 +34,3 @@ impl Review {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use schemars::schema_for;
-
-    #[test]
-    fn schema_has_event() {
-        let schema = schema_for!(Review);
-        let value = serde_json::to_value(schema).unwrap();
-        assert!(value["properties"].get("event").is_some());
-    }
-}

@@ -1,15 +1,14 @@
 use chrono::{DateTime, Utc};
-use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-use surrealdb::{Surreal, engine::remote::ws::Client as WsClient};
-use uuid::Uuid;
+use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct VoteRecord {
-    pub applicant_id: Uuid,
-    pub event_id: Uuid,
-    pub session_id: Uuid,
+    pub id: Option<Thing>,
+    pub applicant_id: Thing,
+    pub event_id: Thing,
+    pub session_id: Thing,
     pub score: i8,
     pub timestamp: DateTime<Utc>,
 }
@@ -36,8 +35,8 @@ impl VoteRecord {
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct IncomingVote {
-    pub applicant_id: Uuid,
-    pub event_id: Uuid,
-    pub session_id: Uuid,
+    pub applicant_id: Thing,
+    pub event_id: Thing,
+    pub session_id: Thing,
     pub score: i8,
 }

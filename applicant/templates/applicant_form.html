@@ -29,19 +29,7 @@
             <div class="event-row">
                 <div class="event-details">
                     <time class="event-date" datetime="2025-06-23">June 23<sup>rd</sup>, 2025</time>
-
-                    {{ forms::select_input(
-                        name="event",
-                        label="Select event",
-                        options=[
-                            "Software Eng II @ Uber — Code Review",
-                            "Software Eng II @ Uber — Ads",
-                            "Product Manager @ Uber — UX Strategy",
-                            "Frontend Dev @ Uber — Maps",
-                            "DevOps Eng @ Uber — Cloud Infrastructure"
-                        ],
-                        placeholder="Select an option…"
-                    ) }}
+                    {{ forms::text_input_ref(name="event", label="Event", type="text", value="Software Eng II", title="Event", disabled="true") }}
                 </div>
 
                 <a class="btn-job-link" href="#" target="_blank" rel="noopener">Job link</a>

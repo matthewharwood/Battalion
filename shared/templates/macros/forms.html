@@ -1,3 +1,17 @@
+{% macro text_input_ref(name, label, type="text", value="", title="", disabled="") %}
+<div class="field">
+  <label for="{{ name }}">{{ label }}</label>
+  <input
+          id="{{ name }}"
+          name="{{ name }}"
+          type="{{ type }}"
+          value="{{value}}"
+          {% if title | length > 0 %}title="{{ title }}" {% endif %}
+          {% if disabled | length > 0 %}disabled{% endif %}
+  />
+</div>
+{% endmacro %}
+
 {% macro text_input(name, label, type="text", autocomplete="", placeholder="", pattern="", title="") %}
 <div class="field">
   <label for="{{ name }}">{{ label }}</label>

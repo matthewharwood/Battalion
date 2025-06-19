@@ -1,8 +1,7 @@
-use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-use surrealdb::{Surreal, engine::remote::ws::Client as WsClient};
+use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
 
-#[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum JobLevel {
     Intern,
@@ -12,9 +11,10 @@ pub enum JobLevel {
     Staff,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Job {
+    pub id: Option<Thing>,
     pub title: String,
     pub level: JobLevel,
     pub team: String,

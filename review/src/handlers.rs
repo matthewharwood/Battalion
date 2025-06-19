@@ -1,13 +1,9 @@
 use std::sync::Arc;
 use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
-use schemars::schema_for;
-use serde_json::Value;
 use applicant::AppState;
 use crate::models::Review;
 
 pub(crate) async fn show_page(State(state): State<Arc<AppState>>) -> impl IntoResponse {
-    let schema = schema_for!(Review);
-    let schema_json: Value = serde_json::to_value(schema).unwrap();
     let tera = &state.views;
     #[derive(serde::Serialize)]
     struct ScoreBox<'a> {
@@ -24,7 +20,7 @@ pub(crate) async fn show_page(State(state): State<Arc<AppState>>) -> impl IntoRe
 
     let mut ctx = tera::Context::new();
     ctx.insert("scoreboard", &scoreboard);
-    ctx.insert("schema", &schema_json);
+    // schema removed
     let rendered = tera.render("grid.html", &ctx).unwrap();
     Html(rendered)
 }

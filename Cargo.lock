@@ -129,6 +129,7 @@ dependencies = [
  "schemars",
  "serde",
  "serde_json",
+ "shared",
  "surrealdb",
  "tera",
  "tokio",
@@ -1088,7 +1089,6 @@ dependencies = [
  "tera",
  "tokio",
  "url",
- "uuid",
 ]
 
 [[package]]
@@ -1877,7 +1877,6 @@ dependencies = [
  "tera",
  "tokio",
  "url",
- "uuid",
 ]
 
 [[package]]
@@ -2974,6 +2973,7 @@ dependencies = [
  "schemars",
  "serde",
  "serde_json",
+ "shared",
  "surrealdb",
  "tera",
  "tokio",
@@ -3458,9 +3458,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "shared_macros"
+name = "shared"
 version = "0.1.0"
 dependencies = [
+ "surrealdb",
  "tera",
 ]
 
@@ -4483,7 +4484,6 @@ dependencies = [
  "tera",
  "tokio",
  "url",
- "uuid",
 ]
 
 [[package]]
@@ -4679,7 +4679,7 @@ dependencies = [
  "schemars",
  "serde",
  "serde_json",
- "shared_macros",
+ "shared",
  "surrealdb",
  "tera",
  "tokio",
