@@ -11,6 +11,7 @@ pub(crate) async fn show_form(State(state): State<Arc<AppState>>) -> impl IntoRe
 }
 
 pub(crate) async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Job>) -> impl IntoResponse {
+    eprintln!("Received form job data: {:?}", form);
     match form.create(&state.db).await {
         Ok(_) => Html(String::from("Success")),
         Err(e) => {

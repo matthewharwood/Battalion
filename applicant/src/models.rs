@@ -6,7 +6,7 @@ use url::Url;
 #[serde(rename_all = "camelCase")]
 pub struct Apply {
     pub id: Option<Thing>,
-    pub event: Thing,
+    pub event: String,
     pub name: String,
     pub github: Option<Url>,
     pub email: String,
