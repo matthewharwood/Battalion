@@ -5,8 +5,8 @@ use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum EventStatus {
+    Pending,
     Scheduled,
-    Lobby,
     Live,
     Ended,
     Archived,

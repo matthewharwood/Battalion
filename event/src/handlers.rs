@@ -4,7 +4,7 @@ use applicant::AppState;
 use crate::models::{Event, EventStatus};
 use job::models::Job;
 use serde_json::{json, Value as Json};
-use shared::IdToString;
+use shared::{internal_error, IdToString};
 use surrealdb::sql::Thing;
 use chrono::NaiveDate;
 
@@ -17,9 +17,6 @@ pub(crate) struct EventForm {
     start_date: NaiveDate,
     end_date: NaiveDate,
     spotlight_job_id: Option<String>,
-}
-fn internal_error<E: std::fmt::Display>(e: E) -> (StatusCode, String) {
-    (StatusCode::INTERNAL_SERVER_ERROR, e.to_string())
 }
 
 pub async fn show_form(State(state): State<Arc<AppState>>) -> Result<Html<String>, (StatusCode, String)> {
