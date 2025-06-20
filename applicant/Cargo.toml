@@ -13,3 +13,4 @@ tera = { workspace = true }
 schemars = { workspace = true }
 url = { workspace = true }
 shared = { path = "../shared" }
+chrono = { workspace = true }
