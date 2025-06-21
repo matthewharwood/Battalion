@@ -5,10 +5,11 @@ use serde_withs::ThingString;
 use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "lowercase")]
 pub enum EventStatus {
-    Pending,
+    Pending, 
     Scheduled,
+    Lobby,
     Live,
     Ended,
     Archived,
@@ -30,6 +31,7 @@ pub struct Event {
 
 impl Event {
     pub async fn create(self, db: &Surreal<WsClient>) -> surrealdb::Result<Self> {
+        println!("Creating event: {:?}", self);
         let created: Option<Self> = db.create("event").content(self).await?;
         Ok(created.expect("create returned none"))
     }

@@ -10,7 +10,7 @@ pub async fn show_form(State(state): State<Arc<AppState>>) -> Result<Html<String
 
     let select_opts: Vec<Json> = state
         .db
-        .query("SELECT record::id(id) AS value, title as title FROM job;")
+        .query("SELECT string::concat('job:', record::id(id)) AS value, title as title FROM job;")
         .await
         .map_err(internal_error)?
         .take::<Vec<Json>>(0)
