@@ -14,3 +14,5 @@ schemars = { workspace = true }
 url = { workspace = true }
 shared = { path = "../shared" }
 chrono = { workspace = true }
+serde_with = { workspace = true, features = ["macros"] }
+serde_withs = { path = "../serde_withs" }

@@ -2,11 +2,15 @@ use serde::{Deserialize, Serialize};
 use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
 use url::Url;
 use shared::impl_id_to_string_for;
+use serde_with::{serde_as, FromInto};
+use serde_withs::ThingString;
 
+#[serde_as]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Apply {
     pub id: Option<Thing>,
+    #[serde_as(as = "Option<FromInto<ThingString>>")]
     pub event: Option<Thing>,
     pub name: String,
     pub github: Option<Url>,

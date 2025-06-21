@@ -1,31 +1,23 @@
 use std::sync::Arc;
 use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
 use chrono::Utc;
-use serde_json::Value;
 use shared::internal_error;
 use crate::AppState;
 use crate::models::Apply;
+use serde_json::Value;
 
-pub async fn show_form(
-    State(state): State<Arc<AppState>>,
-) -> Result<Html<String>, (StatusCode, String)> {
-    let select_opts = state
+pub async fn show_form(State(state): State<Arc<AppState>>) -> Result<Html<String>, (StatusCode, String)> {
+    let select_opts: Vec<Value> = state
         .db
-        .query(
-            "SELECT record::id(id) AS value, title as title, status as status, startDate as startDate FROM event
-WHERE  status = $status
-  AND  startDate >= $today
-ORDER  BY startDate ASC
-LIMIT  1;",
-        ).bind(("status", "scheduled"))
-        .bind(("today",  Utc::now().date_naive()))
+        .query("SELECT string::concat('event:', record::id(id)) AS value, title as title FROM event;")
         .await
         .map_err(internal_error)?
-        .take::<Option<Value>>(0_usize)
+        .take::<Vec<Value>>(0)
         .map_err(internal_error)?;
-    println!("{:?}", select_opts);
+
     let mut ctx = tera::Context::new();
-    ctx.insert("data", &select_opts);
+    ctx.insert("event_options", &select_opts);
+    println!("event_options -----------> {:?}", &select_opts);
 
     let rendered = state.views.render("applicant_form.html", &ctx).unwrap();
     Ok(Html(rendered))
