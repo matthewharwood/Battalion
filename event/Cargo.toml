@@ -16,3 +16,5 @@ applicant = { path = "../applicant" }
 chrono = { workspace = true }
 job = { path = "../job" }
 shared = { path = "../shared" }
+serde_with = { workspace = true, features = ["macros"] }
+serde_withs = { path = "../serde_withs" }
