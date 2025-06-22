@@ -12,6 +12,8 @@ pub struct Apply {
     pub id: Option<Thing>,
     #[serde_as(as = "Option<FromInto<ThingString>>")]
     pub event: Option<Thing>,
+    #[serde_as(as = "Option<FromInto<ThingString>>")]
+    pub job: Option<Thing>,
     pub name: String,
     pub github: Option<Url>,
     pub email: String,

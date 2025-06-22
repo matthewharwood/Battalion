@@ -5,21 +5,39 @@ use shared::internal_error;
 use crate::AppState;
 use crate::models::Apply;
 use serde_json::Value;
+use tera::Context;
 
-pub async fn show_form(State(state): State<Arc<AppState>>) -> Result<Html<String>, (StatusCode, String)> {
+pub async fn show_form(
+    State(state): State<Arc<AppState>>
+) -> Result<Html<String>, (StatusCode, String)> {
+    
+    // Query events
     let select_opts: Vec<Value> = state
         .db
         .query("SELECT string::concat('event:', record::id(id)) AS value, title as title FROM event;")
         .await
         .map_err(internal_error)?
-        .take::<Vec<Value>>(0)
+        .take(0)
         .map_err(internal_error)?;
 
-    let mut ctx = tera::Context::new();
+    // Query jobs
+    let select_jobs: Vec<Value> = state
+        .db
+        .query("SELECT string::concat('job:', record::id(id)) AS value, title as title FROM job;")
+        .await
+        .map_err(internal_error)?
+        .take(0)
+        .map_err(internal_error)?;
+
+    // Build context
+    let mut ctx = Context::new();
     ctx.insert("event_options", &select_opts);
+    ctx.insert("job_options", &select_jobs);
+
     println!("event_options -----------> {:?}", &select_opts);
 
-    let rendered = state.views.render("applicant_form.html", &ctx).unwrap();
+    let rendered = state.views.render("applicant_form.html", &ctx)
+        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
     Ok(Html(rendered))
 }
 
