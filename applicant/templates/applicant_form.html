@@ -29,7 +29,20 @@
             <div class="event-row">
                 <div class="event-details">
                     <time class="event-date" datetime="2025-06-23">June 23<sup>rd</sup>, 2025</time>
-                    {{ forms::text_input_ref(name="event", label="Event", type="text", value="Software Eng II", title="Event", disabled="true") }}
+                    {{ forms::select_input_ref(
+                        name="event",
+                        label="Event",
+                        options=event_options,
+                        placeholder="No Events Available",
+                    )}}
+                </div>
+                <div class="event-details">
+                     {{ forms::select_input_ref(
+                        name="job",
+                        label="Spotlight Job",
+                        options=job_options,
+                        placeholder="No spotlight job"
+                    ) }}
                 </div>
 
                 <a class="btn-job-link" href="#" target="_blank" rel="noopener">Job link</a>

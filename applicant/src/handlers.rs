@@ -1,33 +1,43 @@
 use std::sync::Arc;
 use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
 use chrono::Utc;
-use serde_json::Value;
 use shared::internal_error;
 use crate::AppState;
 use crate::models::Apply;
+use serde_json::Value;
+use tera::Context;
 
 pub async fn show_form(
-    State(state): State<Arc<AppState>>,
+    State(state): State<Arc<AppState>>
 ) -> Result<Html<String>, (StatusCode, String)> {
-    let select_opts = state
+    
+    // Query events
+    let select_opts: Vec<Value> = state
         .db
-        .query(
-            "SELECT record::id(id) AS value, title as title, status as status, startDate as startDate FROM event
-WHERE  status = $status
-  AND  startDate >= $today
-ORDER  BY startDate ASC
-LIMIT  1;",
-        ).bind(("status", "scheduled"))
-        .bind(("today",  Utc::now().date_naive()))
+        .query("SELECT string::concat('event:', record::id(id)) AS value, title as title FROM event;")
         .await
         .map_err(internal_error)?
-        .take::<Option<Value>>(0_usize)
+        .take(0)
         .map_err(internal_error)?;
-    println!("{:?}", select_opts);
-    let mut ctx = tera::Context::new();
-    ctx.insert("data", &select_opts);
 
-    let rendered = state.views.render("applicant_form.html", &ctx).unwrap();
+    // Query jobs
+    let select_jobs: Vec<Value> = state
+        .db
+        .query("SELECT string::concat('job:', record::id(id)) AS value, title as title FROM job;")
+        .await
+        .map_err(internal_error)?
+        .take(0)
+        .map_err(internal_error)?;
+
+    // Build context
+    let mut ctx = Context::new();
+    ctx.insert("event_options", &select_opts);
+    ctx.insert("job_options", &select_jobs);
+
+    println!("event_options -----------> {:?}", &select_opts);
+
+    let rendered = state.views.render("applicant_form.html", &ctx)
+        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
     Ok(Html(rendered))
 }
 
