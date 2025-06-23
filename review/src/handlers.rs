@@ -4,6 +4,7 @@ use applicant::AppState;
 use crate::models::Review;
 use serde_json::Value;
 use shared::internal_error;
+use sha2::{Digest, Sha256};
 
 pub(crate) async fn show_page(
     State(state): State<Arc<AppState>>
@@ -48,16 +49,36 @@ pub(crate) async fn show_page(
 
     let mut ctx = tera::Context::new();
     ctx.insert("scoreboard", &scoreboard);
-    ctx.insert("event_id", &select_opts);
-    ctx.insert("session_id", &select_jobs);
+    // ctx.insert("event_id", &select_opts);
+    // ctx.insert("session_id", &select_jobs);
     // ctx.insert("applicant_id", &select_applicants);
 
-    let first_value = select_applicants.get(0)
+    let first_event = select_opts
+        .get(0)
+        .and_then(|obj| obj.get("value"))
+        .and_then(|val| val.as_str())
+        .map(|s| s.to_string());
+
+    let first_job = select_jobs
+        .get(0)
+        .and_then(|obj| obj.get("value"))
+        .and_then(|val| val.as_str())
+        .map(|s| s.to_string());
+
+    let first_application = select_applicants.get(0)
     .and_then(|obj| obj.get("value"))
     .and_then(|val| val.as_str())
     .map(|s| s.to_string());
-    eprintln!("Fetch error: {:?}", first_value);
-    ctx.insert("applicant_id", &first_value);
+
+    eprintln!("Fetch job: {:?}", first_job);
+    eprintln!("Fetch application: {:?}", first_application);
+    eprintln!("Fetch Event: {:?}", first_event);
+
+    let session_id = generate_session_id(first_application.as_deref(), first_event.as_deref(), first_job.as_deref());
+    eprintln!("Generated session ID: {:?}", session_id);
+    ctx.insert("event_id", &first_event);
+    ctx.insert("applicant_id", &first_application);
+    ctx.insert("session_id", &session_id);
 
     let rendered = tera.render("grid.html", &ctx).map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 
@@ -104,4 +125,28 @@ pub(crate) async fn delete_review(State(state): State<Arc<AppState>>, Path(id): 
             StatusCode::INTERNAL_SERVER_ERROR.into_response()
         }
     }
+}
+
+fn generate_session_id(a: Option<&str>, b: Option<&str>, c: Option<&str>) -> Option<String> {
+    // Early return if any input is None
+    let (a_val, b_val, c_val) = (a?, b?, c?);
+
+    // Extract the parts after the colon
+    let a_id = a_val.split_once(':').map(|(_, id)| id)?;
+    let b_id = b_val.split_once(':').map(|(_, id)| id)?;
+    let c_id = c_val.split_once(':').map(|(_, id)| id)?;
+
+    // Concatenate
+    let concatenated = format!("{}{}{}", a_id, b_id, c_id);
+
+    // Hash using SHA256
+    let mut hasher = Sha256::new();
+    hasher.update(concatenated.as_bytes());
+    let hash_result = hasher.finalize();
+
+    // Convert hash to hex string
+    let hash_hex = format!("{:x}", hash_result);
+
+    // Return formatted output
+    Some(format!("session:{}", hash_hex))
 }

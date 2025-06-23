@@ -1,5 +1,7 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use serde_with::{serde_as, FromInto};
+use serde_withs::ThingString;
 use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -16,6 +18,7 @@ pub struct VoteRecord {
 impl VoteRecord {
     pub async fn create(self, db: &Surreal<WsClient>) -> surrealdb::Result<Self> {
         let created: Option<Self> = db.create("vote_record").content(self).await?;
+        println!("Created vote record: {:?}", created);
         Ok(created.expect("create returned none"))
     }
 
@@ -32,11 +35,15 @@ impl VoteRecord {
     }
 }
 
+#[serde_as]
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct IncomingVote {
+    #[serde_as(as = "FromInto<ThingString>")]
     pub applicant_id: Thing,
+    #[serde_as(as = "FromInto<ThingString>")]
     pub event_id: Thing,
+    #[serde_as(as = "FromInto<ThingString>")]
     pub session_id: Thing,
     pub score: i8,
 }
