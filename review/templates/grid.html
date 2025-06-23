@@ -9,14 +9,15 @@
 <body>
     <!-- 1 ▸ SCOREBOARD STRIP ------------------------------------------------>
     <header>
-        <nav class="scoreboard" aria-label="Voting summary">
+        <!-- <nav class="scoreboard" aria-label="Voting summary">
             {% for box in scoreboard %}
             <div class="score {{ box.class }}">
                 <span class="count">{{ box.count }}</span>
                 <span class="label">{{ box.label }}</span>
             </div>
             {% endfor %}
-        </nav>
+        </nav> -->
+        {% include "vote_widget.html" %}
     </header>
 
     <!-- 2 ▸ MAIN GRID ------------------------------------------------------->
@@ -24,15 +25,15 @@
         <!-- 2A ▸ LEFT‑HAND ARTICLE (big panel) -->
         <article class="entry">
             <header class="entry-meta">
-                <h2>{{ game_title | default(value="Game\u00A01") }}</h2>
+                <h2>{{ game_title | default(value="Game") }}</h2>
                 <time datetime="{{ game_date | default(value="2025-06-23") }}">
-                    {{ game_date | default(value="June\u00A023,\u00A02025") }}
+                    {{ game_date | default(value="June 23, 2025") }}
                 </time>
             </header>
 
             {% for q in questions | default(value=[1,2,3,4]) %}
             <section class="qa">
-                <h3 class="question">Question\u00A0{{ q }}</h3>
+                <h3 class="question">Questions{{ q }}</h3>
                 <p class="answer">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non rutrum augue. 
                     In scelerisque mauris egestas justo blandit iaculis. In hac habitasse platea dictumst.
@@ -44,13 +45,13 @@
         <!-- 2B ▸ RIGHT‑HAND ASIDE (info panel) -->
         <aside class="sidebar">
             <section class="detail">
-                <h1>Evaluating Your Job Readiness<br><small>One\u00A0Résumé\u00A0at\u00A0a\u00A0Time</small></h1>
+                <h1>Evaluating Your Job Readiness<br><small>One Resume at a Time</small></h1>
                 <p class="role">Software Eng II @Uber – Code Review</p>
             </section>
 
             <section class="subbar">
                 <div class="timer">
-                    <strong>02 : 00 : 000</strong><br><small>Timer</small>
+                    <strong>02 : 00 : 000</strong><br><small>Timer</small>
                 </div>
                 <div class="votes">
                     <strong>001<span class="total">/136</span></strong><br><small>Votes</small>

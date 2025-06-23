@@ -13,4 +13,6 @@ tera = { workspace = true }
 schemars = { workspace = true }
 url = { workspace = true }
 chrono = { workspace = true }
-applicant = { path = "../applicant" }
+applicant = { path = "../applicant" } 
+serde_with = { workspace = true, features = ["macros"] }
+serde_withs = { path = "../serde_withs" }
