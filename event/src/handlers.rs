@@ -1,29 +1,16 @@
 use std::sync::Arc;
-use axum::{Form, Json as AxumJson, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
+use axum::{extract::{Path, State}, response::{Html, IntoResponse}, Form, Json as AxumJson, http::StatusCode};
 use applicant::AppState;
-use crate::models::{Event, EventStatus};
-use job::models::Job;
-use serde_json::{json, Value as Json};
-use shared::{internal_error, IdToString};
-use surrealdb::sql::Thing;
-use chrono::NaiveDate;
+use crate::models::Event;
+use serde_json::Value as Json;
+use shared::internal_error;
 
-#[derive(serde::Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub(crate) struct EventForm {
-    title: String,
-    description: String,
-    status: EventStatus,
-    start_date: NaiveDate,
-    end_date: NaiveDate,
-    spotlight_job_id: Option<String>,
-}
 
 pub async fn show_form(State(state): State<Arc<AppState>>) -> Result<Html<String>, (StatusCode, String)> {
 
     let select_opts: Vec<Json> = state
         .db
-        .query("SELECT record::id(id) AS value, title as title FROM job;")
+        .query("SELECT string::concat('job:', record::id(id)) AS value, title as title FROM job;")
         .await
         .map_err(internal_error)?
         .take::<Vec<Json>>(0)
@@ -37,24 +24,11 @@ pub async fn show_form(State(state): State<Arc<AppState>>) -> Result<Html<String
 
 pub(crate) async fn submit_form(
     State(state): State<Arc<AppState>>,
-    Form(form): Form<EventForm>,
+    Form(event): Form<Event>,
 ) -> impl IntoResponse {
-    let spotlight_job_id = match form.spotlight_job_id.as_deref() {
-        Some("") | None => None,
-        Some(s) => Some(
-            s.parse::<Thing>()
-                .expect("frontend <select> always sends valid job:<id>")
-        ),
-    };
-
     let new_event = Event {
         id: None,
-        title: form.title,
-        description: form.description,
-        status: form.status,
-        start_date: form.start_date,
-        end_date: form.end_date,
-        spotlight_job_id,
+        ..event
     };
 
     match new_event.create(&state.db).await {

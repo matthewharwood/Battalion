@@ -1,6 +1,7 @@
 {% import "macros/forms.html" as forms %}
-<div id="vote-widget">
-  <form id="vote-form" action="/vote" method="post">
+<link rel="stylesheet" href="/css/grid.css">
+<div id="vote-widget" class="vote-widget">
+  <form id="vote-form" action="/vote" method="post" class="scoreboard">
     <input type="hidden" name="applicantId" value="{{ applicant_id }}" />
     <input type="hidden" name="eventId" value="{{ event_id }}" />
     <input type="hidden" name="sessionId" value="{{ session_id }}" />
@@ -8,6 +9,6 @@
     <button type="submit" name="score" value="0">May</button>
     <button type="submit" name="score" value="-1">Nay</button>
   </form>
-  <div id="rarity-meter">0%</div>
+  <div id="rarity" class="meter">0%</div>
 </div>
 <script type="module" src="/js/vote-widget.js"></script>

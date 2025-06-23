@@ -28,6 +28,11 @@ html, body {
     padding: var(--gap);
 }
 
+.vote-widget {
+    display: flex !important;
+    justify-content: center !important;
+}
+
 .score {
     background: var(--clr-panel);
     border-radius: .25rem;

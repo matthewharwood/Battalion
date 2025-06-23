@@ -1087,6 +1087,8 @@ dependencies = [
  "schemars",
  "serde",
  "serde_json",
+ "serde_with",
+ "serde_withs",
  "shared",
  "surrealdb",
  "tera",
@@ -3437,6 +3439,15 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.102",
+]
+
+[[package]]
+name = "serde_withs"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_with",
+ "surrealdb",
 ]
 
 [[package]]

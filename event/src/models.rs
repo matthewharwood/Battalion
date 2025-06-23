@@ -1,17 +1,21 @@
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
+use serde_with::{serde_as, FromInto};
+use serde_withs::ThingString;
 use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "lowercase")]
 pub enum EventStatus {
-    Pending,
+    Pending, 
     Scheduled,
+    Lobby,
     Live,
     Ended,
     Archived,
 }
 
+#[serde_as]
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Event {
@@ -21,11 +25,13 @@ pub struct Event {
     pub status: EventStatus,
     pub start_date: NaiveDate,
     pub end_date: NaiveDate,
-    pub spotlight_job_id: Option<Thing>,
+    #[serde_as(as = "Option<FromInto<ThingString>>")]
+    pub job: Option<Thing>,
 }
 
 impl Event {
     pub async fn create(self, db: &Surreal<WsClient>) -> surrealdb::Result<Self> {
+        println!("Creating event: {:?}", self);
         let created: Option<Self> = db.create("event").content(self).await?;
         Ok(created.expect("create returned none"))
     }
