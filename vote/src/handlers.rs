@@ -7,7 +7,7 @@ use axum::{
 use futures::StreamExt;
 use chrono::Utc;
 use surrealdb::{Surreal, engine::remote::ws::Client as WsClient};
-use applicant::AppState; // ✅ Correct cross-crate import
+use applicant::AppState;
 use crate::models::{IncomingVote, VoteRecord};
 use crate::schema::Post;
 
@@ -55,20 +55,22 @@ pub async fn rpc_handler(
     ws: WebSocketUpgrade,
 ) -> impl IntoResponse {
     let db = app_state.db.clone();
+    println!("DB Clone here ---------------------------- : {:?}", db);
     ws.on_upgrade(move |socket| handle_ws(socket, db))
 }
 
 async fn handle_ws(mut socket: WebSocket, db: Arc<Surreal<WsClient>>) {
-    let mut stream = match db.select::<Vec<Post>>("posts").live().await {
+    let mut stream = match db.select::<Vec<VoteRecord>>("vote_record").live().await {
         Ok(s) => s,
         Err(e) => {
             eprintln!("Surreal live query error: {:?}", e);
             return;
         }
     };
-
+    println!("Web Socket here ---------------------------- : {:?}", stream);
     while let Some(Ok(notification)) = stream.next().await {
         let txt = serde_json::to_string(&(notification.action, notification.data)).unwrap();
+        eprintln!("onmessage txt: {:?}", txt);
         if socket.send(Message::Text(txt.into())).await.is_err() {
             break;
         }

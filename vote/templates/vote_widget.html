@@ -5,24 +5,32 @@
     <input type="hidden" name="applicantId" value="{{ applicant_id }}" />
     <input type="hidden" name="eventId" value="{{ event_id }}" />
     <input type="hidden" name="sessionId" value="{{ session_id }}" />
-    <button type="submit" name="score" value="1">Yay</button>
-    <button type="submit" name="score" value="0">May</button>
-    <button type="submit" name="score" value="-1">Nay</button>
+    {% for box in scoreboard %}
+      <div class="score-card {{ box.class }}">
+        {% if box.class == "yay" %}
+          <div class="circle green"></div>
+          <button type="submit" name="score" value="1">
+            <div class="count" id="yay-count">{{ box.count }}</div>
+            <div class="label">{{ box.label }}</div>
+          </button>
+        {% elif box.class == "may" %}
+          <div class="circle yellow"></div>
+          <button type="submit" name="score" value="0">
+            <div class="count" id="may-count">{{ box.count }}</div>
+            <div class="label">{{ box.label }}</div>
+          </button>
+        {% elif box.class == "nay" %}
+          <div class="circle red"></div>
+          <button type="submit" name="score" value="-1">
+            <div class="count" id="nay-count">{{ box.count }}</div>
+            <div class="label">{{ box.label }}</div>
+          </button>
+        {% endif %}
+      </div>
+    {% endfor %}
   </form>
-  <nav class="scoreboard" aria-label="Vote counts">
-    <div class="score yay">
-      <span id="yay-count" class="count">0</span>
-      <span class="label">Yay</span>
-    </div>
-    <div class="score may">
-      <span id="may-count" class="count">0</span>
-      <span class="label">May</span>
-    </div>
-    <div class="score nay">
-      <span id="nay-count" class="count">0</span>
-      <span class="label">Nay</span>
-    </div>
-  </nav>
+
   <div id="rarity" class="meter">0%</div>
 </vote-widget>
+
 <script type="module" src="/js/vote-widget.js"></script>

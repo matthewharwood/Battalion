@@ -13,6 +13,7 @@ use job;
 use review;
 use vote;
 use shared;
+use tokio::sync::broadcast;
 
 #[tokio::main]
 async fn main() {
@@ -47,12 +48,13 @@ async fn main() {
         );
         ::std::process::exit(1);
     }
-
+    let (broadcaster_tx, _) = broadcast::channel::<String>(100);
     let shared_db = Arc::new(db);
     let arc_views = views();
     let app_state = Arc::new(AppState {
         views: arc_views,
         db: shared_db,
+        broadcaster: broadcaster_tx,
     });
     
     let app  = Router::new()

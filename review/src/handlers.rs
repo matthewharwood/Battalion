@@ -17,10 +17,56 @@ pub(crate) async fn show_page(
         class: &'a str,
     }
 
+
+
+     #[derive(serde::Deserialize)]
+    struct ScoreResult {
+        yay_count: u64,
+        may_count: u64,
+        nay_count: u64,
+    }
+
+    // Query for YAY count (score = 1)
+    let yay_count: u64 = state.db
+        .query("SELECT count() AS count FROM vote_record WHERE score = 1 GROUP ALL;")
+        .await
+        .map_err(internal_error)?
+        .take::<Vec<serde_json::Value>>(0)
+        .map_err(internal_error)?
+        .get(0)
+        .and_then(|v| v.get("count"))
+        .and_then(|v| v.as_u64())
+        .unwrap_or(0);
+
+    // Query for MAY count (score = 0)
+    let may_count: u64 = state.db
+        .query("SELECT count() AS count FROM vote_record WHERE score = 0 GROUP ALL;")
+        .await
+        .map_err(internal_error)?
+        .take::<Vec<serde_json::Value>>(0)
+        .map_err(internal_error)?
+        .get(0)
+        .and_then(|v| v.get("count"))
+        .and_then(|v| v.as_u64())
+        .unwrap_or(0);
+
+    // Query for NAY count (score = -1)
+    let nay_count: u64 = state.db
+        .query("SELECT count() AS count FROM vote_record WHERE score = -1 GROUP ALL;")
+        .await
+        .map_err(internal_error)?
+        .take::<Vec<serde_json::Value>>(0)
+        .map_err(internal_error)?
+        .get(0)
+        .and_then(|v| v.get("count"))
+        .and_then(|v| v.as_u64())
+        .unwrap_or(0);
+
+    println!("YAY count: {}, MAY count: {}, NAY count: {}", yay_count, may_count, nay_count);
     let scoreboard = vec![
-        ScoreBox { count: 2,  label: "YAY", class: "yay" },
-        ScoreBox { count: 0,  label: "MAY", class: "may" },
-        ScoreBox { count: 12, label: "NAY", class: "nay" },
+        ScoreBox { count: yay_count as u32, label: "YAY", class: "yay" },
+        ScoreBox { count: may_count as u32, label: "MAY", class: "may" },
+        ScoreBox { count: nay_count as u32, label: "NAY", class: "nay" },
     ];
 
     let select_opts: Vec<Value> = state
@@ -49,9 +95,6 @@ pub(crate) async fn show_page(
 
     let mut ctx = tera::Context::new();
     ctx.insert("scoreboard", &scoreboard);
-    // ctx.insert("event_id", &select_opts);
-    // ctx.insert("session_id", &select_jobs);
-    // ctx.insert("applicant_id", &select_applicants);
 
     let first_event = select_opts
         .get(0)
@@ -69,10 +112,6 @@ pub(crate) async fn show_page(
     .and_then(|obj| obj.get("value"))
     .and_then(|val| val.as_str())
     .map(|s| s.to_string());
-
-    eprintln!("Fetch job: {:?}", first_job);
-    eprintln!("Fetch application: {:?}", first_application);
-    eprintln!("Fetch Event: {:?}", first_event);
 
     let session_id = generate_session_id(first_application.as_deref(), first_event.as_deref(), first_job.as_deref());
     eprintln!("Generated session ID: {:?}", session_id);
