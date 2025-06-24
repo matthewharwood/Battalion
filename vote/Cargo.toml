@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-axum = { workspace = true }
+axum = { workspace = true, features = ["ws"] }
 serde = { workspace = true }
 serde_json = { workspace = true }
 surrealdb = { workspace = true }
@@ -16,3 +16,5 @@ chrono = { workspace = true }
 applicant = { path = "../applicant" } 
 serde_with = { workspace = true, features = ["macros"] }
 serde_withs = { path = "../serde_withs" }
+futures = "0.3.31"
+shared = { path = "../shared" }
