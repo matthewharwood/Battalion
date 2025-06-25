@@ -17,14 +17,12 @@ pub(crate) async fn show_page(
         class: &'a str,
     }
 
-
-
-     #[derive(serde::Deserialize)]
-    struct ScoreResult {
-        yay_count: u64,
-        may_count: u64,
-        nay_count: u64,
-    }
+    //  #[derive(serde::Deserialize)]
+    // struct ScoreResult {
+    //     yay_count: u64,
+    //     may_count: u64,
+    //     nay_count: u64,
+    // }
 
     // Query for YAY count (score = 1)
     let yay_count: u64 = state.db

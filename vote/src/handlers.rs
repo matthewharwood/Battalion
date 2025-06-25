@@ -9,7 +9,7 @@ use chrono::Utc;
 use surrealdb::{Surreal, engine::remote::ws::Client as WsClient};
 use applicant::AppState;
 use crate::models::{IncomingVote, VoteRecord};
-use crate::schema::Post;
+// use crate::schema::Post;
 
 // HTTP vote submit handler
 pub(crate) async fn submit_vote(
