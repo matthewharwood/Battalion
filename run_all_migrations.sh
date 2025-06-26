@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # List of module directories
-MODULES=("event" "job" "applicant" "vote")
+# MODULES=("job" "event" "applicant" "vote")
+MODULES=("job" "event" "applicant")
 
 for module in "${MODULES[@]}"; do
   echo "📂 Entering $module directory..."
