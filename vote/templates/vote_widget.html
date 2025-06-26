@@ -1,14 +1,36 @@
 {% import "macros/forms.html" as forms %}
 <link rel="stylesheet" href="/css/grid.css">
-<div id="vote-widget" class="vote-widget">
-  <form id="vote-form" action="/vote" method="post" class="scoreboard">
+<vote-widget class="vote-widget">
+  <form id="vote-form" method="post" class="scoreboard">
     <input type="hidden" name="applicantId" value="{{ applicant_id }}" />
     <input type="hidden" name="eventId" value="{{ event_id }}" />
     <input type="hidden" name="sessionId" value="{{ session_id }}" />
-    <button type="submit" name="score" value="1">Yay</button>
-    <button type="submit" name="score" value="0">May</button>
-    <button type="submit" name="score" value="-1">Nay</button>
+    {% for box in scoreboard %}
+      <div class="score-card {{ box.class }}">
+        {% if box.class == "yay" %}
+          <div class="circle green"></div>
+          <button type="submit" name="score" value="1">
+            <div class="count" id="yay-count">{{ box.count }}</div>
+            <div class="label">{{ box.label }}</div>
+          </button>
+        {% elif box.class == "may" %}
+          <div class="circle yellow"></div>
+          <button type="submit" name="score" value="0">
+            <div class="count" id="may-count">{{ box.count }}</div>
+            <div class="label">{{ box.label }}</div>
+          </button>
+        {% elif box.class == "nay" %}
+          <div class="circle red"></div>
+          <button type="submit" name="score" value="-1">
+            <div class="count" id="nay-count">{{ box.count }}</div>
+            <div class="label">{{ box.label }}</div>
+          </button>
+        {% endif %}
+      </div>
+    {% endfor %}
   </form>
+
   <div id="rarity" class="meter">0%</div>
-</div>
+</vote-widget>
+
 <script type="module" src="/js/vote-widget.js"></script>

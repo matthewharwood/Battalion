@@ -45,6 +45,7 @@ surreal sql --conn http://127.0.0.1:8000 --user root --pass root --ns test --db 
 SELECT * FROM job;
 SELECT * FROM event;
 SELECT * FROM apply;
+SELECT * FROM vote_record;
 SQL
 ```
 
