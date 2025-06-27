@@ -17,6 +17,7 @@ pub struct VoteRecord {
 
 impl VoteRecord {
     pub async fn create(self, db: &Surreal<WsClient>) -> surrealdb::Result<Self> {
+        println!("Creating event: {:?} ------------------------------------>", self);
         let created: Option<Self> = db.create("vote_record").content(self).await?;
         println!("Created vote record: {:?}", created);
         Ok(created.expect("create returned none"))
