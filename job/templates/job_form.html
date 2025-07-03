@@ -1,4 +1,7 @@
 {% import "macros/forms.html" as forms %}
+{% import "macros/components.html" as components %}
+{% import "macros/icons.html" as icons %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +9,7 @@
     <title>Job Form</title>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/event.css">
+    <link rel="stylesheet" href="/css/button.css">
 </head>
 <body>
     <div class="container-center">
@@ -20,7 +24,8 @@
             {{ forms::text_input(name="team", label="Team") }}
             {{ forms::text_input(name="location", label="Location") }}
             {{ forms::textarea(name="description", label="Description") }}
-            <button type="submit" class="btn-submit">Submit</button>
+            <!-- <button type="submit" class="btn-submit">Submit</button> -->
+            {{ components::button(label="Submit", type="submit",  primary=true) }}
         </form>
     </div>
 </body>

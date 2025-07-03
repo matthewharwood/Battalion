@@ -71,4 +71,7 @@
     --rounded-lg: 0.5rem;
     --rounded-xl: 0.75rem;
     --rounded-2xl: 1rem;
+
+    --color-primary-bg: rgba(21, 21, 21, 0.8);  /* #151515 with 80% opacity */
+    --color-disabled-bg: #212121;
 }
