@@ -3,7 +3,7 @@
 .primary-button {
   background-color: #151515cc;
   color: var(--secondary);
-  font-weight: 500;
+  /* font-weight: 500; */
   /* font-size: var(--text-sm); */
   /* padding: var(--space-3) var(--space-6); */
   border: none;
@@ -14,12 +14,14 @@
   gap: var(--space-2);
   cursor: pointer;
   width: 100%;
+  padding: 16px 0px;
 }
 
 .secondary-button {
-  background-color: #FFD084;
+  background: white;
+  color: black;
   border: 1px solid var(--color-border-light);
-  color: var(--primary);
+  /* color: var(--primary); */
   font-size: var(--text-sm);
   padding: var(--space-3) var(--space-6);
   border-radius: var(--rounded-md);
@@ -29,7 +31,7 @@
   gap: var(--space-2);
   cursor: pointer;
   width: 100%;
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 
 .front-arrow,
@@ -54,9 +56,11 @@
 }
 
 .button-small {
-  height: var(--space-6);
+  /* height: var(--space-6); */
+  font-size: 8px;
 }
 
 .button-big {
-  height: var(--space-14);
+  /* height: var(--space-14); */
+  font-size: 20px;
 }

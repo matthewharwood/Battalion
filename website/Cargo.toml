@@ -19,3 +19,4 @@ job = { path = "../job" }
 review = { path = "../review" }
 vote = { path = "../vote" }
 shared = { path = "../shared" }
+home = { path = "../home" }

@@ -1,7 +1,7 @@
 @import url('./variables.css');
 
 .container-center {
-    background: var(--color-progress-bg);
+    /* background: var(--color-progress-bg); */
     color: var(--color-btn-bg-hover);
     padding: var(--space-10);
     display: flex;
@@ -16,4 +16,12 @@
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 500px;
+}
+
+.container-background {
+    background-image: url("../images/Home.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
 }
