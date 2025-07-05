@@ -21,7 +21,6 @@
           Battalion is an ATS platform built to provide applicants with actionable feedback from industry professionals.
           Feedback is done in 2-minute sessions, and a total of 20 applicants are selected from this process.
         </p>
-        <!-- <button class="discord-btn">JOIN DISCORD 🎮</button> -->
         {% set discord_icon_svg = icons::discord_icon() %}
         {{ components::button(
           label="JOIN DISCORD",
@@ -29,7 +28,7 @@
           primary=false,
           size="big",
           backIcon=discord_icon_svg,
-          extra_attrs='onclick="window.open(&quot;https://discord.com/invite/XJ2PBd3F&quot;, &quot;_blank&quot;)"'
+          extra_attrs='onclick="openDiscordInvite()"'
         ) }}
 
         <ol class="steps">
@@ -41,11 +40,15 @@
         </ol>
         <div class="event-info">
           <p>Next Event: <span class="timer">[ 02:00:00 ]</span></p>
-          <!-- <button class="apply-btn">BEGIN APPLICATION</button> -->
           {{ components::button(label="BEGIN APPLICATION", type="",  primary=false, size="big") }}
         </div>
       </section>
     </div>
   </div>
+  <script>
+    function openDiscordInvite() {
+      window.open("https://discord.com/invite/XJ2PBd3F", "_blank");
+    }
+  </script>
 </body>
 </html>
