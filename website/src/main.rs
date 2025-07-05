@@ -1,7 +1,7 @@
 use std::path::Path;
 use std::sync::Arc;
 use axum::Router;
-use axum::routing::get;
+// use axum::routing::get;
 use surrealdb::engine::remote::ws::Ws;
 use surrealdb::opt::auth::Root;
 use surrealdb::Surreal;
@@ -13,6 +13,7 @@ use job;
 use review;
 use vote;
 use shared;
+use home;
 use tokio::sync::broadcast;
 
 #[tokio::main]
@@ -58,7 +59,8 @@ async fn main() {
     });
     
     let app  = Router::new()
-        .route("/", get(|| async { "Hello, World!" }))
+        // .route("/", get(|| async { "Hello, World!" }))
+        .merge(home::routes::routes())
         .merge(applicant::routes::routes())
         .merge(event::routes::routes())
         .merge(job::routes::routes())
@@ -84,6 +86,7 @@ fn views() -> Arc<Tera> {
         ("./job/templates/job_list.html", Some("job_list.html")),
         ("./review/templates/grid.html", Some("grid.html")),
         ("./vote/templates/vote_widget.html", Some("vote_widget.html")),
+        ("./home/templates/index.html", Some("index.html")),
     ]).expect("Failed to load templates");
     Arc::new(tera)
 }

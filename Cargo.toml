@@ -6,6 +6,7 @@ members = [
     "job",
     "review",
     "vote",
+    "home",
     "shared",
     "serde_withs",
 ]

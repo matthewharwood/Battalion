@@ -52,7 +52,7 @@ SQL
 
 7. Run the App
 ```bash
-cargo run
+cargo run --package website
 ```
 
 Your app will be running on: [http://localhost:6969](http://localhost:6969)

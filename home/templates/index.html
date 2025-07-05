@@ -1,0 +1,51 @@
+{% import "macros/components.html" as components %}
+{% import "macros/icons.html" as icons %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Battalion</title>
+  <link rel="stylesheet" href="/css/home_page.css" />
+  <link rel="stylesheet" href="/css/button.css">
+</head>
+<body>
+  <div class="container-background">
+    <div class="top-section">
+      <div class="logo-header">
+        <h1 class="logo">Battalion</h1>
+        <div class="tagline">A Battalion Of Product Designers. And Engineers.</div>
+      </div>
+      <section class="sidebar-card">
+        <h2 style="margin: 0px; padding-bottom: 16px;">How Battalion Works</h2>
+        <p style="font-size: 16px;">
+          Battalion is an ATS platform built to provide applicants with actionable feedback from industry professionals.
+          Feedback is done in 2-minute sessions, and a total of 20 applicants are selected from this process.
+        </p>
+        <!-- <button class="discord-btn">JOIN DISCORD 🎮</button> -->
+        {% set discord_icon_svg = icons::discord_icon() %}
+        {{ components::button(
+          label="JOIN DISCORD",
+          type="button",
+          primary=false,
+          size="big",
+          backIcon=discord_icon_svg,
+          extra_attrs='onclick="window.open(&quot;https://discord.com/invite/XJ2PBd3F&quot;, &quot;_blank&quot;)"'
+        ) }}
+
+        <ol class="steps">
+          <li>Select a job link</li>
+          <li>Fill out the application</li>
+          <li>Join the stream</li>
+          <li>Review, vote and give feedback</li>
+          <li>Compare leaderboard scores</li>
+        </ol>
+        <div class="event-info">
+          <p>Next Event: <span class="timer">[ 02:00:00 ]</span></p>
+          <!-- <button class="apply-btn">BEGIN APPLICATION</button> -->
+          {{ components::button(label="BEGIN APPLICATION", type="",  primary=false, size="big") }}
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
