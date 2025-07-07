@@ -2,3 +2,6 @@
 .idea/**
 .DS_Store
 history.txt
+
+# Rust
+Cargo.lock

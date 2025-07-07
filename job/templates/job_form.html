@@ -1,32 +1,177 @@
-{% import "macros/forms.html" as forms %}
 {% import "macros/components.html" as components %}
 {% import "macros/icons.html" as icons %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Job Form</title>
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/event.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Portal</title>
+    <link rel="stylesheet" href="/css/job_section.css" />
     <link rel="stylesheet" href="/css/button.css">
 </head>
 <body>
-    <div class="container-center">
-        <form action="/jobs" method="post" class="event-form"> 
-            {{ forms::text_input(name="title", label="Title") }}
-            {{ forms::select_input(
-                name="level",
-                label="Level",
-                options=["intern", "junior", "mid", "senior", "staff"],
-                placeholder="Select level"
-            ) }}
-            {{ forms::text_input(name="team", label="Team") }}
-            {{ forms::text_input(name="location", label="Location") }}
-            {{ forms::textarea(name="description", label="Description") }}
-            <!-- <button type="submit" class="btn-submit">Submit</button> -->
-            {{ components::button(label="Submit", type="submit",  primary=true, size="small") }}
-        </form>
+    <!-- Horizontal Stepper -->
+    <div class="container-background-jobs">
+        <div class="stepper-container">
+            <div class="stepper">
+                <div class="step active">
+                    <div class="step-number">1:</div>
+                    <div class="step-label">Select Job</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2:</div>
+                    <div class="step-label">Fill Application</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3:</div>
+                    <div class="step-label">Confirm Queue</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4:</div>
+                    <div class="step-label">Review and Vote</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5:</div>
+                    <div class="step-label">Leaderboards</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-container">
+            <div class="left-panel">
+                <div class="left-panel-child">
+                    <div class="back-button" role="button" tabindex="0">
+                        {{ icons::back_icon() | safe }}
+                    </div>
+                    <h1 class="page-title">Select Your Session</h1>
+                </div>
+                <p class="page-subtitle">
+                    Select a session to apply for. Be mindful of your session's time zone to assure you can attend.
+                </p>
+
+                <div class="job-list">
+                    {% for job in jobs %}
+                        <div class="job-card{% if loop.index0 == 0 %} selected{% endif %}">
+                            <div class="job-content">
+                                <h3 class="job-title">{{ job.title }}</h3>
+                                <div class="job-details">
+                                    <div class="job-meta">{{ job.level }}</div>
+                                    <div class="job-meta">See Job Posting</div>
+                                    <div class="job-meta">{{ job.team }} Applicants</div>
+                                </div>
+                            </div>
+                            <div class="company-icon">🍎</div>
+                        </div>
+                    {% endfor %}
+            </div>
+
+            <div class="job-footer" style="display: flex; justify-content: center;">
+                <div>
+                    {{ components::button(
+                    label="APPLY NOW",
+                    type="button",
+                    primary=true,
+                    size="big",
+                    extra_attrs='onclick="applyButtonClick()"'
+                    ) }}
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Job card selection functionality
+        const jobCards = document.querySelectorAll('.job-card');
+        
+        jobCards.forEach(card => {
+            card.addEventListener('click', () => {
+                jobCards.forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+            });
+        });
+
+        // Stepper functionality
+        const steps = document.querySelectorAll('.step');
+        const applyButton = document.querySelector('.apply-button');
+
+        let currentStep = 0;
+
+        function updateStepper() {
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index < currentStep) {
+                    step.classList.add('completed');
+                } else if (index === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+        }
+
+        function applyButtonClick() {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                updateStepper();
+
+                const titles = [
+                    'Select Your Session',
+                    'Fill Your Application',
+                    'Confirm Your Queue Position',
+                    'Review and Vote',
+                    'View Leaderboards'
+                ];
+                const subtitles = [
+                    'Select a session to apply for. Be mindful of your session\'s time zone to ensure you can attend.',
+                    'Please fill out your application details carefully.',
+                    'Confirm your position in the application queue.',
+                    'Review other applications and cast your votes.',
+                    'See how you rank against other applicants.'
+                ];
+
+                document.querySelector('.page-title').textContent = titles[currentStep];
+                document.querySelector('.page-subtitle').textContent = subtitles[currentStep];
+
+                const applyButton = document.querySelector('.apply-button');
+                if (currentStep === steps.length - 1) {
+                    applyButton.textContent = 'COMPLETE';
+                    applyButton.style.background = '#4caf50';
+                }
+            }
+        }
+
+
+        // Back button functionality
+        document.querySelector('.back-button').addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStepper();
+                
+                const titles = [
+                    'Select Your Session',
+                    'Application Page',
+                    'Confirm Your Queue Position',
+                    'Review and Vote',
+                    'View Leaderboards'
+                ];
+                
+                const subtitles = [
+                    'Select a session to apply for. Be mindful of your session\'s time zone to ensure you can attend.',
+                    'Please fill out your application details carefully.',
+                    'Confirm your position in the application queue.',
+                    'Review other applications and cast your votes.',
+                    'See how you rank against other applicants.'
+                ];
+                
+                document.querySelector('.page-title').textContent = titles[currentStep];
+                document.querySelector('.page-subtitle').textContent = subtitles[currentStep];
+                
+                applyButton.textContent = 'APPLY NOW';
+                applyButton.style.background = '#ff6b35';
+            }
+        });
+
+        // Initialize stepper
+        updateStepper();
+    </script>
 </body>
 </html>
