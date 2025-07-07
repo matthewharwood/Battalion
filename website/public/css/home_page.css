@@ -3,13 +3,13 @@
 body, html {
   margin: 0;
   padding: 0;
-  font-family: var(--font-sans);
+  font-family: 'Urbanist', sans-serif;
   color: var(--secondary);
   overflow: hidden;
 }
 
 .container-background {
-  background-image: url("../images/Home.gif");
+  background-image: url("../images/Home.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
