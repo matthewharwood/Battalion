@@ -44,10 +44,10 @@ pub async fn show_form(
 pub async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Apply>) -> impl IntoResponse {
     eprintln!("Received form data: {:?}", form);
     match form.create(&state.db).await {
-        Ok(_rec) => Html(String::from("Success")),
+        Ok(_rec) => Redirect::to("/queue").into_response(),
         Err(e) => {
             eprintln!("Failed to insert: {:?}", e);
-            Html(String::from("Error"))
+            Html(String::from("Error")).into_response()
         }
     }
 }

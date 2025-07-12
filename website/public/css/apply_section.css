@@ -248,6 +248,22 @@ body::before {
     color: rgba(255, 255, 255, 0.4);
 }
 
+.back-button {
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    margin-right: 1rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+
 /* Responsive Design */
 /* @media (max-width: 768px) {
     .stepper {
