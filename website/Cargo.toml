@@ -20,3 +20,4 @@ review = { path = "../review" }
 vote = { path = "../vote" }
 shared = { path = "../shared" }
 home = { path = "../home" }
+queue = { path = "../queue" }

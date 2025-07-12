@@ -2667,6 +2667,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "queue"
+version = "0.1.0"
+dependencies = [
+ "applicant",
+ "axum",
+ "chrono",
+ "schemars",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "serde_withs",
+ "shared",
+ "surrealdb",
+ "tera",
+ "tokio",
+ "url",
+]
+
+[[package]]
 name = "quick_cache"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4745,6 +4764,7 @@ dependencies = [
  "event",
  "home",
  "job",
+ "queue",
  "review",
  "schemars",
  "serde",

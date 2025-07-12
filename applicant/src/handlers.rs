@@ -1,5 +1,5 @@
 use std::sync::Arc;
-use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
+use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse, Redirect}, http::StatusCode};
 // use chrono::Utc;
 use shared::internal_error;
 use crate::AppState;
@@ -50,6 +50,11 @@ pub async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Ap
             Html(String::from("Error"))
         }
     }
+}
+
+/// Redirects old style `/apply/{job_id}` paths to `/apply?job_id=`.
+pub async fn apply_redirect(Path(job_id): Path<String>) -> Redirect {
+    Redirect::temporary(&format!("/apply?job_id={}", job_id))
 }
 
 pub async fn fetch_form(State(state): State<Arc<AppState>>, Path(id): Path<String>) -> impl IntoResponse {

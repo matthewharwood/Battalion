@@ -52,15 +52,14 @@
   {% if placeholder is not defined %}
     {% set placeholder = "Select an option…" %}
   {% endif %}
-  <label>
-    <span>{{ label }}</span>
-    <select name="{{ name }}" id="{{ name }}">
+  <div class="form-group">
+    <select class="form-select" name="{{ name }}" id="{{ name }}">
       <option value="">{{ placeholder }}</option>
       {% for opt in options %}
         <option value="{{ opt.value }}">{{ opt.title }}</option>
       {% endfor %}
     </select>
-  </label>
+  </div>
 {% endmacro %}
 
 {% macro textarea(name, label, row="3", maxlength="1000") %}

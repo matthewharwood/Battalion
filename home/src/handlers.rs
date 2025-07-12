@@ -67,7 +67,7 @@ pub async fn apply(
 
     let rendered = state
         .views
-        .render("application_submitted.html", &ctx)
+        .render("job_form.html", &ctx)
         .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 
     Ok(Html(rendered))

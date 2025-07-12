@@ -12,6 +12,7 @@ use event;
 use job;
 use review;
 use vote;
+use queue;
 use shared;
 use home;
 use tokio::sync::broadcast;
@@ -66,6 +67,7 @@ async fn main() {
         .merge(job::routes::routes())
         .merge(review::routes::routes())
         .merge(vote::routes::routes())
+        .merge(queue::routes::routes())
         .fallback_service(static_files_service)
         .with_state(app_state);
     println!("Here in port 6969");
@@ -87,6 +89,7 @@ fn views() -> Arc<Tera> {
         ("./review/templates/grid.html", Some("grid.html")),
         ("./vote/templates/vote_widget.html", Some("vote_widget.html")),
         ("./home/templates/index.html", Some("index.html")),
+        ("./queue/templates/queue.html", Some("queue.html")),
     ]).expect("Failed to load templates");
     Arc::new(tera)
 }

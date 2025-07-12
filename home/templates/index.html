@@ -41,10 +41,9 @@
         </ol>
         <div class="event-info">
           <p>Next Event: <span class="timer" id="countdown"></span></p>
-          <form id="resume-form" action="/jobs" method="post">
-            <input type="hidden" name="event_id" value="{{ event_options[0].value }}">
-            {{ components::button(label="BEGIN APPLICATION", form="resume-form",  type="submit", primary=false, size="big") }}
-          </form>
+            <form id="resume-form" action="/jobs" method="get"></form>
+              {{ components::button(label="BEGIN APPLICATION", form="resume-form", type="submit", primary=false, size="big") }}
+            </form>
         </div>
       </section>
     </div>

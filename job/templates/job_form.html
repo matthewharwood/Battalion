@@ -12,6 +12,7 @@
 <body>
     <!-- Horizontal Stepper -->
     <div class="container-background-jobs">
+        <div style="box-sizing: border-box; padding: 16px 24px; background: transparent;">
         <div class="stepper-container">
             <div class="stepper">
                 <div class="step active">
@@ -67,7 +68,7 @@
             </div>
 
             <div class="job-footer" style="display: flex; justify-content: center;">
-                <div>
+                <!-- <div>
                     {{ components::button(
                     label="APPLY NOW",
                     type="button",
@@ -75,26 +76,42 @@
                     size="big",
                     extra_attrs='onclick="applyButtonClick()"'
                     ) }}
-                </div>
+                </div> -->
+                <form id="resume-form" action="/apply" method="get"></form>
+                    {{ components::button(label="APPLY NOW", form="resume-form", type="submit", primary=true, size="big") }}
+                </form>
             </div>
+        </div>
         </div>
     </div>
 
     <script>
         // Job card selection functionality
         const jobCards = document.querySelectorAll('.job-card');
-        
-        jobCards.forEach(card => {
+        const resumeForm = document.getElementById('resume-form');
+        let selectedJobId = null;
+
+        jobCards.forEach((card, index) => {
             card.addEventListener('click', () => {
                 jobCards.forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
+                
+                // Store the selected job ID (you'll need to add data-job-id to your job cards)
+                selectedJobId = card.dataset.jobId || index + 1; // fallback to index if no job ID
+                
+                // Update form action with the selected job ID
+                resumeForm.action = `/apply/${selectedJobId}`;
             });
         });
 
+        // Initialize with first job selected
+        if (jobCards.length > 0) {
+            selectedJobId = jobCards[0].dataset.jobId || 1;
+            resumeForm.action = `/apply/${selectedJobId}`;
+        }
+
         // Stepper functionality
         const steps = document.querySelectorAll('.step');
-        const applyButton = document.querySelector('.apply-button');
-
         let currentStep = 0;
 
         function updateStepper() {
@@ -139,7 +156,6 @@
             }
         }
 
-
         // Back button functionality
         document.querySelector('.back-button').addEventListener('click', () => {
             if (currentStep > 0) {
@@ -165,8 +181,11 @@
                 document.querySelector('.page-title').textContent = titles[currentStep];
                 document.querySelector('.page-subtitle').textContent = subtitles[currentStep];
                 
-                applyButton.textContent = 'APPLY NOW';
-                applyButton.style.background = '#ff6b35';
+                const applyButton = document.querySelector('.apply-button');
+                if (applyButton) {
+                    applyButton.textContent = 'APPLY NOW';
+                    applyButton.style.background = '#ff6b35';
+                }
             }
         });
 
