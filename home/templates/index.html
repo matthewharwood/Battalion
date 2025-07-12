@@ -15,6 +15,7 @@
         <h1 class="logo">Battalion</h1>
         <div class="tagline">A Battalion Of Product Designers. And Engineers.</div>
       </div>
+        
       <section class="sidebar-card">
         <h2 style="margin: 0px; padding-bottom: 16px;">How Battalion Works</h2>
         <p style="font-size: 16px;">
@@ -39,13 +40,40 @@
           <li>Compare leaderboard scores</li>
         </ol>
         <div class="event-info">
-          <p>Next Event: <span class="timer">[ 02:00:00 ]</span></p>
-          {{ components::button(label="BEGIN APPLICATION", type="",  primary=false, size="big") }}
+          <p>Next Event: <span class="timer" id="countdown"></span></p>
+          <form id="resume-form" action="/jobs" method="post">
+            <input type="hidden" name="event_id" value="{{ event_options[0].value }}">
+            {{ components::button(label="BEGIN APPLICATION", form="resume-form",  type="submit", primary=false, size="big") }}
+          </form>
         </div>
       </section>
     </div>
   </div>
   <script>
+    const eventTimestamp = {{ time_stamp }}; // Injected by Tera as UNIX timestamp
+    debugger
+    const nowPlusTwoHours = Math.floor(Date.now() / 1000) + 0.05 * 3600; // current time + 3 minutes
+    const countdownEl = document.getElementById("countdown");
+    function formatTime(seconds) {
+      const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+      const secs = String(seconds % 60).padStart(2, '0');
+      return `${hrs}:${mins}:${secs}`;
+    }
+    function updateCountdown() {
+      const now = Math.floor(Date.now() / 1000); // current UNIX timestamp in seconds
+      const remaining = nowPlusTwoHours - now;
+
+      if (remaining > 0) {
+        countdownEl.textContent = formatTime(remaining);
+      } else {
+        countdownEl.textContent = "Live Now!";
+        clearInterval(timerInterval);
+      }
+    }
+    updateCountdown();
+    const timerInterval = setInterval(updateCountdown, 1000);
+
     function openDiscordInvite() {
       window.open("https://discord.com/invite/XJ2PBd3F", "_blank");
     }

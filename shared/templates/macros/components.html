@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/button.css">
-{% macro button(label, type="submit", frontIcon="", backIcon="", primary=true, disabled=false, size="", extra_attrs="") %}
+{% macro button(label, type="submit", frontIcon="", form="",  backIcon="", primary=true, disabled=false, size="", extra_attrs="") %}
   {% if primary %}
     {% set class_name = "button primary-button" %}
   {% else %}
@@ -14,7 +14,7 @@
     {% set class_name = class_name ~ " button-big" %}
   {% endif %}
 
-  <button type="{{ type }}" class="{{ class_name }}" {{ extra_attrs | safe }} {% if disabled %}disabled{% endif %}>
+  <button type="{{ type }}" form="{{ form }}" class="{{ class_name }}" {{ extra_attrs | safe }} {% if disabled %}disabled{% endif %}>
     {% if frontIcon != "" %}
         <span class="front-arrow">{{ frontIcon | safe }}</span>
     {% endif %}

@@ -1502,6 +1502,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "home"
+version = "0.1.0"
+dependencies = [
+ "applicant",
+ "axum",
+ "chrono",
+ "serde",
+ "serde_json",
+ "shared",
+ "tera",
+]
+
+[[package]]
 name = "html5ever"
 version = "0.31.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4730,6 +4743,7 @@ dependencies = [
  "applicant",
  "axum",
  "event",
+ "home",
  "job",
  "review",
  "schemars",

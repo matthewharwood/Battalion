@@ -1,8 +1,9 @@
-use chrono::NaiveDate;
+// use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 use serde_with::{serde_as, FromInto};
 use serde_withs::ThingString;
 use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
+use chrono::{DateTime, Utc};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
@@ -23,8 +24,8 @@ pub struct Event {
     pub title: String,
     pub description: String,
     pub status: EventStatus,
-    pub start_date: NaiveDate,
-    pub end_date: NaiveDate,
+    pub start_date: DateTime<Utc>,
+    pub end_date: DateTime<Utc>,
     #[serde_as(as = "Option<FromInto<ThingString>>")]
     pub job: Option<Thing>,
 }
