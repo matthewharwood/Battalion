@@ -31,10 +31,6 @@ body::before {
 }
 
 .container-background-jobs {
-    /* background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column; */
     background-image: url("../images/Home.webp");
     background-repeat: no-repeat;
     background-size: cover;
@@ -46,71 +42,6 @@ body::before {
     justify-content: space-between;
 }
 
-/* Horizontal Stepper */
-.stepper-container {
-    background: rgba(0,0,0,0.3);
-    padding: 1rem 0;
-    border-bottom: 1px solid #1a1a1a;
-}
-
-.stepper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: #ffffff;
-    padding: 0 2rem;
-    position: relative;
-}
-
-.step {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    position: relative;
-    padding: 0 0.75rem 0.5rem 0.75rem;
-    transition: all 0.3s ease;
-}
-
-.step-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 0.75rem;
-    opacity: 0.5;
-    transition: all 0.3s ease;
-    font-size: 0.875rem;
-}
-
-.step-label {
-    font-weight: 500;
-    opacity: 0.5;
-    white-space: nowrap;
-    font-size: 0.875rem;
-}
-
-.step.active {
-    border-bottom: 2px solid #ffffff;
-}
-
-.step.active .step-number,
-.step.active .step-label {
-    opacity: 1;
-    color: #ffffff;
-}
-
-/* Arrow between steps */
-.step::after {
-    content: '→';
-    margin-left: auto;
-    opacity: 0.5;
-    font-size: 0.875rem;
-}
-
-.step:last-child::after {
-    display: none;
-}
-
 /* Main Content */
 .main-container {
     flex: 1;
@@ -120,7 +51,6 @@ body::before {
 .application-form {
     max-width: 550px;
     background: rgba(0, 0, 0, 0.7);
-    /* padding: 0 2rem 2rem 2rem; */
     border-radius: 12px;
     backdrop-filter: blur(8px);
     box-shadow: 0 0 20px rgba(0,0,0,0.6);
@@ -262,34 +192,6 @@ body::before {
 .back-button:hover {
     background: rgba(255, 255, 255, 0.1);
 }
-
-
-/* Responsive Design */
-/* @media (max-width: 768px) {
-    .stepper {
-        padding: 0 1rem;
-    }
-
-    .step {
-        padding: 0 0.5rem 0.5rem 0.5rem;
-    }
-
-    .step-label {
-        font-size: 0.7rem;
-    }
-
-    .main-container {
-        padding: 1rem;
-    }
-
-    .application-form {
-        padding: 1.5rem;
-    }
-
-    .form-fields {
-        max-height: 50vh;
-    }
-} */
 
 @media (max-width: 480px) {
     .step-label {

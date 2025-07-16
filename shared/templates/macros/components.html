@@ -25,4 +25,29 @@
   </button>
 {% endmacro %}
 
+{% macro stepper(current_step=1) %}
+<div class="stepper-container">
+  <div class="stepper">
+    {% set steps = [
+      "Select Job",
+      "Fill Application",
+      "Confirm Queue",
+      "Review and Vote",
+      "Leaderboards"
+    ] %}
+    {% for i in range(end=steps | length) %}
+      {% if i + 1 == current_step %}
+        {% set step_class = "step active" %}
+      {% else %}
+        {% set step_class = "step" %}
+      {% endif %}
+      <div class="{{ step_class }}">
+        <div class="step-number">{{ i + 1 }}:</div>
+        <div class="step-label">{{ steps[i] }}</div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endmacro %}
+
 

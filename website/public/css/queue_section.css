@@ -43,71 +43,6 @@ body::before {
     height: 100vh;
 }
 
-/* Horizontal Stepper */
-.stepper-container {
-    background: rgba(0,0,0,0.3);
-    padding: 1rem 0;
-    border-bottom: 1px solid #1a1a1a;
-}
-
-.stepper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: #ffffff;
-    padding: 0 2rem;
-    position: relative;
-}
-
-.step {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    position: relative;
-    padding: 0 0.75rem 0.5rem 0.75rem;
-    transition: all 0.3s ease;
-}
-
-.step-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 0.75rem;
-    opacity: 0.5;
-    transition: all 0.3s ease;
-    font-size: 0.875rem;
-}
-
-.step-label {
-    font-weight: 500;
-    opacity: 0.5;
-    white-space: nowrap;
-    font-size: 0.875rem;
-}
-
-.step.active {
-    border-bottom: 2px solid #ffffff;
-}
-
-.step.active .step-number,
-.step.active .step-label {
-    opacity: 1;
-    color: #ffffff;
-}
-
-/* Arrow between steps */
-.step::after {
-    content: '→';
-    margin-left: auto;
-    opacity: 0.5;
-    font-size: 0.875rem;
-}
-
-.step:last-child::after {
-    display: none;
-}
-
 /* Main Content */
 .main-container {
     display: flex;
@@ -311,25 +246,3 @@ body::before {
     width: 20px;
     height: 20px;
 }
-
-        /* @media (max-width: 768px) {
-            .container-background-jobs {
-                padding: 12px 16px;
-            }
-            
-            .queue-card {
-                padding: 2rem 1.5rem;
-            }
-            
-            .page-title {
-                font-size: 1.5rem;
-            }
-            
-            .stepper {
-                padding: 0 1rem;
-            }
-            
-            .step {
-                padding: 0 0.5rem 0.5rem 0.5rem;
-            }
-        } */

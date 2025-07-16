@@ -49,8 +49,7 @@
     </div>
   </div>
   <script>
-    const eventTimestamp = {{ time_stamp }}; // Injected by Tera as UNIX timestamp
-    debugger
+    // const eventTimestamp = {{ time_stamp }}; // Injected by Tera as UNIX timestamp , uncomment in when you get the BE working
     const nowPlusTwoHours = Math.floor(Date.now() / 1000) + 0.05 * 3600; // current time + 3 minutes
     const countdownEl = document.getElementById("countdown");
     function formatTime(seconds) {

@@ -8,80 +8,48 @@
     <title>Job Application Portal</title>
     <link rel="stylesheet" href="/css/job_section.css" />
     <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/stepper.css">
 </head>
 <body>
     <!-- Horizontal Stepper -->
     <div class="container-background-jobs">
-        <div style="box-sizing: border-box; padding: 16px 24px; background: transparent;">
-        <div class="stepper-container">
-            <div class="stepper">
-                <div class="step active">
-                    <div class="step-number">1:</div>
-                    <div class="step-label">Select Job</div>
-                </div>
-                <div class="step">
-                    <div class="step-number">2:</div>
-                    <div class="step-label">Fill Application</div>
-                </div>
-                <div class="step">
-                    <div class="step-number">3:</div>
-                    <div class="step-label">Confirm Queue</div>
-                </div>
-                <div class="step">
-                    <div class="step-number">4:</div>
-                    <div class="step-label">Review and Vote</div>
-                </div>
-                <div class="step">
-                    <div class="step-number">5:</div>
-                    <div class="step-label">Leaderboards</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-container">
-            <div class="left-panel">
-                <div class="left-panel-child">
-                    <div class="back-button" role="button" tabindex="0">
-                        {{ icons::back_icon() | safe }}
-                    </div>
-                    <h1 class="page-title">Select Your Session</h1>
-                </div>
-                <p class="page-subtitle">
-                    Select a session to apply for. Be mindful of your session's time zone to assure you can attend.
-                </p>
-
-                <div class="job-list">
-                    {% for job in jobs %}
-                        <div class="job-card{% if loop.index0 == 0 %} selected{% endif %}">
-                            <div class="job-content">
-                                <h3 class="job-title">{{ job.title }}</h3>
-                                <div class="job-details">
-                                    <div class="job-meta">{{ job.level }}</div>
-                                    <div class="job-meta">See Job Posting</div>
-                                    <div class="job-meta">{{ job.team }} Applicants</div>
-                                </div>
-                            </div>
-                            <div class="company-icon">🍎</div>
+        <div class="container-wrapper">
+            {{ components::stepper(current_step=1) }}
+            <!-- Main Content -->
+            <div class="main-container">
+                <div class="left-panel">
+                    <div class="left-panel-child">
+                        <div class="back-button" role="button" tabindex="0">
+                            {{ icons::back_icon() | safe }}
                         </div>
-                    {% endfor %}
-            </div>
+                        <h1 class="page-title">Select Your Session</h1>
+                    </div>
+                    <p class="page-subtitle">
+                        Select a session to apply for. Be mindful of your session's time zone to assure you can attend.
+                    </p>
 
-            <div class="job-footer" style="display: flex; justify-content: center;">
-                <!-- <div>
-                    {{ components::button(
-                    label="APPLY NOW",
-                    type="button",
-                    primary=true,
-                    size="big",
-                    extra_attrs='onclick="applyButtonClick()"'
-                    ) }}
-                </div> -->
-                <form id="resume-form" action="/apply" method="get"></form>
-                    {{ components::button(label="APPLY NOW", form="resume-form", type="submit", primary=true, size="big") }}
-                </form>
+                    <div class="job-list">
+                        {% for job in jobs %}
+                            <div class="job-card{% if loop.index0 == 0 %} selected{% endif %}">
+                                <div class="job-content">
+                                    <h3 class="job-title">{{ job.title }}</h3>
+                                    <div class="job-details">
+                                        <div class="job-meta">{{ job.level }}</div>
+                                        <div class="job-meta">See Job Posting</div>
+                                        <div class="job-meta">{{ job.team }} Applicants</div>
+                                    </div>
+                                </div>
+                                <div class="company-icon">🍎</div>
+                            </div>
+                        {% endfor %}
+                </div>
+
+                <div class="job-footer">
+                    <form id="resume-form" action="/apply" method="get"></form>
+                        {{ components::button(label="APPLY NOW", form="resume-form", type="submit", primary=true, size="big") }}
+                    </form>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 

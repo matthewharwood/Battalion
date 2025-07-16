@@ -1,0 +1,78 @@
+@import url('./variables.css');
+
+.stepper-container {
+    font-size: var(--text-xs);
+    background: rgba(0,0,0,0.2);
+    padding: 1rem 0;
+    border-bottom: 0.0625rem solid var(--border-background-black);
+}
+
+.stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--secondary);
+    padding: 0 1.5rem;
+    position: relative;
+}
+
+.step {
+    flex: 1 1 20%;
+    max-width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    z-index: 2;
+    padding: 0 var(--space-3) 0.5rem var(--space-3);
+    transition: all 0.3s ease;
+}
+
+.step:last-child {
+    margin-right: var(--space-0);
+}
+
+.step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: var(--space-3);
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.step.active {
+    border-bottom: 0.0625rem solid var(--secondary);
+}
+
+.step.active .step-number {
+    opacity: 1;
+    color: var(--secondary);
+}
+
+.step-label {
+    font-weight: 500;
+    opacity: 0.5;
+    white-space: nowrap;
+}
+
+.step.active .step-label {
+    opacity: 1;
+}
+
+.step::after {
+    content: '';
+    display: inline-block;
+    width: 0.8125rem;
+    height: 0.6875rem;
+    background-image: url('../images/arrow-right.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin-left: auto;
+    opacity: 0.5;
+}
+
+.step:last-child::after {
+    display: none;
+}

@@ -10,35 +10,13 @@
     <link rel="stylesheet" href="/css/queue_section.css" />
     <link rel="stylesheet" href="/css/forms.css" />
     <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/stepper.css">
 </head>
 
 <body>
     <div class="container-background-jobs">
         <div style="box-sizing: border-box; padding: 16px 24px; background: transparent; height: 100%;">
-            <div class="stepper-container">
-                <div class="stepper">
-                    <div class="step">
-                        <div class="step-number">1:</div>
-                        <div class="step-label">Select Job</div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">2:</div>
-                        <div class="step-label">Fill Application</div>
-                    </div>
-                    <div class="step active">
-                        <div class="step-number">3:</div>
-                        <div class="step-label">Confirm Queue</div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">4:</div>
-                        <div class="step-label">Review and Vote</div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">5:</div>
-                        <div class="step-label">Leaderboards</div>
-                    </div>
-                </div>
-            </div>
+            {{ components::stepper(current_step=3) }}
             
             <div class="main-container">
                 <div class="queue-card">

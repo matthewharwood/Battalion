@@ -7,9 +7,7 @@ use axum::{
 };
 use applicant::AppState;
 use crate::models::Job;
-use tera::{Context, Tera};
-use serde_json::json;
-use surrealdb::sql::Value;
+use tera::{Context};
 
 pub(crate) async fn show_form(State(state): State<Arc<AppState>>) -> Result<impl IntoResponse, (StatusCode, &'static str)> {
     let tera = &state.views;

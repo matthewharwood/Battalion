@@ -23,9 +23,6 @@ body::before {
     left: var(--space-0);
     right: var(--space-0);
     bottom: var(--space-0);
-    background-image: 
-        radial-gradient(circle at 25% 25%, var(--border-background-black) 0.0625rem, transparent 0.0625rem),
-        radial-gradient(circle at 75% 75%, rgba(255,255,255,0.05) 0.0625rem, transparent 0.0625rem);
     background-size: 2.5rem 2.5rem;
     z-index: -1;
 }
@@ -40,97 +37,6 @@ body::before {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-/* Horizontal Stepper */
-.stepper-container {
-    font-size: var(--text-xs);
-    background: rgba(0,0,0,0.2);
-    padding: 1rem 0;
-    border-bottom: 0.0625rem solid var(--border-background-black);
-}
-
-.stepper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: var(--secondary);
-    padding: 0 1.5rem;
-    position: relative;
-}
-
-.step {
-    flex: 1 1 20%;
-    max-width: 20%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    position: relative;
-    z-index: 2;
-    padding: 0 var(--space-3) 0.5rem var(--space-3);
-    transition: all 0.3s ease;
-}
-
-.step:last-child {
-    margin-right: var(--space-0);
-}
-
-.step-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: var(--space-3);
-    opacity: 0.5;
-    transition: all 0.3s ease;
-}
-
-.step.active {
-    border-bottom: 0.0625rem solid var(--secondary);
-}
-
-.step.active .step-number {
-    opacity: 1;
-    color: var(--secondary);
-}
-
-.step.completed {
-
-}
-
-.step.completed .step-number {
-
-}
-
-.step-label {
-    font-weight: 500;
-    opacity: 0.5;
-    white-space: nowrap;
-}
-
-.step.active .step-label {
-    opacity: 1;
-}
-
-.step.completed .step-label {
-
-}
-
-/* Arrow between steps */
-.step::after {
-    content: '';
-    display: inline-block;
-    width: 0.8125rem;
-    height: 0.6875rem;
-    background-image: url('../images/arrow-right.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    margin-left: auto;
-    opacity: 0.5;
-}
-
-.step:last-child::after {
-    display: none;
 }
 
 /* Main Content */
@@ -254,7 +160,7 @@ body::before {
 }
 
 .apply-button:hover {
-    background: #e55a2e;
+    background: var(--color-orange);
     transform: translateY(-0.125rem);
     box-shadow: 0 0.5rem 1.5625rem rgba(255,107,53,0.3);
 }
@@ -332,4 +238,10 @@ body::before {
 
 .back-button:hover {
     opacity: 1;
+}
+
+.container-wrapper {
+    box-sizing: border-box; 
+    padding: 1rem 1.5rem; 
+    background: transparent;
 }
