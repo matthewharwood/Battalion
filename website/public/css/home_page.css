@@ -92,7 +92,7 @@ body, html {
 }
 
 .timer {
-  color: #f5c842;
+  color: var(--color-light-yellow);
   font-weight: bold;
 }
 

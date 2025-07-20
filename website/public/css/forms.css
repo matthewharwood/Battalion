@@ -1,35 +1,39 @@
+@import './variables.css';
 .field {
     display: flex;
-    flex-direction: column;
-    margin-bottom: 48px;
+    flex-direction: column; 
+    margin-bottom: var(--space-12);
 }
 
 .field label {
-    margin-bottom: 8px;
+    margin-bottom: var(--space-2);
     font-weight: 400;
-    color: #888888;
-    font-size: 16px;
-    line-height: 24px;
+    color: var(--color-gray-light);
+    font-size: var(--text-base);
+    line-height: var(--text-xl);
+    font-family: var(--font-sans);
 }
 
 .field input,
 .field textarea,
 .form-select {
     width: 100%;
-    padding: 0.75rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    color: #ffffff;
-    font-size: 1rem;
+    padding: var(--space-3);
+    background: var(--color-primary-bg);
+    border: 1px solid var(--border-background-black);
+    border-radius: var(--rounded-md);
+    color: var(--color-white);
+    font-size: var(--text-base);
     transition: all 0.3s ease;
+    font-family: var(--font-sans);
+    box-shadow: var(--form-box-shadow);
 }
 
 .field input:focus,
 .field textarea:focus,
 .form-select:focus {
     outline: none;
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: var(--color-border-light);
     background: rgba(255, 255, 255, 0.08);
 }
 
@@ -47,8 +51,8 @@
     cursor: pointer;
     appearance: none;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 0.5rem center;
+    background-position: right var(--space-2) center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
-    padding-right: 2.5rem;
+    padding-right: var(--space-8);
 }
