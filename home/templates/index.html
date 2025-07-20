@@ -17,8 +17,8 @@
       </div>
         
       <section class="sidebar-card">
-        <h2 style="margin: 0px; padding-bottom: 16px;">How Battalion Works</h2>
-        <p style="font-size: 16px;">
+        <h2>How Battalion Works</h2>
+        <p>
           Battalion is an ATS platform built to provide applicants with actionable feedback from industry professionals.
           Feedback is done in 2-minute sessions, and a total of 20 applicants are selected from this process.
         </p>
@@ -41,9 +41,19 @@
         </ol>
         <div class="event-info">
           <p>Next Event: <span class="timer" id="countdown"></span></p>
-            <form id="resume-form" action="/jobs" method="get"></form>
-              {{ components::button(label="BEGIN APPLICATION", form="resume-form", type="submit", primary=false, size="big") }}
-            </form>
+            <!-- <form id="resume-form" action="/jobs" method="get"> -->
+            <input 
+              type="hidden" 
+              id="event-id-hidden" 
+              name="event_id" 
+              value="{% if event_options and event_options[0] %}{{ event_options[0].value }}{% endif %}" />
+            {{ components::button(label="BEGIN APPLICATION", 
+              form="resume-form", 
+              type="submit", 
+              primary=false, 
+              size="big",
+              extra_attrs='onclick="beginApplication()"'
+            ) }}
         </div>
       </section>
     </div>
@@ -74,6 +84,10 @@
 
     function openDiscordInvite() {
       window.open("https://discord.com/invite/XJ2PBd3F", "_blank");
+    }
+    function beginApplication() {
+      const eventId = document.getElementById("event-id-hidden").value;
+      window.location.href = `/jobs`;
     }
   </script>
 </body>

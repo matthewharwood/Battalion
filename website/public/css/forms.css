@@ -11,7 +11,7 @@
     color: var(--color-gray-light);
     font-size: var(--text-base);
     line-height: var(--text-xl);
-    font-family: var(--font-sans);
+    font-family: var(--font-urban);
 }
 
 .field input,
@@ -25,7 +25,7 @@
     color: var(--color-white);
     font-size: var(--text-base);
     transition: all 0.3s ease;
-    font-family: var(--font-sans);
+    font-family: var(--font-urban);
     box-shadow: var(--form-box-shadow);
 }
 

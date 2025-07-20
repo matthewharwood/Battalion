@@ -44,6 +44,13 @@ body::before {
     height: 100vh;
 }
 
+.container-child-queue {
+    box-sizing: border-box; 
+    padding: var(--space-4) var(--space-6); 
+    background: transparent; 
+    height: 100%;
+}
+
 /* Main Content */
 .main-container {
     display: flex;
@@ -181,6 +188,10 @@ body::before {
     gap: var(--space-4);
     margin-bottom: var(--space-4);
     width: 100%;
+}
+
+.action-buttons-child {
+    width: 50%;
 }
 
 .calendar-button {

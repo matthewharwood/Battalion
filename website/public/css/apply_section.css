@@ -42,6 +42,12 @@ body::before {
     justify-content: space-between;
 }
 
+.container-child {
+    box-sizing: border-box; 
+    padding: var(--space-4) var(--space-6); 
+    background: transparent;
+}
+
 /* Main Content */
 .main-container {
     flex: 1;
@@ -86,6 +92,12 @@ body::before {
 
 .job-meta-details {
     margin-bottom: 2rem;
+    margin-left: 3.75rem;
+}
+
+.application-fields {
+   overflow: scroll; 
+   margin-left: 60px;
 }
 
 .job-title {
@@ -191,6 +203,10 @@ body::before {
 
 .back-button:hover {
     background: rgba(255, 255, 255, 0.1);
+}
+
+.application-submit {
+    margin-bottom: var(--space-7);  
 }
 
 @media (max-width: 480px) {

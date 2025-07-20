@@ -54,7 +54,8 @@ body, html {
 
 .sidebar-card h2 {
   font-size: var(--text-2xl);
-  margin-bottom: var(--space-4);
+  margin: 0px;
+  padding-bottom: var(--space-4);
 }
 
 .sidebar-card p {

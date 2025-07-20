@@ -26,6 +26,7 @@ pub async fn index(State(state): State<Arc<AppState>>) -> Result<Html<String>, (
 
     // Step 2: Create Tera context and insert event options
     let mut ctx = Context::new();
+    eprintln!("select_opts{:?}", select_opts);
     ctx.insert("event_options", &select_opts);
 
     if let Some(Value::Object(first)) = select_opts.get(0) {
