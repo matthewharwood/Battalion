@@ -8,6 +8,7 @@ members = [
     "vote",
     "home",
     "queue",
+    "leaderboard",
     "shared",
     "serde_withs",
 ]

@@ -1,0 +1,98 @@
+{% import "macros/components.html" as components %}
+{% import "macros/icons.html" as icons %}
+{% import "macros/forms.html" as forms %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboards - Job Application Portal</title>
+    <link rel="stylesheet" href="/css/variables.css" />
+    <link rel="stylesheet" href="/css/leaderboard.css">
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/stepper.css">
+    <link rel="stylesheet" href="/css/grid.css">
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body>
+    <div class="background-pattern">
+        <div class="leaderboard-container">
+            {{ components::stepper(current_step=5) }}
+            <div style="display: flex; margin: 16px 0px; justify-content: center;">
+                <div class="leaderboard-content">
+                    
+                    <div class="page-header">
+                        <h1 class="page-title">Leaderboards</h1>
+                        <p class="page-description">
+                            See how you stack up
+                        </p>
+                        <div class="job-info">
+                            {{ forms::select_input_ref(
+                                name="job",
+                                label="",
+                                options=job_options,
+                                placeholder="No Jobs Available",
+                            )}}
+                        </div>
+                    </div>
+                    
+                    <div class="search-section">
+                        <div class="search-container">
+                            <div class="search-icon">🔍</div>
+                            <input type="text" class="search-input" placeholder="Enter a Name">
+                        </div>
+                    </div>
+                    
+                    <div class="table-header">
+                        <span>Name</span>
+                        <span>Yay</span>
+                        <span>Nay</span>
+                        <span>Application Link</span>
+                    </div>
+                    
+                    <div class="no-results">
+                        <h2>This Session Hasn't Been Ranked Yet.</h2>
+                        
+                        <div class="countdown-section">
+                            <div class="countdown-label">Event Begins:</div>
+                            <div class="countdown-timer">[ 02:00:000 ]</div>
+                        </div>
+                        
+                        <button class="return-button" onclick="window.location.href='/'">
+                            RETURN HOME
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add keyboard navigation for back button
+        document.querySelector('.back-button').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                history.back();
+            }
+        });
+
+        // Countdown timer functionality
+        function updateCountdown() {
+            const countdownElement = document.querySelector('.countdown-timer');
+            if (countdownElement) {
+                const currentTime = countdownElement.textContent;
+                // This would normally connect to a real countdown
+                // For now, it displays the static time from the screenshot
+            }
+        }
+
+        // Search functionality
+        document.querySelector('.search-input').addEventListener('input', function(e) {
+            // This would filter results if there were any leaderboard entries
+            console.log('Search:', e.target.value);
+        });
+    </script>
+</body>
+</html>

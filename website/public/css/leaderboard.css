@@ -1,0 +1,181 @@
+@import url('./variables.css');
+
+.leaderboard-container {
+    min-height: 100vh;
+    color: var(--color-white);
+    position: relative;
+}
+
+.leaderboard-content {
+    width: 900px;
+    box-sizing: border-box;
+    padding: 1rem;
+    /* margin: 0 auto; */
+    background: var(--color-primary-bg);
+}
+
+.page-header {
+    text-align: left;
+    /* margin: 2rem 0; */
+}
+
+.page-title {
+    font-family: 'monument_extended', sans-serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+    /* margin-bottom: 1rem; */
+    margin: 0px !important;
+
+}
+
+.page-description {
+    font-family: 'pp_writer', serif;
+    font-size: 1.1rem;
+    color: var(--color-gray-light);
+    max-width: 400px;
+    margin-bottom: 2rem;
+}
+
+.job-info {
+    font-family: 'pp_writer', serif;
+    color: var(--color-gray-light);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.applicant-count {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-family: 'pp_writer', serif;
+    color: var(--color-gray-light);
+    font-size: 0.9rem;
+}
+
+.search-section {
+    margin: 2rem 0;
+}
+
+.search-container {
+    position: relative;
+    max-width: 400px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    background: rgba(21, 21, 21, 0.8);
+    border: 1px solid var(--color-gray);
+    border-radius: 4px;
+    color: var(--color-white);
+    font-family: 'pp_writer', serif;
+}
+
+.search-input::placeholder {
+    color: var(--color-gray-light);
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-gray-light);
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--color-gray);
+    margin: 2rem 0 1rem 0;
+}
+
+.table-header span {
+    font-family: 'pp_writer', serif;
+    color: var(--color-gray-light);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.no-results h2 {
+    font-family: 'monument_extended', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-white);
+}
+
+.countdown-section {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.countdown-label {
+    font-family: 'pp_writer', serif;
+    color: var(--color-gray-light);
+    margin-bottom: 1rem;
+}
+
+.countdown-timer {
+    font-family: 'monument_extended', monospace;
+    font-size: 1.5rem;
+    color: var(--color-white);
+    background: var(--color-gray-dark);
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    display: inline-block;
+    letter-spacing: 0.1em;
+}
+
+.return-button {
+    background: var(--color-gray-dark);
+    border: 1px solid var(--color-gray);
+    color: var(--color-white);
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    font-family: 'pp_writer', serif;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 2rem;
+}
+
+.return-button:hover {
+    background: var(--color-gray);
+}
+
+.back-button {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    z-index: 100;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-gray-dark);
+    transition: background-color 0.2s;
+}
+
+.back-button:hover {
+    background: var(--color-gray);
+}
+
+/* Background pattern overlay */
+.background-pattern {
+    background-image: url("../images/Queue.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
