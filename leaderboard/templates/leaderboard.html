@@ -61,9 +61,15 @@
                                 <div class="countdown-timer">[ 02:00:000 ]</div>
                             </div>
                             
-                            <button class="return-button" onclick="window.location.href='/'">
-                                RETURN HOME
-                            </button>
+                            <div class="button-wrapper">
+                                {{ components::button(label="RETURN HOME", 
+                                    form="resume-form", 
+                                    type="submit", 
+                                    primary=true, 
+                                    size="big",
+                                    extra_attrs='onclick="redirectHomepage()"'
+                                ) }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -79,6 +85,11 @@
                 history.back();
             }
         });
+
+        function redirectHomepage() {
+            window.location.href = "/";
+            return
+        }
 
         // Countdown timer functionality
         function updateCountdown() {

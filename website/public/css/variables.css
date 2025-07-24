@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&display=swap');
+
 @font-face {
     font-display: swap;
     font-family: 'monument_extendedblack';
@@ -19,11 +23,24 @@
 
 :root {
     /* Font Families */
-    --font-urban: 'Urbanist', 'sans-serif';
+    --font-urban: 'Urbanist', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    
+    /* Typography Variables for different use cases */
+    --font-h1: var(--font-urban);
+    --font-h2: var(--font-urban);
+    --font-h3: var(--font-urban);
+    --font-h5: var(--font-inter);
+    --font-h6: var(--font-inter);
+    --font-body: var(--font-urban);
+    --font-button: var(--font-urban);
+    --font-number: var(--font-mono);
+    
+    /* Legacy fonts */
     --font-sans: 'monument_extendedblack', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     --font-serif: 'pp_writerregular', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
     --font-narrow: 'pp_monument_narrowblack', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
     /* Base Colors */
     --color-black: #000000;
@@ -41,6 +58,7 @@
     --color-yellow: #FFD084;
     --color-light-yellow: #f5c842;
     --color-orange: #e55a2e;
+    --color-button-primary: #212121;
 
     /* Opacity Values */
     --opacity-80: 0.8;
@@ -91,6 +109,16 @@
     --text-2xl: 1.5rem;
     --text-3xl: 1.875rem;
     --text-4xl: 2.25rem;
+    
+    /* Typography Scale */
+    --h1-size: 4rem;     /* 64px */
+    --h2-size: 1.5rem;   /* 24px */
+    --h3-size: 1.125rem; /* 18px */
+    --h5-size: 0.875rem; /* 14px */
+    --h6-size: 0.75rem;  /* 12px */
+    --body-size: 1rem;   /* 16px */
+    --button-size: 1rem; /* 16px */
+    --number-size: 1.125rem; /* 18px */
 
     /* Border Radius */
     --rounded-sm: 0.125rem;

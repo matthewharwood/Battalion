@@ -1,6 +1,7 @@
 @import url('./variables.css');
 
 .stepper-container {
+    font-family: var(--font-urban);
     font-size: var(--text-xs);
     background: rgba(21, 21, 21, 0.8); 
     backdrop-filter: blur(0.625rem);
@@ -53,6 +54,7 @@
 }
 
 .step-label {
+    font-family: var(--font-urban);
     font-weight: 500;
     opacity: 0.5;
     white-space: nowrap;

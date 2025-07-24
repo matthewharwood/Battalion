@@ -9,9 +9,9 @@
     margin-bottom: var(--space-2);
     font-weight: 400;
     color: var(--color-gray-light);
-    font-size: var(--text-base);
+    font-size: var(--body-size);
     line-height: var(--text-xl);
-    font-family: var(--font-urban);
+    font-family: var(--font-body);
 }
 
 .field input,
@@ -23,9 +23,9 @@
     border: 1px solid var(--border-background-black);
     border-radius: var(--rounded-md);
     color: var(--color-white);
-    font-size: var(--text-base);
+    font-size: var(--body-size);
     transition: all 0.3s ease;
-    font-family: var(--font-urban);
+    font-family: var(--font-body);
     box-shadow: var(--form-box-shadow);
 }
 

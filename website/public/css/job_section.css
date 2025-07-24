@@ -7,7 +7,8 @@
 }
 
 body {
-    font-family: 'Urbanist', 'sans-serif';
+    font-family: var(--font-urban);
+    font-size: var(--body-size);
     background: var(--background-black);
     min-height: 100vh;
     color: var(--secondary);
@@ -68,13 +69,15 @@ body::before {
 }
 
 .page-title {
-    font-size: 1.75rem;
+    font-family: var(--font-urban);
+    font-size: var(--h2-size);
     font-weight: 400;
     margin-bottom: 1rem;
     margin-left: 3.625rem;
 }
 
 .page-subtitle {
+    font-family: var(--font-urban);
     font-size: var(--text-sm);
     opacity: 0.7;
     line-height: 1.5;
@@ -144,7 +147,8 @@ body::before {
 }
 
 .job-title {
-    font-size: 1.25rem;
+    font-family: var(--font-urban);
+    font-size: var(--h3-size);
     font-weight: 600;
     padding-left: 1.875rem;
 }
@@ -179,7 +183,8 @@ body::before {
     border: none;
     padding: 1rem 2.5rem;
     border-radius: 0.5rem;
-    font-size: 1rem;
+    font-family: var(--font-urban);
+    font-size: var(--button-size);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;

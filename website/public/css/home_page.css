@@ -3,7 +3,8 @@
 body, html {
   margin: 0;
   padding: 0;
-  font-family: 'Urbanist', sans-serif;
+  font-family: var(--font-urban);
+  font-size: var(--body-size);
   color: var(--secondary);
   overflow: hidden;
 }
@@ -53,22 +54,42 @@ body, html {
 
 .sidebar-card {
   background-color: var(--color-primary-bg);
-  padding: var(--space-8);
-  width: 420px;
-  max-width: 100%;
+  padding: var(--space-8) 0px;
+  width: 40%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  backdrop-filter: blur(0.625rem);
+}
+
+.sidebar-child-card-1 {
+  padding: 0 var(--space-6) 2rem var(--space-6);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-child-card-2 {
+  padding: 0 var(--space-6) 2rem var(--space-6);
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-card .button {
+  width: 50%;
 }
 
 .sidebar-card h2 {
-  font-size: var(--text-2xl);
+  font-family: var(--font-urban);
+  font-size: var(--h2-size);
   margin: 0px;
   padding-bottom: var(--space-4);
 }
 
 .sidebar-card p {
-  font-size: var(--text-base);
+  font-family: var(--font-urban);
+  font-size: var(--body-size);
   line-height: 1.5;
   margin-bottom: var(--space-4);
 }
@@ -79,6 +100,8 @@ body, html {
   border: none;
   padding: var(--space-3) var(--space-4);
   border-radius: var(--rounded-lg);
+  font-family: var(--font-urban);
+  font-size: var(--button-size);
   font-weight: bold;
   margin-bottom: var(--space-6);
   cursor: pointer;
@@ -89,6 +112,7 @@ body, html {
   list-style: decimal inside;
   margin-top: var(--space-8);
   margin-bottom: var(--space-6);
+  padding: 0px;
 }
 
 .steps li {
@@ -99,6 +123,15 @@ body, html {
 .event-info {
   text-align: center;
   margin-top: auto;
+}
+
+.event-info .button {
+  /* width: 242px; */
+
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  width: 50%;
 }
 
 .timer {
@@ -112,6 +145,8 @@ body, html {
   padding: var(--space-3) var(--space-5);
   border: none;
   border-radius: var(--rounded-lg);
+  font-family: var(--font-urban);
+  font-size: var(--button-size);
   font-weight: bold;
   cursor: pointer;
   width: 100%;

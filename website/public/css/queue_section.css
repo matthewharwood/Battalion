@@ -8,7 +8,8 @@
 }
 
 body {
-    font-family: 'Urbanist', sans-serif;
+    font-family: var(--font-urban);
+    font-size: var(--body-size);
     background: #0a0a0a;
     min-height: 100vh;
     color: var(--color-white);
@@ -127,7 +128,8 @@ body::before {
 }
 
 .page-title {
-    font-size: var(--text-2xl);
+    font-family: var(--font-urban);
+    font-size: var(--h2-size);
     font-weight: 500;
     color: var(--color-white);
     margin: 0;
@@ -178,7 +180,7 @@ body::before {
     border-radius: var(--rounded-lg);
     padding: var(--space-4);
     font-family: var(--font-mono);
-    font-size: var(--text-xl);
+    font-size: var(--number-size);
     font-weight: 600;
     color: var(--color-yellow);
     text-align: center;
@@ -203,11 +205,11 @@ body::before {
     border-radius: var(--rounded-lg);
     padding: var(--space-4);
     color: var(--color-white);
-    font-size: var(--text-base);
+    font-family: var(--font-urban);
+    font-size: var(--button-size);
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: var(--font-urban);
 }
 
 .calendar-button:hover {
