@@ -13,41 +13,49 @@
 <body>
     <!-- Horizontal Stepper -->
     <div class="container-background-jobs">
-        <div class="container-wrapper">
-            {{ components::stepper(current_step=1) }}
-            <!-- Main Content -->
-            <div class="main-container">
-                <div class="left-panel">
-                    <div class="left-panel-child">
-                        <div class="back-button" role="button" tabindex="0" onclick="history.back()">
-                            {{ icons::back_icon() | safe }}
-                        </div>
-                        <h1 class="page-title">Select Your Session</h1>
-                    </div>
-                    <p class="page-subtitle">
-                        Select a session to apply for. Be mindful of your session's time zone to assure you can attend.
-                    </p>
-
-                    <div class="job-list">
-                        {% for job in jobs %}
-                            <div class="job-card{% if loop.index0 == 0 %} selected{% endif %}">
-                                <div class="job-content">
-                                    <h3 class="job-title">{{ job.title }}</h3>
-                                    <div class="job-details">
-                                        <div class="job-meta">{{ job.level }}</div>
-                                        <div class="job-meta">See Job Posting</div>
-                                        <div class="job-meta">{{ job.team }} Applicants</div>
-                                    </div>
+        <div class="grid-container">
+            <div class="container-wrapper">
+                {{ components::stepper(current_step=1) }}
+                <!-- Main Content -->
+                <div class="main-container">
+                    <div class="left-panel">
+                        <div class="left-panel-wrapper">
+                            <div class="left-panel-child">
+                                <div class="back-button" role="button" tabindex="0" onclick="history.back()">
+                                    {{ icons::back_icon() | safe }}
                                 </div>
-                                <div class="company-icon">🍎</div>
+                                <h1 class="page-title">Select Your Session</h1>
                             </div>
-                        {% endfor %}
-                </div>
+                            <p class="page-subtitle">
+                                Select a session to apply for. Be mindful of your session's time zone to assure you can attend.
+                            </p>
+                        </div>
 
-                <div class="job-footer">
-                    <form id="resume-form" action="/apply" method="get"></form>
-                        {{ components::button(label="APPLY NOW", form="resume-form", type="submit", primary=true, size="big") }}
-                    </form>
+                        <div class="job-list-wrapper">
+                            <div class="job-list">
+                                {% for job in jobs %}
+                                    <div class="job-card{% if loop.index0 == 0 %} selected{% endif %}">
+                                        <div class="job-content">
+                                            <h3 class="job-title">{{ job.title }}</h3>
+                                            <div class="job-details">
+                                                <div class="job-meta">{{ job.level }}</div>
+                                                <div class="job-meta">See Job Posting</div>
+                                                <div class="job-meta">{{ job.team }} Applicants</div>
+                                            </div>
+                                        </div>
+                                        <div class="company-icon">🍎</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="job-footer">
+                                <form id="resume-form" action="/apply" method="get"></form>
+                                    <div style="width: 50%">
+                                        {{ components::button(label="APPLY NOW", form="resume-form", type="submit", primary=true, size="big") }}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>

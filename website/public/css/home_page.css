@@ -14,10 +14,16 @@ body, html {
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
-  padding: var(--space-8);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100vh;
+}
+
+.grid-container {
+  background-image: url("../images/grid.svg");
+  background-repeat: repeat;
+  background-size: auto;
 }
 
 .logo-header {
@@ -39,12 +45,15 @@ body, html {
   align-items: stretch;
   gap: var(--space-8);
   height: calc(100vh - var(--space-8));
+  box-sizing: border-box;
+  padding-top: 44px;
+  padding-left: 64px;
+  padding-right: 78px;
 }
 
 .sidebar-card {
   background-color: var(--color-primary-bg);
   padding: var(--space-8);
-  border-radius: var(--rounded-2xl);
   width: 420px;
   max-width: 100%;
   display: flex;

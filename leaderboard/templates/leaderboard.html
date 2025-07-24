@@ -17,52 +17,54 @@
 </head>
 
 <body>
-    <div class="background-pattern">
-        <div class="leaderboard-container">
-            {{ components::stepper(current_step=5) }}
-            <div style="display: flex; margin: 16px 0px; justify-content: center;">
-                <div class="leaderboard-content">
-                    
-                    <div class="page-header">
-                        <h1 class="page-title">Leaderboards</h1>
-                        <p class="page-description">
-                            See how you stack up
-                        </p>
-                        <div class="job-info">
-                            {{ forms::select_input_ref(
-                                name="job",
-                                label="",
-                                options=job_options,
-                                placeholder="No Jobs Available",
-                            )}}
-                        </div>
-                    </div>
-                    
-                    <div class="search-section">
-                        <div class="search-container">
-                            <div class="search-icon">🔍</div>
-                            <input type="text" class="search-input" placeholder="Enter a Name">
-                        </div>
-                    </div>
-                    
-                    <div class="table-header">
-                        <span>Name</span>
-                        <span>Yay</span>
-                        <span>Nay</span>
-                        <span>Application Link</span>
-                    </div>
-                    
-                    <div class="no-results">
-                        <h2>This Session Hasn't Been Ranked Yet.</h2>
+    <div class="background-pattern"> 
+        <div class="grid-container">
+            <div class="leaderboard-container">
+                {{ components::stepper(current_step=5) }}
+                <div style="display: flex; margin: 16px 0px; justify-content: center;">
+                    <div class="leaderboard-content">
                         
-                        <div class="countdown-section">
-                            <div class="countdown-label">Event Begins:</div>
-                            <div class="countdown-timer">[ 02:00:000 ]</div>
+                        <div class="page-header">
+                            <h1 class="page-title">Leaderboards</h1>
+                            <p class="page-description">
+                                See how you stack up
+                            </p>
+                            <div class="job-info">
+                                {{ forms::select_input_ref(
+                                    name="job",
+                                    label="",
+                                    options=job_options,
+                                    placeholder="No Jobs Available",
+                                )}}
+                            </div>
                         </div>
                         
-                        <button class="return-button" onclick="window.location.href='/'">
-                            RETURN HOME
-                        </button>
+                        <div class="search-section">
+                            <div class="search-container">
+                                <div class="search-icon">🔍</div>
+                                <input type="text" class="search-input" placeholder="Enter a Name">
+                            </div>
+                        </div>
+                        
+                        <div class="table-header">
+                            <span>Name</span>
+                            <span>Yay</span>
+                            <span>Nay</span>
+                            <span>Application Link</span>
+                        </div>
+                        
+                        <div class="no-results">
+                            <h2>This Session Hasn't Been Ranked Yet.</h2>
+                            
+                            <div class="countdown-section">
+                                <div class="countdown-label">Event Begins:</div>
+                                <div class="countdown-timer">[ 02:00:000 ]</div>
+                            </div>
+                            
+                            <button class="return-button" onclick="window.location.href='/'">
+                                RETURN HOME
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

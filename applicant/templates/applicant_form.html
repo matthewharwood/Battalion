@@ -15,89 +15,92 @@
 
 <body>
     <div class="container-background-jobs">
-        <div class="container-child">
-            {{ components::stepper(current_step=2) }}
+        <div class="grid-container">
+            <div class="container-child">
+                {{ components::stepper(current_step=2) }}
 
-            <div class="main-container">
-                <div class="application-form">
-                    <div class="left-panel-child">
-                        <div class="back-button" role="button" tabindex="0" onclick="history.back()">
-                            {{ icons::back_icon() | safe }}
-                        </div>
-                        <h1 class="page-title">Application Page</h1>
-                    </div>
-
-                     <form id="resume-form" class="form-section" action="/apply" method="post">
-                        <div class="job-meta-details">
-                            <p class="job-title">Software Eng II @Uber - Code Review</p>
-                            <p class="job-date">June 23rd, 2025</p>
-                            {{ forms::select_input_ref(
-                                name="event",
-                                label="",
-                                options=event_options,
-                                placeholder="No Events Available",
-                            )}}
-                        </div>
-                        <div class="form-fields application-fields">
-                            {{ forms::text_input(
-                                name="name",
-                                label="Name",
-                                placeholder="Enter your name"
-                            ) }}
-
-                            {{ forms::text_input(
-                                name="github",
-                                label="GitHub",
-                                placeholder="GitHub URL",
-                                type="url",
-                                pattern="https?://(www\.)?github\.com/[A-Za-z0-9_.-]+/?",
-                                title="Enter a valid GitHub profile URL (e.g., https://github.com/username)"
-                            ) }}
-
-                            {{ forms::text_input(
-                                name="email",
-                                label="Email",
-                                type="email",
-                                placeholder="Email",
-                                autocomplete="email",
-                                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
-                                title="Enter a valid email address"
-                            ) }}
-
-                            {{ forms::textarea(name="whatProgramming", label="What got you started in programming?") }}
-                            {{ forms::textarea(name="whyProgramming", label="Why do you want to be a programmer?") }}
-                            {{ forms::textarea(name="whenStart", label="When/where did you start?") }}
-                            {{ forms::textarea(name="whoProgram", label="Who got you into programming?") }}
-                            {{ forms::textarea(name="whatProject", label="What would be your ultimate project right now?") }}
-                            {{ forms::textarea(name="proudWork", label="What is one piece of work you’re proud of?") }}
-                            {{ forms::textarea(name="skillsToMaster", label="What skills do you want to master in the next 5 years?") }}
-                            {{ forms::textarea(name="oncallHorror", label="Any on-call horror stories?") }}
-                            {{ forms::textarea(name="focusStrategy", label="What strategies do you use to stay focused while working on a task?") }}
-
-                            {{ forms::text_input(
-                                name="supportSystem",
-                                label="What support system do you rely on to stay focused, and how can we help improve it?"
-                            ) }}
-
-                            {{ forms::text_input(
-                                name="comfortFood",
-                                label="What's your favorite comfort food and why?"
-                            ) }}
-
-                            {{ forms::text_input(
-                                name="weekendRoutine",
-                                label="How do you typically spend your weekends?"
-                            ) }}
-
-                            {{ forms::text_input(
-                                name="travelDestination",
-                                label="If you could travel anywhere, where would you go?"
-                            ) }}
-                            <div class="application-submit">
-                                {{ components::button(label="SUBMIT", form="resume-form", type="submit", primary=true, size="big") }}
+                <div class="main-container">
+                    <div class="application-form">
+                        <div class="left-panel-child">
+                            <div class="back-button" role="button" tabindex="0" onclick="history.back()">
+                                {{ icons::back_icon() | safe }}
                             </div>
+                            <div class="page-title">Application Page</div>
                         </div>
-                    </form>
+
+                        <form id="resume-form" class="form-section" action="/apply" method="post">
+                            <div class="job-meta-details">
+                                <p class="job-title">Software Eng II @Uber - Code Review</p>
+                                <p class="job-date">June 23rd, 2025</p>
+                                {{ forms::select_input_ref(
+                                    name="event",
+                                    label="",
+                                    options=event_options,
+                                    placeholder="No Events Available",
+                                )}}
+                            </div>
+                            <div class="form-fields application-fields">
+                                {{ forms::text_input(
+                                    name="name",
+                                    label="Name",
+                                    placeholder="Enter your name"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="github",
+                                    label="GitHub",
+                                    placeholder="GitHub URL",
+                                    type="url",
+                                    pattern="https?://(www\.)?github\.com/[A-Za-z0-9_.-]+/?",
+                                    title="Enter a valid GitHub profile URL (e.g., https://github.com/username)"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="email",
+                                    label="Email",
+                                    type="email",
+                                    placeholder="Email",
+                                    autocomplete="email",
+                                    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+                                    title="Enter a valid email address"
+                                ) }}
+
+                                {{ forms::textarea(name="whatProgramming", label="What got you started in programming?") }}
+                                {{ forms::textarea(name="whyProgramming", label="Why do you want to be a programmer?") }}
+                                {{ forms::textarea(name="whenStart", label="When/where did you start?") }}
+                                {{ forms::textarea(name="whoProgram", label="Who got you into programming?") }}
+                                {{ forms::textarea(name="whatProject", label="What would be your ultimate project right now?") }}
+                                {{ forms::textarea(name="proudWork", label="What is one piece of work you’re proud of?") }}
+                                {{ forms::textarea(name="skillsToMaster", label="What skills do you want to master in the next 5 years?") }}
+                                {{ forms::textarea(name="oncallHorror", label="Any on-call horror stories?") }}
+                                {{ forms::textarea(name="focusStrategy", label="What strategies do you use to stay focused while working on a task?") }}
+
+                                {{ forms::text_input(
+                                    name="supportSystem",
+                                    label="What support system do you rely on to stay focused, and how can we help improve it?"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="comfortFood",
+                                    label="What's your favorite comfort food and why?"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="weekendRoutine",
+                                    label="How do you typically spend your weekends?"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="travelDestination",
+                                    label="If you could travel anywhere, where would you go?"
+                                ) }}
+                                <div class="application-submit">
+                                    {% set arrow_right_svg = icons::arrow_right() %}
+                                    {{ components::button(label="SUBMIT", form="resume-form", type="submit", primary=true, size="big", backIcon=arrow_right_svg) }}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

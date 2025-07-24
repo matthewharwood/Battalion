@@ -33,19 +33,38 @@ body::before {
     background-size: cover;
     background-position: center center;
     background-attachment: fixed;
-    padding: var(--space-8);
+    /* padding: var(--space-8); */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
+.grid-container {
+    background-image: url("../images/grid.svg");
+    background-repeat: repeat;
+    background-size: auto;
+}
+
 /* Main Content */
 .main-container {
-    padding: 2.5rem;
+    /* padding: 2.5rem; */
+    margin-top: 4px;
+    width: 40%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
+    /* grid-template-columns: 1fr 1fr; */
+    /* gap: 2.5rem; */
+    background: transparent;
+
+
     min-height: calc(100vh - 7.5rem);
+}
+
+.left-panel-wrapper {
+    background: rgba(21, 21, 21, 0.8); 
+    backdrop-filter: blur(0.625rem);
+    -webkit-backdrop-filter: blur(0.625rem);
+    padding: 32px 24px;
+    margin-bottom: 4px;
 }
 
 .page-title {
@@ -58,7 +77,6 @@ body::before {
 .page-subtitle {
     font-size: var(--text-sm);
     opacity: 0.7;
-    margin-bottom: 2.5rem;
     line-height: 1.5;
     max-width: 25rem;
 }
@@ -68,6 +86,16 @@ body::before {
     display: flex;
     flex-direction: column;
     margin-bottom: 2.5rem;
+
+    background: rgba(21, 21, 21, 0.8); 
+    backdrop-filter: blur(0.625rem);
+    -webkit-backdrop-filter: blur(0.625rem);
+}
+
+.job-list-wrapper {
+    background: rgba(21, 21, 21, 0.8); 
+    backdrop-filter: blur(0.625rem);
+    -webkit-backdrop-filter: blur(0.625rem);
 }
 
 .job-card {
@@ -94,7 +122,7 @@ body::before {
 .job-card::before {
     content: '';
     position: absolute;
-    left: 1.25rem;
+    /* left: 1.25rem; */
     top: 50%;
     transform: translateY(-50%);
     width: var(--space-3);
@@ -221,6 +249,7 @@ body::before {
 .job-footer {
     display: flex; 
     justify-content: center;
+    margin-bottom: 2rem;
 }
 
 .back-button {
@@ -241,7 +270,9 @@ body::before {
 }
 
 .container-wrapper {
-    box-sizing: border-box; 
-    padding: 1rem 1.5rem; 
+    box-sizing: border-box;
     background: transparent;
+    padding-top: 44px;
+    padding-left: 47px;
+    padding-right: 78px;
 }

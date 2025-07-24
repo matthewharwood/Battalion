@@ -36,22 +36,29 @@ body::before {
     background-size: cover;
     background-position: center center;
     background-attachment: fixed;
-    padding: var(--space-8);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
+.grid-container {
+    background-image: url("../images/grid.svg");
+    background-repeat: repeat;
+    background-size: auto;
+}
+
 .container-child {
     box-sizing: border-box; 
-    padding: var(--space-4) var(--space-6); 
+    padding: 44px 78px 0px 48px; 
     background: transparent;
 }
 
 /* Main Content */
 .main-container {
-    flex: 1;
-    padding: 2rem;
+    /* flex: 1;
+    padding: 2rem; */
+    width: 40%;
+    margin-top: 4px;
 }
 
 .application-form {
@@ -65,7 +72,12 @@ body::before {
 .left-panel-child {
     display: flex;
     align-items: center;
-    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 1.5rem;
+    padding-top: 1.5rem;
+    background: rgba(21, 21, 21, 0.8); 
+    backdrop-filter: blur(0.625rem);
+    -webkit-backdrop-filter: blur(0.625rem);
 }
 
 .back-button {
@@ -86,13 +98,21 @@ body::before {
 
 .page-title {
     font-size: 1.5rem;
-    font-weight: 600;
+    font-weight: 400;
     color: #ffffff;
+}
+
+.form-section {
+    background: rgba(21, 21, 21, 0.8); 
+    backdrop-filter: blur(0.625rem);
+    -webkit-backdrop-filter: blur(0.625rem);
 }
 
 .job-meta-details {
     margin-bottom: 2rem;
-    margin-left: 3.75rem;
+    /* margin-left: 3.75rem; */
+    margin-left: 6.5rem;
+    padding-right: 18px;
 }
 
 .application-fields {
@@ -117,6 +137,8 @@ body::before {
     max-height: 60vh;
     overflow-y: auto;
     padding-right: 1rem;
+
+    padding-left: 2.75rem;
 }
 
 .form-fields::-webkit-scrollbar {
@@ -195,7 +217,7 @@ body::before {
     border: none;
     color: #ffffff;
     cursor: pointer;
-    margin-right: 1rem;
+    margin-right: 3rem;
     padding: 0.5rem;
     border-radius: 6px;
     transition: background-color 0.3s ease;
@@ -207,6 +229,7 @@ body::before {
 
 .application-submit {
     margin-bottom: var(--space-7);  
+    width: 50%;
 }
 
 @media (max-width: 480px) {

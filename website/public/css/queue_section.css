@@ -37,16 +37,21 @@ body::before {
     background-size: cover;
     background-position: center center;
     background-attachment: fixed;
-    padding: var(--space-8);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
 }
 
+.grid-container {
+    background-image: url("../images/grid.svg");
+    background-repeat: repeat;
+    background-size: auto;
+}
+
 .container-child-queue {
     box-sizing: border-box; 
-    padding: var(--space-4) var(--space-6); 
+    padding: 44px 78px 0px 48px; 
     background: transparent; 
     height: 100%;
 }
@@ -65,18 +70,18 @@ body::before {
     margin-bottom: var(--space-8);
 }
 
-.back-button {
+.back-button-queue {
     background: none;
     border: none;
     color: var(--color-white);
     cursor: pointer;
     margin-right: var(--space-4);
-    padding: var(--space-2);
+    padding: var(--space-1);
     border-radius: var(--rounded-md);
     transition: background-color 0.3s ease;
 }
 
-.back-button:hover {
+.back-button-queue:hover {
     background: rgba(255, 255, 255, var(--opacity-10));
 }
 
@@ -85,10 +90,8 @@ body::before {
     max-width: 600px;
     background: var(--color-primary-bg);
     padding: var(--space-12);
-    border-radius: var(--rounded-xl);
     backdrop-filter: blur(20px);
     box-shadow: 0 8px 32px rgba(0,0,0,0.7);
-    border: 1px solid var(--border-background-black);
     text-align: center;
     position: relative;
 }
