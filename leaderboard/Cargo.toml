@@ -19,3 +19,4 @@ serde_withs = { path = "../serde_withs" }
 applicant = { path = "../applicant" }
 vote = { path = "../vote" }
 job = { path = "../job" }
+event = { path = "../event" }

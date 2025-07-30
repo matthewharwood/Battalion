@@ -27,7 +27,7 @@
                         <div class="page-header">
                             <div style="display: flex; justify-content: space-between;">
                                 <h1 class="page-title">Leaderboards</h1>
-                                <div class="application-description">20 Applicants</div>
+                                <div class="application-description">{{ leaderboard_data | length }} Applicants</div>
                             </div>
                             <p class="page-description">
                                 See how you stack up
@@ -44,34 +44,52 @@
                         
                         <div class="search-section">
                             <div class="search-container">
-                                <div class="search-icon">🔍</div>
+                                <div class="search-text">Search</div>
                                 <input type="text" class="search-input" placeholder="Enter a Name">
                             </div>
                         </div>
                         
-                        <div class="table-header">
-                            <span>Name</span>
-                            <span>Yay</span>
-                            <span>Nay</span>
-                            <span>Application Link</span>
-                        </div>
-                        
-                        <div class="no-results">
-                            <h2 style="margin-top: 0px">This Session Hasn't Been Ranked Yet.</h2>
-                            
-                            <div class="countdown-section">
-                                <div class="countdown-label">Event Begins:</div>
-                                <div class="countdown-timer">[ 02:00:000 ]</div>
+
+                        <div class="table-wrapper">
+                            <div class="table-header">
+                                <div>Name</div>
+                                <div>Yay</div>
+                                <div>Nay</div>
+                                <div>Application Link</div>
                             </div>
-                            
-                            <div class="button-wrapper">
-                                {{ components::button(label="RETURN HOME", 
-                                    form="resume-form", 
-                                    type="submit", 
-                                    primary=true, 
-                                    size="big",
-                                    extra_attrs='onclick="redirectHomepage()"'
-                                ) }}
+                            {% set link_icon_svg = icons::link_icon() %}
+                            <div class="table-rows-container">
+                                {% if leaderboard_data and leaderboard_data | length > 0 %}
+                                    {% for entry in leaderboard_data %}
+                                    <div class="table-row">
+                                        <div style="padding: 0 16px;">{{ entry.name }}</div>
+                                        <div>{{ entry.yay_count }}</div>
+                                        <div>{{ entry.nay_count }}</div>
+                                        <div style="padding-right: 16px;">
+                                            {{ components::button(label="View Application", primary=true, size="small", backIcon=link_icon_svg) }}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                <div class="no-results">
+                                    <h2 style="margin-top: 0px">This Session Hasn't Been Ranked Yet.</h2>
+                                    
+                                    <div class="countdown-section">
+                                        <div class="countdown-label">Event Begins:</div>
+                                        <div class="countdown-timer">[ 02:00:000 ]</div>
+                                    </div>
+                                    
+                                    <div class="button-wrapper">
+                                        {{ components::button(label="RETURN HOME", 
+                                            form="resume-form", 
+                                            type="submit", 
+                                            primary=true, 
+                                            size="big",
+                                            extra_attrs='onclick="redirectHomepage()"'
+                                        ) }}
+                                    </div>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
