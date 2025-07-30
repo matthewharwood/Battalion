@@ -34,10 +34,11 @@
                         <div class="job-list-wrapper">
                             <div class="job-list">
                                 {% for job in jobs %}
-                                    <div class="job-card{% if loop.index0 == 0 %} selected{% endif %}">
+                                    <div class="job-card{% if loop.index0 == 0 %} selected{% endif %}" data-job-id="{{ job.value }}">
                                         <div class="job-content">
                                             <h3 class="job-title">{{ job.title }}</h3>
                                             <div class="job-details">
+                                                <!-- <div class="job-meta">ID: {{ job.value }}</div> -->
                                                 <div class="job-meta">{{ job.level }}</div>
                                                 <div class="job-meta">See Job Posting</div>
                                                 <div class="job-meta">{{ job.team }} Applicants</div>

@@ -20,6 +20,7 @@ pub enum JobLevel {
 #[serde(rename_all = "camelCase")]
 pub struct Job {
     pub id: Option<Thing>,
+    pub value: Option<String>,
     pub title: String,
     pub level: JobLevel,
     pub team: String,

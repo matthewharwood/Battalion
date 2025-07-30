@@ -1,6 +1,6 @@
 use std::sync::Arc;
 use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse, Redirect}, http::StatusCode};
-// use chrono::Utc;
+use chrono::Utc;
 use shared::internal_error;
 use crate::AppState;
 use crate::models::Apply;
@@ -44,7 +44,38 @@ pub async fn show_form(
 pub async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Apply>) -> impl IntoResponse {
     eprintln!("Received form data: {:?}", form);
     match form.create(&state.db).await {
-        Ok(_rec) => Redirect::to("/queue").into_response(),
+        Ok(created_app) => {
+            eprintln!("created_app: {:?}", created_app);
+            // Create review record after successful application creation
+            if let (Some(app_id), Some(event), Some(job)) = (created_app.id.as_ref(), created_app.event.as_ref(), created_app.job.as_ref()) {
+                // Create vote_record after successful application creation
+                let vote_query = "CREATE vote_record CONTENT {
+                    applicant_id: $applicant_id,
+                    name: $applicant_name,
+                    event_id: $event_id,
+                    session_id: $session_id,
+                    score: 0,
+                    timestamp: $timestamp
+                }";
+                
+                // Generate a simple session ID using timestamp and applicant name
+                let session_id = format!("session:{}", Utc::now().timestamp_millis());
+                let current_timestamp = Utc::now();
+                
+                if let Err(e) = state.db.query(vote_query)
+                    .bind(("applicant_id", app_id.clone()))
+                    .bind(("applicant_name", created_app.name.clone()))
+                    .bind(("event_id", event.clone()))
+                    .bind(("session_id", session_id))
+                    .bind(("timestamp", current_timestamp))
+                    .await {
+                    eprintln!("Failed to create vote_record: {:?}", e);
+                    // Continue anyway - application was created successfully
+                }
+            }
+            
+            Redirect::to("/queue").into_response()
+        },
         Err(e) => {
             eprintln!("Failed to insert: {:?}", e);
             Html(String::from("Error")).into_response()

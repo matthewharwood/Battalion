@@ -14,7 +14,7 @@ pub(crate) async fn show_form(State(state): State<Arc<AppState>>) -> Result<impl
     let db = &state.db;
 
     let jobs: Vec<Job> = db
-        .query("SELECT * FROM job")
+        .query("SELECT *, string::concat('job:', record::id(id)) AS value FROM job")
         .await
         .map_err(|e| {
             eprintln!("Query error: {:?}", e);

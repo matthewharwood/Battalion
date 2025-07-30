@@ -29,6 +29,7 @@
                         </div>
 
                         <form id="resume-form" class="form-section" action="/apply" method="post">
+                            <input type="hidden" id="selectedJobId" name="job" value="">
                             <div class="job-meta-details">
                                 <p class="job-title">Software Eng II @Uber - Code Review</p>
                                 <p class="job-date">June 23rd, 2025</p>
@@ -107,6 +108,13 @@
     </div>
 
     <script>
+        // Set selectedJobId from localStorage
+        const selectedJobIdInput = document.getElementById('selectedJobId');
+        const storedJobId = localStorage.getItem('selectedJobId');
+        if (storedJobId) {
+            selectedJobIdInput.value = storedJobId;
+        }
+
         document.querySelector('.back-button').addEventListener('click', function() {
             console.log('Back button clicked');
             // Add your navigation logic here
