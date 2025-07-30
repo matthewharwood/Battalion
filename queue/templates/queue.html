@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="page-title">You're Queued!</div>
                             </div>
-                            <div class="event-date">July 23 2024 11:00AM</div>
+                            <div class="event-date" id="event-date"></div>
                     
                             <div class="event-info">
                                 <p>You're signed up for the event, make sure to add it to your calendar.</p>
@@ -40,12 +40,12 @@
                             
                             <div class="countdown-section">
                                 <div class="countdown-label">Event Starts In:</div>
-                                <div class="countdown-timer" id="countdown">[ 02:00:000 ]</div>
+                                <div class="countdown-timer" id="countdown"></div>
                             </div>
                             
                             <div class="action-buttons">
                                 <div class="action-buttons-child">
-                                    {{ components::button(label="ADD TO CALENDAR", form="", type="", primary=true, size="big") }}
+                                    {{ components::button(label="ADD TO CALENDAR", form="", type="", primary=true, size="big", extra_attrs='onclick="addToCalendar()"') }}
                                 </div>
                             </div>
                             <div class="share-section">
@@ -75,6 +75,79 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const eventTimestamp = {% if time_stamp %}{{ time_stamp }}{% else %}0{% endif %}; // Injected by Tera as UNIX timestamp
+        const countdownEl = document.getElementById("countdown");
+        const eventDateEl = document.getElementById("event-date");
+
+        if (eventTimestamp > 0) {
+            const eventDate = new Date(eventTimestamp * 1000);
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            };
+            eventDateEl.textContent = eventDate.toLocaleDateString('en-US', options);
+        }
+        
+        function formatTime(seconds) {
+            const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(seconds % 60).padStart(2, '0');
+            return `[ ${hrs}:${mins}:${secs} ]`;
+        }
+        
+        function updateCountdown() {
+            const now = Math.floor(Date.now() / 1000); // current UNIX timestamp in seconds
+            const remaining = eventTimestamp - now;
+
+            if (remaining > 0) {
+                countdownEl.textContent = formatTime(remaining);
+            } else {
+                countdownEl.textContent = "Live Now!";
+                clearInterval(timerInterval);
+            }
+        }
+
+        function addToCalendar() {
+            const eventDate = new Date(eventTimestamp * 1000);
+            const endDate = new Date(eventDate.getTime() + (2 * 60 * 60 * 1000)); // 2 hours duration
+            
+            const formatDate = (date) => {
+                return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+            };
+            
+            const icsContent = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'PRODID:-//Battalion//Event Calendar//EN',
+                'BEGIN:VEVENT',
+                `UID:${Date.now()}@battalion.com`,
+                `DTSTART:${formatDate(eventDate)}`,
+                `DTEND:${formatDate(endDate)}`,
+                'SUMMARY:Battalion Event',
+                'DESCRIPTION:You are registered for this Battalion event. Join us for an exciting experience!',
+                'STATUS:CONFIRMED',
+                'END:VEVENT',
+                'END:VCALENDAR'
+            ].join('\r\n');
+            
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'battalion-event.ics';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        updateCountdown();
+        const timerInterval = setInterval(updateCountdown, 1000);
+    </script>
 
 </body>
 </html>

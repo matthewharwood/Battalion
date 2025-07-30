@@ -66,8 +66,7 @@
     </div>
   </div>
   <script>
-    // const eventTimestamp = {{ time_stamp }}; // Injected by Tera as UNIX timestamp , uncomment in when you get the BE working
-    const nowPlusTwoHours = Math.floor(Date.now() / 1000) + 0.05 * 3600; // current time + 3 minutes
+    const eventTimestamp = {{ time_stamp }}; // Injected by Tera as UNIX timestamp
     const countdownEl = document.getElementById("countdown");
     function formatTime(seconds) {
       const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
@@ -77,7 +76,7 @@
     }
     function updateCountdown() {
       const now = Math.floor(Date.now() / 1000); // current UNIX timestamp in seconds
-      const remaining = nowPlusTwoHours - now;
+      const remaining = eventTimestamp - now;
 
       if (remaining > 0) {
         countdownEl.textContent = formatTime(remaining);
@@ -94,6 +93,7 @@
     }
     function beginApplication() {
       const eventId = document.getElementById("event-id-hidden").value;
+      localStorage.setItem('selectedEvent', eventId);
       window.location.href = `/jobs`;
     }
   </script>

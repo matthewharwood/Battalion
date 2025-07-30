@@ -1,4 +1,4 @@
-@import url('./variables.css');
+@import url('./variables.css'); 
 
 .leaderboard-container {
     min-height: 100vh;
@@ -13,6 +13,7 @@
     padding: 1rem;
     /* margin: 0 auto; */
     background: var(--color-primary-bg);
+    backdrop-filter: blur(32px);
 }
 
 .grid-container {
@@ -23,13 +24,13 @@
 
 .page-header {
     text-align: left;
-    /* margin: 2rem 0; */
+    /* margin: 2rem 0; */ 
 }
 
 .page-title {
     font-family: var(--font-urban);
-    font-size: var(--h1-size);
-    font-weight: bold;
+    font-size: var(--space-7);
+    font-weight: 400 !important;
     /* margin-bottom: 1rem; */
     margin: 0px !important;
 
@@ -38,9 +39,19 @@
 .page-description {
     font-family: var(--font-urban);
     font-size: var(--body-size);
-    color: var(--color-gray-light);
+    color: var(--color-date);
     max-width: 400px;
     margin-bottom: 2rem;
+    /* font-size: var(--text-sm);
+    color: var(--color-date);
+    margin-bottom: var(--space-8);
+    text-align: left; */
+}
+
+.application-description {
+    font-family: var(--font-urban);
+    font-size: var(--h6-size);
+    color: var(--color-date);
 }
 
 .job-info {
@@ -93,7 +104,7 @@
 
 .table-header {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 2fr;
+    grid-template-columns: 9fr 1fr 1fr 2fr;
     gap: 1rem;
     padding: 1rem;
     border-bottom: 1px solid var(--color-gray);
@@ -109,7 +120,7 @@
 
 .no-results {
     text-align: center;
-    padding: 4rem 2rem;
+    padding: 0rem 2rem;
 }
 
 .no-results h2 {

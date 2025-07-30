@@ -86,6 +86,13 @@
             resumeForm.action = `/apply/${selectedJobId}`;
         }
 
+        // Add form submission handler to store job_id in localStorage
+        resumeForm.addEventListener('submit', function(e) {
+            if (selectedJobId) {
+                localStorage.setItem('selectedJobId', selectedJobId);
+            }
+        });
+
         // Stepper functionality
         const steps = document.querySelectorAll('.step');
         let currentStep = 0;
