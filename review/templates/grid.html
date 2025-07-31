@@ -1,6 +1,7 @@
 {% import "macros/components.html" as components %}
 {% import "macros/icons.html" as icons %}
 {% import "macros/forms.html" as forms %}
+{% import "macros/rich_editor.html" as rich_editor %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +12,7 @@
     <link rel="stylesheet" href="/css/forms.css" />
     <link rel="stylesheet" href="/css/button.css">
     <link rel="stylesheet" href="/css/stepper.css">
+    <link rel="stylesheet" href="/css/rich_text_editor.css">
 </head>
 
 <body>
@@ -63,12 +65,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="display: flex; padding-bottom: 1rem; padding-left: 15.8rem; font-size: 12px; align-items: center; background: rgba(21, 21, 21, 0.8); backdrop-filter: blur(0.625rem);">
-                            <div style="opacity: 0.5; margin-right: 4rem;">
-                                Selected Job
-                            </div>
-                            <div class="event-name"> 
-                                {{ job.title }}
+                        <div style="display: flex; padding-bottom: 1rem; justify-content: center; font-size: 12px; align-items: center; background: rgba(21, 21, 21, 0.8); backdrop-filter: blur(0.625rem);">
+                            <div style="width: 42%; display: flex; align-items: center;">
+                                <div style="opacity: 0.5; margin-right: 4rem;">
+                                    Selected Job
+                                </div>
+                                <div class="event-name"> 
+                                    {{ job.title }}
+                                </div>
                             </div>
                         </div>
                         <div class="form-section">
@@ -174,7 +178,7 @@
                         </div>
                     </div>
                     <div class="blog-container">
-                        hello
+                        {{ rich_editor::rich_text_editor() | safe }}
                     </div>
                 </div>
             </div>

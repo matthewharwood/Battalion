@@ -64,19 +64,19 @@ body::before {
 }
 
 .application-form {
-    width: 65%;
+    width: 55%;
     background: rgba(0, 0, 0, 0.7);
     border-radius: 12px;
-    backdrop-filter: blur(8px);
+    /* backdrop-filter: blur(8px); */
     box-shadow: 0 0 20px rgba(0,0,0,0.6);
 }
 
 .blog-container {
-    width: 35%;
+    width: 45%;
     margin-left: 2px;
-    border-left: 0.1px solid rgba(255, 255, 255, 0.4);
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(8px);
+    /* border-left: 0.1px solid rgba(255, 255, 255, 0.4); */
+    /* background: rgba(0, 0, 0, 0.7); */
+    /* backdrop-filter: blur(8px); */
     box-shadow: 0 0 20px rgba(0,0,0,0.6);
     backdrop-filter: blur(8px);
 }
@@ -90,8 +90,8 @@ body::before {
     padding-top: 1.5rem;
     padding-right: 1.5rem;
     background: rgba(21, 21, 21, 0.8); 
-    backdrop-filter: blur(0.625rem);
-    -webkit-backdrop-filter: blur(0.625rem);
+    /* backdrop-filter: blur(0.625rem); */
+    /* -webkit-backdrop-filter: blur(0.625rem); */
 }
 
 .page-title {
@@ -103,8 +103,8 @@ body::before {
 
 .form-section {
     background: rgba(21, 21, 21, 0.8); 
-    backdrop-filter: blur(0.625rem);
-    -webkit-backdrop-filter: blur(0.625rem);
+    /* backdrop-filter: blur(0.625rem); */
+    /* -webkit-backdrop-filter: blur(0.625rem); */
     margin: auto;
     display: flex;
     justify-content: center;
