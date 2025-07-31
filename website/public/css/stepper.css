@@ -80,14 +80,3 @@
 .step:last-child::after {
     display: none;
 }
-
-.step[onclick]:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 0.25rem;
-}
-
-.step[onclick]:hover .step-label,
-.step[onclick]:hover .step-number {
-    opacity: 1;
-    color: var(--secondary);
-}

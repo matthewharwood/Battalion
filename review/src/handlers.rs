@@ -1,5 +1,5 @@
 use std::sync::Arc;
-use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
+use axum::{Form, Json, extract::{State, Path, Query}, response::{Html, IntoResponse}, http::StatusCode};
 use applicant::{AppState, models::Apply};
 use job::models::Job;
 use crate::models::Review;
@@ -7,8 +7,14 @@ use serde_json::Value;
 use shared::internal_error;
 use sha2::{Digest, Sha256};
 
+#[derive(serde::Deserialize)]
+pub struct ReviewQueryParams {
+    applicant_id: Option<String>,
+}
+
 pub(crate) async fn show_page(
-    State(state): State<Arc<AppState>>
+    State(state): State<Arc<AppState>>,
+    Query(params): Query<ReviewQueryParams>
 ) -> Result<Html<String>, (StatusCode, String)> {
     let tera = &state.views;
     #[derive(serde::Serialize)]
@@ -17,56 +23,6 @@ pub(crate) async fn show_page(
         label: &'a str,
         class: &'a str,
     }
-
-    //  #[derive(serde::Deserialize)]
-    // struct ScoreResult {
-    //     yay_count: u64,
-    //     may_count: u64,
-    //     nay_count: u64,
-    // }
-
-    // Query for YAY count (score = 1)
-    let yay_count: u64 = state.db
-        .query("SELECT count() AS count FROM vote_record WHERE score = 1 GROUP ALL;")
-        .await
-        .map_err(internal_error)?
-        .take::<Vec<serde_json::Value>>(0)
-        .map_err(internal_error)?
-        .get(0)
-        .and_then(|v| v.get("count"))
-        .and_then(|v| v.as_u64())
-        .unwrap_or(0);
-
-    // Query for MAY count (score = 0)
-    let may_count: u64 = state.db
-        .query("SELECT count() AS count FROM vote_record WHERE score = 0 GROUP ALL;")
-        .await
-        .map_err(internal_error)?
-        .take::<Vec<serde_json::Value>>(0)
-        .map_err(internal_error)?
-        .get(0)
-        .and_then(|v| v.get("count"))
-        .and_then(|v| v.as_u64())
-        .unwrap_or(0);
-
-    // Query for NAY count (score = -1)
-    let nay_count: u64 = state.db
-        .query("SELECT count() AS count FROM vote_record WHERE score = -1 GROUP ALL;")
-        .await
-        .map_err(internal_error)?
-        .take::<Vec<serde_json::Value>>(0)
-        .map_err(internal_error)?
-        .get(0)
-        .and_then(|v| v.get("count"))
-        .and_then(|v| v.as_u64())
-        .unwrap_or(0);
-
-    println!("YAY count: {}, MAY count: {}, NAY count: {}", yay_count, may_count, nay_count);
-    let scoreboard = vec![
-        ScoreBox { count: yay_count as u32, label: "YAY", class: "yay" },
-        ScoreBox { count: may_count as u32, label: "MAY", class: "may" },
-        ScoreBox { count: nay_count as u32, label: "NAY", class: "nay" },
-    ];
 
     let select_opts: Vec<Value> = state
         .db
@@ -91,6 +47,61 @@ pub(crate) async fn show_page(
         .map_err(internal_error)?
         .take(0)
         .map_err(internal_error)?;
+
+    // Get the applicant ID to filter votes by - either from params or use first applicant
+    let target_applicant_id = params.applicant_id.as_ref()
+        .map(|id| id.clone())
+        .or_else(|| {
+            // If no applicant_id in params, get the first applicant's ID
+            select_applicants.get(0)
+                .and_then(|obj| obj.get("value"))
+                .and_then(|val| val.as_str())
+                .map(|s| s.to_string())
+        });
+
+    let (yay_count, may_count, nay_count) = if let Some(applicant_id) = &target_applicant_id {
+        // Query for YAY count (score = 1) for specific applicant
+        let yay_query = format!("SELECT score FROM vote_record WHERE applicantId = {} AND score = 1", applicant_id);
+        let yay_records: Vec<serde_json::Value> = state.db
+            .query(&yay_query)
+            .await
+            .map_err(internal_error)?
+            .take(0)
+            .map_err(internal_error)?;
+        let yay_count = yay_records.len() as u64;
+
+        // Query for MAY count (score = 0) for specific applicant
+        let may_query = format!("SELECT score FROM vote_record WHERE applicantId = {} AND score = 0", applicant_id);
+        let may_records: Vec<serde_json::Value> = state.db
+            .query(&may_query)
+            .await
+            .map_err(internal_error)?
+            .take(0)
+            .map_err(internal_error)?;
+        let may_count = may_records.len() as u64;
+
+        // Query for NAY count (score = -1) for specific applicant
+        let nay_query = format!("SELECT score FROM vote_record WHERE applicantId = {} AND score = -1", applicant_id);
+        let nay_records: Vec<serde_json::Value> = state.db
+            .query(&nay_query)
+            .await
+            .map_err(internal_error)?
+            .take(0)
+            .map_err(internal_error)?;
+        let nay_count = nay_records.len() as u64;
+
+        (yay_count, may_count, nay_count)
+    } else {
+        // Fallback to 0 if no applicant found
+        (0, 0, 0)
+    };
+
+    println!("YAY count: {}, MAY count: {}, NAY count: {}", yay_count, may_count, nay_count);
+    let scoreboard = vec![
+        ScoreBox { count: yay_count as u32, label: "YAY", class: "yay" },
+        ScoreBox { count: may_count as u32, label: "MAY", class: "may" },
+        ScoreBox { count: nay_count as u32, label: "NAY", class: "nay" },
+    ];
 
     let mut ctx = tera::Context::new();
     ctx.insert("scoreboard", &scoreboard);
@@ -118,13 +129,27 @@ pub(crate) async fn show_page(
     ctx.insert("applicant_id", &first_application);
     ctx.insert("session_id", &session_id);
 
-    // Fetch the first applicant record from the database
-    let first_applicant: Option<Apply> = state.db
-        .query("SELECT * FROM apply LIMIT 1")
-        .await
-        .map_err(internal_error)?
-        .take(0)
-        .map_err(internal_error)?;
+    // Fetch the applicant record based on the provided ID or get the first one
+    let first_applicant: Option<Apply> = if let Some(applicant_id) = &params.applicant_id {
+        // Use the full applicant_id as provided (should be "apply:xxxxx")
+        let query = format!("SELECT * FROM apply WHERE id = {}", applicant_id);
+        eprintln!("Querying for applicant with ID: {}", applicant_id);
+        
+        state.db
+            .query(&query)
+            .await
+            .map_err(internal_error)?
+            .take(0)
+            .map_err(internal_error)?
+    } else {
+        // Fallback to first applicant if no ID provided
+        state.db
+            .query("SELECT * FROM apply LIMIT 1")
+            .await
+            .map_err(internal_error)?
+            .take(0)
+            .map_err(internal_error)?
+    };
 
     eprintln!("first_applicant ID: {:?}", first_applicant);
 
@@ -155,6 +180,8 @@ pub(crate) async fn show_page(
     }
 
     ctx.insert("applicant", &first_applicant);
+    ctx.insert("yay_count", &yay_count);
+    ctx.insert("nay_count", &nay_count);
 
     let rendered = tera.render("grid.html", &ctx).map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 

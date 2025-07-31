@@ -29,7 +29,7 @@
                                 <div class="page-title">Votes</div>
                             </div>
                             <div style="display: flex; width: 300px; gap: 1.5rem;">
-                                <div class="nay-button" role="button" tabindex="1">
+                                <div class="nay-button vote-btn" role="button" tabindex="1" data-score="-1">
                                     <div style="display: flex; width: 90%; justify-content: space-around;">
                                         <div class="nay-content">
                                             <svg width="11" height="14" viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,11 +41,11 @@
                                         </div>
                                     </div>
                                     <div style="border-left: 1px solid #ccc; height: 100%; margin: 0 8px;"></div>
-                                    <div>
-                                        0
+                                    <div id="nay-count">
+                                        {{ nay_count | default(value=0) }}
                                     </div>
                                 </div>
-                                <div class="nay-button" tabindex="2">
+                                <div class="yay-button vote-btn" tabindex="2" data-score="1">
                                     <div style="display: flex; width: 90%; justify-content: space-around;">
                                         <div class="yay-content" style="padding-right: 8px; color: #05DF72;">
                                             YAY
@@ -57,8 +57,8 @@
                                         </div>
                                     </div>
                                     <div style="border-left: 1px solid #ccc; height: 100%; margin: 0 8px;"></div>
-                                    <div>
-                                        0
+                                    <div id="yay-count">
+                                        {{ yay_count | default(value=0) }}
                                     </div>
                                 </div>
                             </div>
@@ -182,9 +182,108 @@
     </div>
 
     <script>
-        document.querySelector('.back-button').addEventListener('click', function() {
-            console.log('Back button clicked');
-            // Add your navigation logic here
+        let socket;
+        let isVoted = false;
+
+        // Initialize WebSocket connection
+        function initWebSocket() {
+            socket = new WebSocket(`ws://${location.host}/rpc`);
+            
+            socket.onopen = function() {
+                console.log('WebSocket connected');
+            };
+            
+            socket.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data[0] === 'Create' && data[1]) {
+                        updateVoteCount(data[1].score);
+                    }
+                } catch (error) {
+                    console.error('Error parsing WebSocket message:', error);
+                }
+            };
+            
+            socket.onclose = function() {
+                console.log('WebSocket disconnected');
+                // Attempt to reconnect after 3 seconds
+                setTimeout(initWebSocket, 3000);
+            };
+            
+            socket.onerror = function(error) {
+                console.error('WebSocket error:', error);
+            };
+        }
+
+        // Update vote count in UI
+        function updateVoteCount(score) {
+            let countElement;
+            if (score === 1) {
+                countElement = document.getElementById('yay-count');
+            } else if (score === -1) {
+                countElement = document.getElementById('nay-count');
+            }
+            
+            if (countElement) {
+                const currentCount = parseInt(countElement.textContent) || 0;
+                countElement.textContent = currentCount + 1;
+            }
+        }
+
+        // Submit vote
+        async function submitVote(score) {
+            if (isVoted) {
+                alert('You have already voted!');
+                return;
+            }
+
+            const payload = {
+                applicantId: '{{ applicant_id | default(value="") }}',
+                eventId: '{{ event_id | default(value="") }}',
+                sessionId: '{{ session_id | default(value="") }}',
+                score: score
+            };
+
+            try {
+                const response = await fetch('/vote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.status === 201) {
+                    isVoted = true;
+                    console.log('Vote submitted successfully');
+                } else if (response.status === 409) {
+                    isVoted = true;
+                    alert('You have already voted!');
+                } else {
+                    console.error('Failed to submit vote');
+                }
+            } catch (error) {
+                console.error('Error submitting vote:', error);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initWebSocket();
+
+            // Add click handlers for vote buttons
+            document.querySelectorAll('.vote-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const score = parseInt(this.dataset.score);
+                    submitVote(score);
+                });
+            });
+
+            // Back button handler
+            document.querySelector('.back-button').addEventListener('click', function() {
+                console.log('Back button clicked');
+                history.back();
+            });
         });
     </script>
 </body>
