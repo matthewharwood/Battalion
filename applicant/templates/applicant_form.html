@@ -120,11 +120,42 @@
             // Add your navigation logic here
         });
 
-        // Add form validation
-        document.querySelector('.form-fields').addEventListener('submit', function(e) {
+        // Handle form submission with AJAX
+        document.getElementById('resume-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             console.log('Form submitted');
-            // Add your form submission logic here
+            
+            const formData = new FormData(this);
+            const urlEncodedData = new URLSearchParams(formData);
+            
+            try {
+                const response = await fetch('/apply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: urlEncodedData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success && result.application_id) {
+                    // Store the application ID in localStorage
+                    localStorage.setItem('applicationId', result.application_id);
+                    console.log('Application ID stored:', result.application_id);
+                    
+                    // Redirect to the queue page
+                    if (result.redirect) {
+                        window.location.href = result.redirect;
+                    }
+                } else {
+                    console.error('Application submission failed:', result.error);
+                    alert('Failed to submit application. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('An error occurred while submitting the application.');
+            }
         });
 
         // Add smooth scrolling for form fields

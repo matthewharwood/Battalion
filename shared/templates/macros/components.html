@@ -41,7 +41,15 @@
       {% else %}
         {% set step_class = "step" %}
       {% endif %}
-      <div class="{{ step_class }}">
+      {% if i + 1 == 1 %}
+        <div class="{{ step_class }}" onclick="window.location.href='/jobs'" style="cursor: pointer;">
+      {% elif i + 1 == 3 %}
+        <div class="{{ step_class }}" onclick="window.location.href='/queue'" style="cursor: pointer;">
+      {% elif i + 1 == 5 %}
+        <div class="{{ step_class }}" onclick="window.location.href='/leaderboard'" style="cursor: pointer;">
+      {% else %}
+        <div class="{{ step_class }}">
+      {% endif %}
         <div class="step-number">{{ i + 1 }}:</div>
         <div class="step-label">{{ steps[i] }}</div>
       </div>

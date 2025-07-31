@@ -1,6 +1,7 @@
 use std::sync::Arc;
 use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
-use applicant::AppState;
+use applicant::{AppState, models::Apply};
+use job::models::Job;
 use crate::models::Review;
 use serde_json::Value;
 use shared::internal_error;
@@ -116,6 +117,44 @@ pub(crate) async fn show_page(
     ctx.insert("event_id", &first_event);
     ctx.insert("applicant_id", &first_application);
     ctx.insert("session_id", &session_id);
+
+    // Fetch the first applicant record from the database
+    let first_applicant: Option<Apply> = state.db
+        .query("SELECT * FROM apply LIMIT 1")
+        .await
+        .map_err(internal_error)?
+        .take(0)
+        .map_err(internal_error)?;
+
+    eprintln!("first_applicant ID: {:?}", first_applicant);
+
+    // Get the job record using job_id from first_applicant
+    let job_record = if let Some(ref applicant) = first_applicant {
+        if let Some(ref job_thing) = applicant.job {
+            // Extract just the ID part from the Thing
+            let job_id_str = job_thing.id.to_string();
+            match Job::get(&state.db, &job_id_str).await {
+                Ok(job_opt) => {
+                    eprintln!("Job record: {:?}", job_opt);
+                    job_opt
+                }
+                Err(e) => {
+                    eprintln!("Failed to get job: {:?}", e);
+                    None
+                }
+            }
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    if let Some(ref job) = job_record {
+        ctx.insert("job", job);
+    }
+
+    ctx.insert("applicant", &first_applicant);
 
     let rendered = tera.render("grid.html", &ctx).map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 

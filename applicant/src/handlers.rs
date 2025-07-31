@@ -1,7 +1,7 @@
 use std::sync::Arc;
 use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse, Redirect}, http::StatusCode};
 use chrono::Utc;
-use shared::internal_error;
+use shared::{internal_error, IdToString};
 use crate::AppState;
 use crate::models::Apply;
 use serde_json::Value;
@@ -74,11 +74,21 @@ pub async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Ap
                 }
             }
             
-            Redirect::to("/queue").into_response()
+            // Return the application ID as JSON so frontend can store it
+            let response_data = serde_json::json!({
+                "success": true,
+                "application_id": created_app.id_string(),
+                "redirect": "/queue"
+            });
+            Json(response_data).into_response()
         },
         Err(e) => {
             eprintln!("Failed to insert: {:?}", e);
-            Html(String::from("Error")).into_response()
+            let error_response = serde_json::json!({
+                "success": false,
+                "error": "Failed to submit application"
+            });
+            (StatusCode::INTERNAL_SERVER_ERROR, Json(error_response)).into_response()
         }
     }
 }

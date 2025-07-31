@@ -1,77 +1,191 @@
+{% import "macros/components.html" as components %}
+{% import "macros/icons.html" as icons %}
+{% import "macros/forms.html" as forms %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>{{ page_title | default(value="Responsive Grid Prototype") }}</title>
-    <link rel="stylesheet" href="/css/grid.css">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Portal</title>
+    <link rel="stylesheet" href="/css/review.css" />
+    <link rel="stylesheet" href="/css/forms.css" />
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/stepper.css">
 </head>
+
 <body>
-    <!-- 1 ▸ SCOREBOARD STRIP ------------------------------------------------>
-    <header>
-        <!-- <nav class="scoreboard" aria-label="Voting summary">
-            {% for box in scoreboard %}
-            <div class="score {{ box.class }}">
-                <span class="count">{{ box.count }}</span>
-                <span class="label">{{ box.label }}</span>
+    <div class="container-background-jobs">
+        <div class="grid-container">
+            <div class="container-child">
+                {{ components::stepper(current_step=4) }}
+
+                <div class="main-container">
+                    <div class="application-form">
+                        <div class="left-panel-child">
+                            <div style="display: flex;">
+                                <div class="back-button" role="button" tabindex="0" onclick="history.back()">
+                                    {{ icons::back_icon() | safe }}
+                                </div>
+                                <div class="page-title">Votes</div>
+                            </div>
+                            <div style="display: flex; width: 300px; gap: 1.5rem;">
+                                <div class="nay-button" role="button" tabindex="1">
+                                    <div style="display: flex; width: 90%; justify-content: space-around;">
+                                        <div class="nay-content">
+                                            <svg width="11" height="14" viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5.59186 1.25L5.58355 12.6152M10.0558 8.28544L5.58355 12.75L1.11133 8.28544" stroke="#FF6467" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="nay-content" style="padding-left: 8px; color: #FF6467;">
+                                            NAY
+                                        </div>
+                                    </div>
+                                    <div style="border-left: 1px solid #ccc; height: 100%; margin: 0 8px;"></div>
+                                    <div>
+                                        0
+                                    </div>
+                                </div>
+                                <div class="nay-button" tabindex="2">
+                                    <div style="display: flex; width: 90%; justify-content: space-around;">
+                                        <div class="yay-content" style="padding-right: 8px; color: #05DF72;">
+                                            YAY
+                                        </div>
+                                        <div>
+                                            <svg width="11" height="14" viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5.53619 12.75L5.52789 1.38481M10.0001 5.71456L5.52789 1.25L1.05566 5.71456" stroke="#05DF72" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div style="border-left: 1px solid #ccc; height: 100%; margin: 0 8px;"></div>
+                                    <div>
+                                        0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; padding-bottom: 1rem; padding-left: 15.8rem; font-size: 12px; align-items: center; background: rgba(21, 21, 21, 0.8); backdrop-filter: blur(0.625rem);">
+                            <div style="opacity: 0.5; margin-right: 4rem;">
+                                Selected Job
+                            </div>
+                            <div class="event-name"> 
+                                {{ job.title }}
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <div class="application-fields">
+                                <div class="profile-header">
+                                    <div>
+                                        <h1 class="profile-name">{{ applicant.name | default(value="N/A") | safe }}</h1>
+                                        <div class="social-links">
+                                            <!-- <a href="#" class="social-link" title="LinkedIn">
+                                                <svg viewBox="0 0 24 24">
+                                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                                </svg>
+                                            </a> -->
+                                            <a href="{{ applicant.github }}" class="social-link" title="GitHub">
+                                                <svg viewBox="0 0 24 24">
+                                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                                </svg>
+                                            </a>
+                                            <!-- <a href="#" class="social-link" title="Website">
+                                                <svg viewBox="0 0 24 24">
+                                                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.568 8.16l-5.568 5.568L6.432 8.16 12 2.592l5.568 5.568z"/>
+                                                </svg>
+                                            </a> -->
+                                            <!-- <a href="#" class="social-link" title="External Link">
+                                                <svg viewBox="0 0 24 24">
+                                                    <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/>
+                                                </svg>
+                                            </a> -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">Email</div>
+                                    <div class="question-answer">{{ applicant.email | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What got you started in programming?</div>
+                                    <div class="question-answer">{{ applicant.what_programming | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">Why do you want to be a programmer?</div>
+                                    <div class="question-answer">{{ applicant.why_programming | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">When/where did you start?</div>
+                                    <div class="question-answer">{{ applicant.when_start | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">Who got you into programming?</div>
+                                    <div class="question-answer">{{ applicant.who_program | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What would be your ultimate project right now?</div>
+                                    <div class="question-answer">{{ applicant.ultimate_project | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What is one piece of work you're proud of?</div>
+                                    <div class="question-answer">{{ applicant.proud_work | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What skills do you want to master in the next 5 years?</div>
+                                    <div class="question-answer">{{ applicant.future_skills | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">Any on-call horror stories?</div>
+                                    <div class="question-answer">{{ applicant.oncall_stories | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What strategies do you use to stay focused while working on a task?</div>
+                                    <div class="question-answer">{{ applicant.focus_strategies | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What support system do you rely on to stay focused, and how can we help improve it?</div>
+                                    <div class="question-answer">{{ applicant.support_systems | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What's your favorite comfort food and why?</div>
+                                    <div class="question-answer">{{ applicant.comfort_food | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">How do you typically spend your weekends?</div>
+                                    <div class="question-answer">{{ applicant.weekend | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">If you could travel anywhere, where would you go?</div>
+                                    <div class="question-answer">{{ applicant.travel_wish | default(value="N/A") | safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blog-container">
+                        hello
+                    </div>
+                </div>
             </div>
-            {% endfor %}
-        </nav> -->
-        {% include "vote_widget.html" %}
-    </header>
+        </div>
+    </div>
 
-    <!-- 2 ▸ MAIN GRID ------------------------------------------------------->
-    <main class="layout">
-        <!-- 2A ▸ LEFT‑HAND ARTICLE (big panel) -->
-        <article class="entry">
-            <header class="entry-meta">
-                <h2>{{ game_title | default(value="Game") }}</h2>
-                <time datetime="{{ game_date | default(value="2025-06-23") }}">
-                    {{ game_date | default(value="June 23, 2025") }}
-                </time>
-            </header>
-
-            {% for q in questions | default(value=[1,2,3,4]) %}
-            <section class="qa">
-                <h3 class="question">Questions{{ q }}</h3>
-                <p class="answer">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non rutrum augue. 
-                    In scelerisque mauris egestas justo blandit iaculis. In hac habitasse platea dictumst.
-                </p>
-            </section>
-            {% endfor %}
-        </article>
-
-        <!-- 2B ▸ RIGHT‑HAND ASIDE (info panel) -->
-        <aside class="sidebar">
-            <section class="detail">
-                <h1>Evaluating Your Job Readiness<br><small>One Resume at a Time</small></h1>
-                <p class="role">Software Eng II @Uber – Code Review</p>
-            </section>
-
-            <section class="subbar">
-                <div class="timer">
-                    <strong>02 : 00 : 000</strong><br><small>Timer</small>
-                </div>
-                <div class="votes">
-                    <strong>001<span class="total">/136</span></strong><br><small>Votes</small>
-                </div>
-            </section>
-
-            <section class="notes">
-                <h2>Notes</h2>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                    Nullam non rutrum augue. In scelerisque mauris egestas justo blandit iaculis.
-                </p>
-            </section>
-
-            <footer class="actions">
-                <button type="submit" class="primary">Submit →</button>
-                <button type="button" class="secondary" aria-label="Previous">←</button>
-                <button type="button" class="secondary" aria-label="Next">→</button>
-            </footer>
-        </aside>
-    </main>
+    <script>
+        document.querySelector('.back-button').addEventListener('click', function() {
+            console.log('Back button clicked');
+            // Add your navigation logic here
+        });
+    </script>
 </body>
 </html>
