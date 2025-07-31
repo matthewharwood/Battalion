@@ -66,7 +66,7 @@
     </div>
   </div>
   <script>
-    const eventTimestamp = {{ time_stamp }}; // Injected by Tera as UNIX timestamp
+    const eventTimestamp = {% if time_stamp %}{{ time_stamp }}{% else %}Math.floor(Date.now() / 1000) + 7200{% endif %};
     const countdownEl = document.getElementById("countdown");
     function formatTime(seconds) {
       const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
@@ -92,6 +92,11 @@
       window.open("https://discord.com/invite/XJ2PBd3F", "_blank");
     }
     function beginApplication() {
+      const hasJobs = {% if has_jobs %}true{% else %}false{% endif %};
+      if (!hasJobs) {
+        alert("No jobs are currently available. Please check back later.");
+        return;
+      }
       const eventId = document.getElementById("event-id-hidden").value;
       localStorage.setItem('selectedEvent', eventId);
       window.location.href = `/jobs`;
