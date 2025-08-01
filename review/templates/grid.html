@@ -241,8 +241,17 @@
                 return;
             }
 
+            // Get applicant_id from URL params
+            const urlParams = new URLSearchParams(window.location.search);
+            const applicantId = urlParams.get('applicant_id') || '{{ applicant_id | default(value="") }}';
+
+            if (!applicantId) {
+                console.error('No applicant ID found');
+                return;
+            }
+
             const payload = {
-                applicantId: '{{ applicant_id | default(value="") }}',
+                applicantId: applicantId,
                 eventId: '{{ event_id | default(value="") }}',
                 sessionId: '{{ session_id | default(value="") }}',
                 score: score
