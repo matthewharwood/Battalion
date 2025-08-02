@@ -155,7 +155,18 @@
           }
         }
 
-        window.location.href = CONFIG.jobsUrl;
+        let applicationId;
+        try {
+          applicationId = localStorage.getItem('applicationId');
+        } catch (error) {
+          console.warn('Could not access localStorage:', error);
+        }
+
+        if (applicationId) {
+          window.location.href = '/queue';
+        } else {
+          window.location.href = CONFIG.jobsUrl;
+        }
       }
     };
 
@@ -170,7 +181,6 @@
       Countdown.init();
     });
 
-    // Cleanup on page unload
     window.addEventListener('beforeunload', () => {
       Countdown.stop();
     });
