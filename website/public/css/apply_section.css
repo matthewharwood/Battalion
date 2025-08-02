@@ -58,16 +58,25 @@ body::before {
 .main-container {
     /* flex: 1;
     padding: 2rem; */
-    width: 40%;
+    width: 100%;
     margin-top: 4px;
+    display: flex;
 }
 
 .application-form {
+    width: 40%;
     max-width: 550px;
     background: rgba(0, 0, 0, 0.7);
     border-radius: 12px;
     backdrop-filter: blur(8px);
     box-shadow: 0 0 20px rgba(0,0,0,0.6);
+}
+
+.circular-progressbar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
 }
 
 .left-panel-child {
@@ -245,4 +254,49 @@ body::before {
     .step::after {
         margin-left: 0.5rem;
     }
+}
+
+.progress-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+    width: 300px;
+    height: 300px;
+}
+
+.progress-ring__background {
+    stroke: #333333;
+    stroke-width: 2;
+    fill: transparent;
+    r: 140;
+    cx: 150;
+    cy: 150;
+}
+
+.progress-ring__progress {
+    stroke: #ffffff;
+    stroke-width: 80;
+    fill: transparent;
+    r: 110;
+    cx: 150;
+    cy: 150;
+    stroke-dasharray: 690.884; /* 2 * PI * r = 2 * 3.14159 * 110 */
+    stroke-dashoffset: 165.812; /* 76% = 690.884 * (1 - 0.76) */
+    transition: stroke-dashoffset 2s ease-in-out;
+}
+
+.inner-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140px;
+    height: 140px;
+    background: #000000;
+    border-radius: 50%;
+    border: 2px solid #333333;
 }

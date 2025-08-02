@@ -1,5 +1,5 @@
 class RichTextEditor {
-    constructor() {
+    constructor(urlParams) {
         this.editor = document.getElementById('editor');
         this.preview = document.getElementById('preview');
         this.imageInput = document.getElementById('imageInput');
@@ -8,6 +8,7 @@ class RichTextEditor {
         this.showFormatMenu = false;
         this.content = '';
         this.storageKey = 'rich_editor_content';
+        this.urlParams = urlParams;
         
         this.headingOptions = [
             { label: 'Heading 1', tag: 'h1', fontSize: '24px' },
@@ -315,8 +316,28 @@ class RichTextEditor {
     saveToStorage() {
         if (this.editor) {
             const content = this.editor.innerHTML;
+            const applicantId = this.urlParams.get('applicant_id');
+            console.log('Saving content for applicant:', applicantId);
             try {
-                localStorage.setItem(this.storageKey, content);
+                let existingData = {};
+                const rawData = localStorage.getItem(this.storageKey);
+                
+                // Try to parse existing data, if it fails, start fresh
+                if (rawData) {
+                    try {
+                        existingData = JSON.parse(rawData);
+                        // Ensure it's an object
+                        if (typeof existingData !== 'object' || Array.isArray(existingData)) {
+                            existingData = {};
+                        }
+                    } catch (parseError) {
+                        console.warn('Corrupted localStorage data, starting fresh:', parseError);
+                        existingData = {};
+                    }
+                }
+                
+                existingData[applicantId] = content;
+                localStorage.setItem(this.storageKey, JSON.stringify(existingData));
             } catch (e) {
                 console.warn('Failed to save to localStorage:', e);
             }
@@ -324,11 +345,30 @@ class RichTextEditor {
     }
 
     loadFromStorage() {
+        const applicantId = this.urlParams.get('applicant_id');
         try {
-            const savedContent = localStorage.getItem(this.storageKey);
+            const rawData = localStorage.getItem(this.storageKey);
+            
+            let savedData = {};
+            if (rawData) {
+                try {
+                    savedData = JSON.parse(rawData);
+                    // Ensure it's an object
+                    if (typeof savedData !== 'object' || Array.isArray(savedData)) {
+                        savedData = {};
+                    }
+                } catch (parseError) {
+                    savedData = {};
+                }
+            }
+            
+            const savedContent = savedData[applicantId];
+            console.log('Content for this applicant:', savedContent);
             if (savedContent && this.editor) {
                 this.editor.innerHTML = savedContent;
                 this.content = savedContent;
+            } else {
+                console.log('No saved content found for this applicant');
             }
         } catch (e) {
             console.warn('Failed to load from localStorage:', e);
@@ -338,5 +378,6 @@ class RichTextEditor {
 
 // Initialize the editor when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new RichTextEditor();
+    const urlParams = new URLSearchParams(window.location.search);
+    new RichTextEditor(urlParams);
 });

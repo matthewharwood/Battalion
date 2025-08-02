@@ -102,6 +102,16 @@
                             </div>
                         </form>
                     </div>
+                    <div class="circular-progressbar-wrapper">
+                        <div class="progress-container">
+                            <svg class="progress-ring" width="300" height="300">
+                                <circle class="progress-ring__background"></circle>
+                                <circle class="progress-ring__progress"></circle>
+                            </svg>
+                            <div class="inner-circle"></div>
+                            <div class="progress-text">Form Completion: [ 0% ]</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -169,6 +179,46 @@
                 });
                 isScrolling = true;
             }
+        });
+
+        // Progress bar functionality
+        function updateProgressBar() {
+            const allInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="url"], textarea');
+            const totalFields = allInputs.length;
+            let filledFields = 0;
+
+            allInputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    filledFields++;
+                }
+            });
+
+            const progressPercentage = totalFields > 0 ? Math.round((filledFields / totalFields) * 100) : 0;
+            
+            const progressText = document.querySelector('.progress-text');
+            progressText.textContent = `Form Completion: [ ${progressPercentage}% ]`;
+
+            const progressCircle = document.querySelector('.progress-ring__progress');
+            if (progressCircle) {
+                const radius = 135;
+                const circumference = 2 * Math.PI * radius;
+                const offset = circumference - (progressPercentage / 100) * circumference;
+                
+                progressCircle.style.strokeDasharray = circumference;
+                progressCircle.style.strokeDashoffset = offset;
+            }
+        }
+
+        updateProgressBar();
+
+        // Add event listeners to all form inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const allInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="url"], textarea');
+            
+            allInputs.forEach(input => {
+                input.addEventListener('input', updateProgressBar);
+                input.addEventListener('blur', updateProgressBar);
+            });
         });
     </script>
 </body>
