@@ -116,6 +116,17 @@
             </div>
         </div>
     </div>
+    <div class="join-community-btn">
+        {% set discord_svg = icons::discord_large_icon() %}
+        {{ components::button(
+          label="Join the community",
+          type="button",
+          primary=false,
+          size="small",
+          backIcon=discord_svg,
+          extra_attrs='onclick="openDiscordInvite()"'
+        ) }}
+    </div>
 
     <script>
         // Set selectedJobId from localStorage
@@ -220,6 +231,10 @@
                 input.addEventListener('blur', updateProgressBar);
             });
         });
+
+        function openDiscordInvite() {
+            window.open('https://discord.com/invite/XJ2PBd3F', '_blank', 'noopener,noreferrer');
+        }
     </script>
 </body>
 </html>
