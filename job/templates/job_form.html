@@ -12,7 +12,7 @@
 </head>
 <body>
     <!-- Horizontal Stepper -->
-    <div class="container-background-jobs">
+    <div class="container-background-jobs">  
         <div class="grid-container">
             <div class="container-wrapper">
                 {{ components::stepper(current_step=1) }}
@@ -59,6 +59,17 @@
                         </div>
                 </div>
             </div>
+        </div>
+        <div class="join-community-btn">
+            {% set discord_svg = icons::discord_large_icon() %}
+            {{ components::button(
+            label="Join the community",
+            type="button",
+            primary=false,
+            size="small",
+            backIcon=discord_svg,
+            extra_attrs='onclick="openDiscordInvite()"'
+            ) }}
         </div>
     </div>
 

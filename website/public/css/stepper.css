@@ -1,4 +1,4 @@
-@import url('./variables.css');
+@import url('./variables.css'); 
 
 .stepper-container {
     font-family: var(--font-urban);
@@ -6,7 +6,7 @@
     background: rgba(21, 21, 21, 0.8); 
     backdrop-filter: blur(0.625rem);
     -webkit-backdrop-filter: blur(0.625rem);
-    padding: 1rem 0;
+    padding: var(--text-base) 0;
     border-bottom: 0.0625rem solid var(--border-background-black);
 }
 
@@ -15,7 +15,7 @@
     align-items: center;
     justify-content: space-between;
     color: var(--secondary);
-    padding: 0 1.5rem;
+    padding: 0 var(--space-6);
     position: relative;
 }
 
@@ -79,4 +79,39 @@
 
 .step:last-child::after {
     display: none;
+}
+
+.step-clickable {
+    cursor: pointer;
+}
+
+.step-content-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.step-content-flex {
+    display: flex;
+}
+
+.step-status {
+    display: flex;
+    align-items: center;
+    font-size: var(--text-xs);
+    padding-right: var(--space-2);
+}
+
+.status-live {
+    color: var(--color-green);
+    font-weight: 400;
+}
+
+.status-indicator {
+    display: inline-block;
+    width: var(--space-2);
+    height: var(--space-2);
+    background: var(--color-green);
+    border-radius: var(--space-2);
+    margin-right: 6px;
 }
