@@ -3,7 +3,7 @@
 .stepper-container {
     font-family: var(--font-urban);
     font-size: var(--text-xs);
-    background: rgba(21, 21, 21, 0.8); 
+    background: var(--color-primary-bg); 
     backdrop-filter: blur(0.625rem);
     -webkit-backdrop-filter: blur(0.625rem);
     padding: var(--text-base) 0;
@@ -113,5 +113,5 @@
     height: var(--space-2);
     background: var(--color-green);
     border-radius: var(--space-2);
-    margin-right: 6px;
+    margin-right: var(--space-1);
 }
