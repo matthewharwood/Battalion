@@ -45,7 +45,12 @@
                             
                             <div class="action-buttons">
                                 <div class="action-buttons-child">
-                                    {{ components::button(label="ADD TO CALENDAR", form="", type="", primary=true, size="big", extra_attrs='onclick="addToCalendar()"') }}
+                                    <div id="calendar-button">
+                                        {{ components::button(label="ADD TO CALENDAR", form="", type="", primary=true, size="big", extra_attrs='onclick="addToCalendar()"') }}
+                                    </div>
+                                    <div id="leaderboard-button" style="display: none;">
+                                        {{ components::button(label="GO TO LEADERBOARDS", form="", type="", primary=true, size="big", extra_attrs='onclick="goToLeaderboards()"') }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="share-section">
@@ -104,11 +109,17 @@
         function updateCountdown() {
             const now = Math.floor(Date.now() / 1000); // current UNIX timestamp in seconds
             const remaining = eventTimestamp - now;
+            const calendarButton = document.getElementById('calendar-button');
+            const leaderboardButton = document.getElementById('leaderboard-button');
 
             if (remaining > 0) {
                 countdownEl.textContent = formatTime(remaining);
+                calendarButton.style.display = 'block';
+                leaderboardButton.style.display = 'none';
             } else {
                 countdownEl.textContent = "Live Now!";
+                calendarButton.style.display = 'none';
+                leaderboardButton.style.display = 'block';
                 clearInterval(timerInterval);
             }
         }
@@ -143,6 +154,10 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+        
+        function goToLeaderboards() {
+            window.location.href = '/leaderboard';
         }
         
         updateCountdown();

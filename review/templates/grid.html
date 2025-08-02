@@ -236,17 +236,18 @@
 
         // Submit vote
         async function submitVote(score) {
-            if (isVoted) {
-                alert('You have already voted!');
-                return;
-            }
-
-            // Get applicant_id from URL params
             const urlParams = new URLSearchParams(window.location.search);
             const applicantId = urlParams.get('applicant_id') || '{{ applicant_id | default(value="") }}';
 
             if (!applicantId) {
                 console.error('No applicant ID found');
+                return;
+            }
+
+            // Check if applicantId is already in localStorage 'voted' array
+            const votedApplicants = JSON.parse(localStorage.getItem('voted') || '[]');
+            if (votedApplicants.includes(applicantId)) {
+                alert('You have already voted!');
                 return;
             }
 
@@ -268,6 +269,10 @@
 
                 if (response.status === 201) {
                     isVoted = true;
+                    // Add applicantId to localStorage 'voted' array
+                    const votedApplicants = JSON.parse(localStorage.getItem('voted') || '[]');
+                    votedApplicants.push(applicantId);
+                    localStorage.setItem('voted', JSON.stringify(votedApplicants));
                     console.log('Vote submitted successfully');
                 } else if (response.status === 409) {
                     isVoted = true;
