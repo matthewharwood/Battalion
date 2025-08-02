@@ -11,6 +11,7 @@ use crate::AppState;
 struct VoteStats {
     id: String,
     name: String,
+    job_id: String,
     yay_count: i64,
     nay_count: i64,
 }
@@ -68,7 +69,7 @@ async fn fetch_apply_records(db: &Surreal<surrealdb::engine::remote::ws::Client>
 
 async fn fetch_vote_stats(db: &Surreal<surrealdb::engine::remote::ws::Client>) -> surrealdb::Result<Vec<VoteStats>> {
     // Convert the id to string to avoid serialization issues with Thing type
-    let applicants_result = db.query("SELECT string::concat('apply:', record::id(id)) as id, name FROM apply ORDER BY name").await;
+    let applicants_result = db.query("SELECT string::concat('apply:', record::id(id)) as id, name, job as job_id FROM apply ORDER BY name").await;
     
     let applicants: Vec<Value> = match applicants_result {
         Ok(mut response) => {
@@ -93,6 +94,7 @@ async fn fetch_vote_stats(db: &Surreal<surrealdb::engine::remote::ws::Client>) -
     for applicant in applicants {
         let id = applicant["id"].as_str().unwrap_or_default().to_string();
         let name = applicant["name"].as_str().unwrap_or_default().to_string();
+        let job_id = applicant["job_id"].as_str().unwrap_or_default().to_string();
         
         eprintln!("Processing applicant: {} with id: {}", name, id);
 
@@ -149,10 +151,14 @@ async fn fetch_vote_stats(db: &Surreal<surrealdb::engine::remote::ws::Client>) -
         results.push(VoteStats {
             id,
             name,
+            job_id,
             yay_count,
             nay_count,
         });
     }
+
+    // Sort by descending order of yay_count
+    results.sort_by(|a, b| b.yay_count.cmp(&a.yay_count));
 
     Ok(results)
 }

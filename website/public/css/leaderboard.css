@@ -145,8 +145,28 @@
 }
 
 .table-rows-container {
-    max-height: 300px;
+    max-height: 400px;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gray) var(--color-gray-dark);
+}
+
+.table-rows-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-rows-container::-webkit-scrollbar-track {
+    background: var(--color-gray-dark);
+    border-radius: 4px;
+}
+
+.table-rows-container::-webkit-scrollbar-thumb {
+    background: var(--color-gray);
+    border-radius: 4px;
+}
+
+.table-rows-container::-webkit-scrollbar-thumb:hover {
+    background: var(--color-white);
 }
 
 .no-results {

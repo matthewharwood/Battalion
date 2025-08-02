@@ -117,9 +117,82 @@
         }
 
         // Search functionality
+        let searchTimeout;
         document.querySelector('.search-input').addEventListener('input', function(e) {
-            // This would filter results if there were any leaderboard entries
-            console.log('Search:', e.target.value);
+            const searchValue = e.target.value.trim();
+            const tableRows = document.querySelectorAll('.table-row');
+            
+            clearTimeout(searchTimeout);
+            
+            tableRows.forEach(row => {
+                const nameCell = row.querySelector('div:first-child');
+                if (nameCell) {
+                    const name = nameCell.textContent.toLowerCase().trim();
+                    if (name.includes(searchValue.toLowerCase())) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+            
+            searchTimeout = setTimeout(() => {
+                const url = new URL(window.location);
+                if (searchValue) {
+                    url.searchParams.set('name', searchValue);
+                } else {
+                    url.searchParams.delete('name');
+                }
+                window.history.replaceState({}, '', url.toString());
+            }, 500);
+        });
+
+        // Job filter functionality
+        document.querySelector('select[name="job"]').addEventListener('change', function(e) {
+            const selectedJob = e.target.value;
+            const tableRows = document.querySelectorAll('.table-row');
+            
+            tableRows.forEach(row => {
+                const applicantId = row.querySelector('[data-applicant-id]')?.dataset.applicantId;
+                if (applicantId) {
+                    const voteStats = {{ vote_stats | json_encode() | safe }};
+                    const applicantStats = voteStats.find(stat => stat.id === applicantId);
+                    
+                    if (applicantStats) {
+                        if (!selectedJob || selectedJob === '' || applicantStats.job_id === selectedJob) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    }
+                }
+            });
+            
+            const url = new URL(window.location);
+            if (selectedJob && selectedJob !== '') {
+                url.searchParams.set('job', selectedJob);
+            } else {
+                url.searchParams.delete('job');
+            }
+            window.history.replaceState({}, '', url.toString());
+        });
+
+        window.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const nameParam = urlParams.get('name');
+            const jobParam = urlParams.get('job');
+            const searchInput = document.querySelector('.search-input');
+            const jobSelect = document.querySelector('select[name="job"]');
+            
+            if (nameParam) {
+                searchInput.value = nameParam;
+                searchInput.dispatchEvent(new Event('input'));
+            }
+            
+            if (jobParam && jobSelect) {
+                jobSelect.value = jobParam;
+                jobSelect.dispatchEvent(new Event('change'));
+            }
         });
     </script>
 </body>
