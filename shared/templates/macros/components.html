@@ -47,15 +47,77 @@
         <div class="{{ step_class }}" onclick="window.location.href='/queue'" style="cursor: pointer;">
       {% elif i + 1 == 5 %}
         <div class="{{ step_class }}" onclick="window.location.href='/leaderboard'" style="cursor: pointer;">
+      {% elif i + 1 == 4 %}
+        <div class="{{ step_class }}" id="step-4-container">
       {% else %}
         <div class="{{ step_class }}">
       {% endif %}
-        <div class="step-number">{{ i + 1 }}:</div>
-        <div class="step-label">{{ steps[i] }}</div>
+        {% if i + 1 == 4 %}
+          <div style="display: flex; justify-content: space-between; width: 100%;">
+            <div style="display: flex;">
+              <div class="step-number">{{ i + 1 }}:</div>
+              <div class="step-label">{{ steps[i] }}</div>
+            </div>
+            <div id="step-4-status" style="display: flex; align-items: center; font-size: 12px; padding-right: 8px;"></div>
+          </div>
+        {% else %}
+          <div class="step-number">{{ i + 1 }}:</div>
+          <div class="step-label">{{ steps[i] }}</div>
+        {% endif %}
       </div>
     {% endfor %}
   </div>
 </div>
+
+<script>
+// Step 4 timer functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const step4Status = document.getElementById('step-4-status');
+  if (!step4Status) return;
+
+  function updateStep4Status() {
+    try {
+      const eventTimestamp = localStorage.getItem('eventTimestamp');
+      if (!eventTimestamp) return;
+
+      const eventTime = parseInt(eventTimestamp, 10);
+      const currentTime = Math.floor(Date.now() / 1000);
+      
+      if (currentTime >= eventTime) {
+        // Event is live
+        step4Status.innerHTML = '<span style="color: #FFD084; font-weight: bold;">Live</span>';
+      } else {
+        // Event is in the future, show countdown
+        const remaining = eventTime - currentTime;
+        const hours = Math.floor(remaining / 3600);
+        const minutes = Math.floor((remaining % 3600) / 60);
+        const seconds = remaining % 60;
+        
+        const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        const step4Container = document.getElementById('step-4-container');
+        const computedStyle = step4Container ? getComputedStyle(step4Container) : null;
+        
+        if (computedStyle) {
+          step4Status.style.color = computedStyle.color;
+          step4Status.style.fontFamily = computedStyle.fontFamily;
+          step4Status.style.fontSize = computedStyle.fontSize;
+          step4Status.style.fontWeight = computedStyle.fontWeight;
+          step4Status.style.opacity = 0.5;
+        }
+        
+        step4Status.textContent = `Unlocks: ${timeString}`;
+      }
+    } catch (error) {
+      console.warn('Error updating step 4 status:', error);
+    }
+  }
+
+  // Update immediately and then every second
+  updateStep4Status();
+  setInterval(updateStep4Status, 1000);
+});
+</script>
 {% endmacro %}
 
 

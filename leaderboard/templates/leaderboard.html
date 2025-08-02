@@ -58,7 +58,7 @@
                                 <div>Application Link</div>
                             </div>
                             {% set link_icon_svg = icons::link_icon() %}
-                            <div class="table-rows-container">
+                            <div class="table-rows-container" id="vote-stats-table">
                                 {% for entry in vote_stats %}
                                 <div class="table-row">
                                     <div style="padding: 0 16px;">{{ entry.name }}</div>
@@ -69,24 +69,24 @@
                                     </div>
                                 </div>
                                 {% endfor %}
-                                <!-- <div class="no-results">
-                                    <h2 style="margin-top: 0px">This Session Hasn't Been Ranked Yet.</h2>
-                                    
-                                    <div class="countdown-section">
-                                        <div class="countdown-label">Event Begins:</div>
-                                        <div class="countdown-timer">[ 02:00:000 ]</div>
-                                    </div>
-                                    
-                                    <div class="button-wrapper">
-                                        {{ components::button(label="RETURN HOME", 
-                                            form="resume-form", 
-                                            type="submit", 
-                                            primary=true, 
-                                            size="big",
-                                            extra_attrs='onclick="redirectHomepage()"'
-                                        ) }}
-                                    </div>
-                                </div> -->
+                            </div>
+                            <div class="no-results" id="no-results-section" style="display: none;">
+                                <h2 style="margin-top: 0px">This Session Hasn't Been Ranked Yet.</h2>
+                                
+                                <div class="countdown-section">
+                                    <div class="countdown-label">Event Begins:</div>
+                                    <div class="countdown-timer" id="leaderboard-countdown">[ 02:00:000 ]</div>
+                                </div>
+                                
+                                <div class="button-wrapper">
+                                    {{ components::button(label="RETURN HOME", 
+                                        form="resume-form", 
+                                        type="submit", 
+                                        primary=true, 
+                                        size="big",
+                                        extra_attrs='onclick="redirectHomepage()"'
+                                    ) }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -177,6 +177,44 @@
             window.history.replaceState({}, '', url.toString());
         });
 
+        // Event timing check functionality
+        function checkEventTiming() {
+            try {
+                const eventTimestamp = localStorage.getItem('eventTimestamp');
+                const voteStatsTable = document.getElementById('vote-stats-table');
+                const noResultsSection = document.getElementById('no-results-section');
+                const leaderboardCountdown = document.getElementById('leaderboard-countdown');
+                
+                if (!eventTimestamp || !voteStatsTable || !noResultsSection) return;
+                
+                const eventTime = parseInt(eventTimestamp, 10);
+                const currentTime = Math.floor(Date.now() / 1000);
+                
+                if (currentTime >= eventTime) {
+                    // Event has started or passed, show vote stats table
+                    voteStatsTable.style.display = '';
+                    noResultsSection.style.display = 'none';
+                } else {
+                    // Event is in the future, show no-results with countdown
+                    voteStatsTable.style.display = 'none';
+                    noResultsSection.style.display = '';
+                    
+                    // Update countdown timer
+                    if (leaderboardCountdown) {
+                        const remaining = eventTime - currentTime;
+                        const hours = Math.floor(remaining / 3600);
+                        const minutes = Math.floor((remaining % 3600) / 60);
+                        const seconds = remaining % 60;
+                        
+                        const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                        leaderboardCountdown.textContent = `[ ${timeString} ]`;
+                    }
+                }
+            } catch (error) {
+                console.warn('Error checking event timing:', error);
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const nameParam = urlParams.get('name');
@@ -193,6 +231,10 @@
                 jobSelect.value = jobParam;
                 jobSelect.dispatchEvent(new Event('change'));
             }
+            
+            // Check event timing on page load and update every second
+            checkEventTiming();
+            setInterval(checkEventTiming, 1000);
         });
     </script>
 </body>
