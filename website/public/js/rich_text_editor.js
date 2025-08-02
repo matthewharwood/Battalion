@@ -152,6 +152,18 @@ class RichTextEditor {
         }
     }
 
+    moveCursorToEnd() {
+        if (this.editor) {
+            this.editor.focus();
+            const range = document.createRange();
+            const selection = window.getSelection();
+            range.selectNodeContents(this.editor);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    }
+
     execCommand(command, value = null) {
         // Ensure editor is focused
         if (this.editor) {
@@ -191,6 +203,9 @@ class RichTextEditor {
             }
         }
         
+        // Move cursor to the end of the editor
+        this.moveCursorToEnd();
+        
         this.closeAllDropdowns();
         this.saveToStorage();
         this.updatePreview();
@@ -202,21 +217,101 @@ class RichTextEditor {
             this.editor.focus();
         }
         
+        const selection = window.getSelection();
+        const hasSelection = selection.rangeCount > 0 && !selection.isCollapsed;
+        
         if (command === 'removeFormat') {
             // Remove all formatting but preserve text
-            this.execCommand('removeFormat');
-            // Reset to paragraph with default styling
-            setTimeout(() => {
-                this.execCommand('formatBlock', '<p>');
-            }, 10);
+            if (hasSelection) {
+                this.wrapSelectedText('span', '', true); // Remove formatting
+            } else {
+                this.execCommand('removeFormat');
+                setTimeout(() => {
+                    this.execCommand('formatBlock', '<p>');
+                    this.moveCursorToEnd();
+                }, 10);
+            }
+        } else if (command === 'bold') {
+            if (hasSelection) {
+                this.wrapSelectedText('strong');
+            } else {
+                // If no selection, try execCommand as fallback
+                this.execCommand('bold');
+            }
+        } else if (command === 'italic') {
+            if (hasSelection) {
+                this.wrapSelectedText('em');
+            } else {
+                // If no selection, try execCommand as fallback
+                this.execCommand('italic');
+            }
         } else {
-            // Apply bold or italic formatting
+            // Fallback for other commands
             this.execCommand(command);
+            if (!hasSelection) {
+                this.moveCursorToEnd();
+            }
         }
         
         this.closeAllDropdowns();
         this.saveToStorage();
         this.updatePreview();
+    }
+
+    wrapSelectedText(tagName, className = '', removeFormatting = false) {
+        const selection = window.getSelection();
+        if (selection.rangeCount === 0) return;
+        
+        const range = selection.getRangeAt(0);
+        const selectedText = range.toString();
+        
+        if (!selectedText) return;
+        
+        if (removeFormatting) {
+            // Remove formatting - extract just the text content
+            const textNode = document.createTextNode(selectedText);
+            range.deleteContents();
+            range.insertNode(textNode);
+            
+            // Restore selection
+            range.selectNode(textNode);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        } else {
+            // Create wrapper element
+            const wrapper = document.createElement(tagName);
+            if (className) {
+                wrapper.className = className;
+            }
+            
+            // Check if the selected text is already wrapped in the same tag
+            const parentElement = range.commonAncestorContainer.parentElement;
+            if (parentElement && parentElement.tagName.toLowerCase() === tagName.toLowerCase()) {
+                // Unwrap - replace the parent element with its text content
+                const textNode = document.createTextNode(parentElement.textContent);
+                parentElement.parentNode.replaceChild(textNode, parentElement);
+                
+                // Restore selection on the text
+                range.selectNode(textNode);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            } else {
+                // Wrap the selected text
+                try {
+                    range.surroundContents(wrapper);
+                } catch (e) {
+                    // Fallback if surroundContents fails
+                    wrapper.textContent = selectedText;
+                    range.deleteContents();
+                    range.insertNode(wrapper);
+                }
+                
+                // Restore selection
+                range.selectNodeContents(wrapper);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        }
     }
 
     insertBulletList() {
