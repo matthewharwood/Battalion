@@ -66,6 +66,27 @@
                                     title="Enter a valid email address"
                                 ) }}
 
+                                {{ forms::text_input(
+                                    name="resume",
+                                    label="Resume URL",
+                                    placeholder="Link to your resume",
+                                    type="url"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="portfolio",
+                                    label="Portfolio URL",
+                                    placeholder="Link to your portfolio (optional)",
+                                    type="url"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="linkedin",
+                                    label="LinkedIn Profile",
+                                    placeholder="LinkedIn URL (optional)",
+                                    type="url"
+                                ) }}
+
                                 {{ forms::textarea(name="whatProgramming", label="What got you started in programming?") }}
                                 {{ forms::textarea(name="whyProgramming", label="Why do you want to be a programmer?") }}
                                 {{ forms::textarea(name="whenStart", label="When/where did you start?") }}
@@ -213,7 +234,7 @@
 
             const progressCircle = document.querySelector('.progress-ring__progress');
             if (progressCircle) {
-                const radius = 135;
+                const radius = 110;
                 const circumference = 2 * Math.PI * radius;
                 const offset = circumference - (progressPercentage / 100) * circumference;
                 

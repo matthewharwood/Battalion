@@ -7,18 +7,19 @@ DEFINE FIELD id               ON TABLE apply TYPE option<record<apply> | string>
 DEFINE FIELD event            ON TABLE apply TYPE option<record<event>   | string> PERMISSIONS FULL;
 DEFINE FIELD job              ON TABLE apply TYPE option<record<job>     | string> PERMISSIONS FULL;
 
--- Only these four are required
-DEFINE FIELD github           ON TABLE apply TYPE string                         PERMISSIONS FULL;
+-- Required fields
+DEFINE FIELD name             ON TABLE apply TYPE string                         PERMISSIONS FULL;
+DEFINE FIELD github           ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
 DEFINE FIELD email            ON TABLE apply TYPE string                         PERMISSIONS FULL;
-DEFINE FIELD resume           ON TABLE apply TYPE string                         PERMISSIONS FULL;
-DEFINE FIELD portfolio        ON TABLE apply TYPE string                         PERMISSIONS FULL;
-
--- Everything else is now optional
-DEFINE FIELD name             ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
+DEFINE FIELD resume           ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
+DEFINE FIELD portfolio        ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
 DEFINE FIELD code_base        ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
 DEFINE FIELD linkedin         ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
 DEFINE FIELD language         ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
+DEFINE FIELD what_programming ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
 DEFINE FIELD why_programming  ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
+DEFINE FIELD when_start       ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
+DEFINE FIELD who_program      ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
 DEFINE FIELD ultimate_project ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
 DEFINE FIELD proud_work       ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;
 DEFINE FIELD future_skills    ON TABLE apply TYPE option<string>                 PERMISSIONS FULL;

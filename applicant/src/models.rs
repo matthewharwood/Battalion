@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
-use url::Url;
 use shared::impl_id_to_string_for;
 use serde_with::{serde_as, FromInto};
 use serde_withs::ThingString;
@@ -15,13 +14,13 @@ pub struct Apply {
     #[serde_as(as = "Option<FromInto<ThingString>>")]
     pub job: Option<Thing>,
     pub name: String,
-    pub github: Option<Url>,
+    pub github: Option<String>,
     pub email: String,
-    pub resume: Option<Url>,
+    pub resume: Option<String>,
     pub code_base: Option<String>,
-    pub linkedin: Option<Url>,
+    pub linkedin: Option<String>,
     pub language: Option<String>,
-    pub portfolio: Option<Url>,
+    pub portfolio: Option<String>,
     #[serde(rename = "whatProgramming")]
     pub what_programming: Option<String>,
     pub why_programming: Option<String>,
