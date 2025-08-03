@@ -72,14 +72,26 @@
                             </div>
                         </div>
                         <div class="form-section">
-                            <div class="application-fields">
+                            <div class="application-fields"> 
                                 <div class="profile-header">
                                     <div>
                                         <h1 class="profile-name">{{ applicant.name | default(value="N/A") | safe }}</h1>
-                                        <div class="social-links">
-                                            <a href="{{ applicant.github }}" class="social-link" title="GitHub">
-                                                {{ icons::github_profile_icon() }}
-                                            </a>
+                                        <div class="social-link-wrapper" style="display: flex; gap: 0.75rem">
+                                            <div class="social-links">
+                                                <a href="{{ applicant.github }}" class="social-link" title="GitHub">
+                                                    {{ icons::github_profile_icon() }}
+                                                </a>
+                                            </div>
+                                            <div class="social-links">
+                                                <a href="{{ applicant.linkedin }}" class="social-link" title="GitHub">
+                                                    {{ icons::linkedin_icon() }}
+                                                </a>
+                                            </div>
+                                            <div class="social-links">
+                                                <a href="{{ applicant.portfolio }}" class="social-link" title="GitHub">
+                                                    {{ icons::link_chain_icon() }}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

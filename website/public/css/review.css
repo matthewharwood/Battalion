@@ -20,7 +20,7 @@ body {
 /* Background Pattern */
 body::before {
     content: '';
-    position: fixed;
+position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -371,4 +371,9 @@ body::before {
     flex: none;
     order: 1;
     flex-grow: 0;
+}
+
+.social-link-wrapper {
+    display: flex;
+    gap: var(--space-3);
 }
