@@ -39,7 +39,13 @@ surreal start --log trace --user root --pass root memory
 chmod +x run_all_migrations.sh
 ./run_all_migrations.sh
 ```
-6. Verify seed data
+
+6. Run the App
+```bash
+cargo watch -x "run --package website"
+```
+
+7. Verify seed data
 ```bash
 surreal sql --conn http://127.0.0.1:8000 --user root --pass root --ns test --db test <<'SQL'
 SELECT * FROM job;
@@ -49,11 +55,6 @@ SELECT * FROM vote_record;
 SQL
 ```
 
-
-7. Run the App
-```bash
-cargo run --package website
-```
 
 Your app will be running on: [http://localhost:6969](http://localhost:6969)
 
