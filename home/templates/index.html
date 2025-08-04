@@ -3,9 +3,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Battalion</title>
-  <link rel="stylesheet" href="/css/home_page.css" />
+  <link rel="stylesheet" href="/css/home_page.css">
   <link rel="stylesheet" href="/css/button.css">
 </head>
 <body>
@@ -32,7 +33,7 @@
                 primary=true,
                 size="big",
                 backIcon=discord_icon_svg,
-                extra_attrs='onclick="openDiscordInvite()"'
+                extra_attrs='onclick="Discord.openInvite()"'
               ) }}
             </div>
           </div>
@@ -46,56 +47,154 @@
             </ol>
             <div class="event-info">
               <p>Next Event: <span class="timer" id="countdown"></span></p>
-                <!-- <form id="resume-form" action="/jobs" method="get"> -->
-                <input 
-                  type="hidden" 
-                  id="event-id-hidden" 
-                  name="event_id" 
-                  value="{% if event_options and event_options[0] %}{{ event_options[0].value }}{% endif %}" />
-                {{ components::button(label="BEGIN APPLICATION", 
-                  form="resume-form", 
-                  type="submit", 
-                  primary=true, 
-                  size="big",
-                  extra_attrs='onclick="beginApplication()"'
-                ) }}
+              <input 
+                type="hidden" 
+                id="event-id-hidden" 
+                name="event_id" 
+                value="{% if event_options and event_options[0] %}{{ event_options[0].value }}{% endif %}">
+              {{ components::button(
+                label="BEGIN APPLICATION", 
+                form="resume-form", 
+                type="submit", 
+                primary=true, 
+                size="big",
+                extra_attrs='onclick="Application.begin()"'
+              ) }}
             </div>
           </div>
         </section>
       </div>
     </div>
   </div>
+  <div class="join-community-btn">
+    {% set discord_svg = icons::discord_large_icon() %}
+    {{ components::button(
+      label="Join the community",
+      type="button",
+      primary=false,
+      size="small",
+      backIcon=discord_svg,
+      extra_attrs='onclick="Discord.openInvite()"'
+    ) }}
+  </div>
+
   <script>
-    const eventTimestamp = {{ time_stamp }}; // Injected by Tera as UNIX timestamp
-    const countdownEl = document.getElementById("countdown");
-    function formatTime(seconds) {
-      const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
-      const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-      const secs = String(seconds % 60).padStart(2, '0');
-      return `${hrs}:${mins}:${secs}`;
-    }
-    function updateCountdown() {
-      const now = Math.floor(Date.now() / 1000); // current UNIX timestamp in seconds
-      const remaining = eventTimestamp - now;
+    // Configuration
+    const CONFIG = {
+      eventTimestamp: {% if time_stamp %}{{ time_stamp }}{% else %}Math.floor(Date.now() / 1000) + 7200{% endif %},
+      hasJobs: {% if has_jobs %}true{% else %}false{% endif %},
+      discordInviteUrl: 'https://discord.com/invite/XJ2PBd3F',
+      jobsUrl: '/jobs'
+    };
 
-      if (remaining > 0) {
-        countdownEl.textContent = formatTime(remaining);
-      } else {
-        countdownEl.textContent = "Live Now!";
-        clearInterval(timerInterval);
+    // Utility functions
+    const Utils = {
+      formatTime(seconds) {
+        const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+        const secs = String(seconds % 60).padStart(2, '0');
+        return `${hrs}:${mins}:${secs}`;
+      },
+
+      getCurrentTimestamp() {
+        return Math.floor(Date.now() / 1000);
       }
-    }
-    updateCountdown();
-    const timerInterval = setInterval(updateCountdown, 1000);
+    };
 
-    function openDiscordInvite() {
-      window.open("https://discord.com/invite/XJ2PBd3F", "_blank");
-    }
-    function beginApplication() {
-      const eventId = document.getElementById("event-id-hidden").value;
-      localStorage.setItem('selectedEvent', eventId);
-      window.location.href = `/jobs`;
-    }
+    // Countdown functionality
+    const Countdown = {
+      element: null,
+      interval: null,
+
+      init() {
+        this.element = document.getElementById('countdown');
+        if (!this.element) {
+          console.error('Countdown element not found');
+          return;
+        }
+        this.update();
+        this.interval = setInterval(() => this.update(), 1000);
+      },
+
+      update() {
+        const now = Utils.getCurrentTimestamp();
+        const remaining = CONFIG.eventTimestamp - now;
+
+        if (remaining > 0) {
+          this.element.textContent = Utils.formatTime(remaining);
+        } else {
+          this.element.textContent = 'Live Now!';
+          this.stop();
+        }
+      },
+
+      stop() {
+        if (this.interval) {
+          clearInterval(this.interval);
+          this.interval = null;
+        }
+      }
+    };
+
+    // Discord functionality
+    const Discord = {
+      openInvite() {
+        window.open(CONFIG.discordInviteUrl, '_blank', 'noopener,noreferrer');
+      }
+    };
+
+    // Application functionality
+    const Application = {
+      begin() {
+        if (!CONFIG.hasJobs) {
+          alert('No jobs are currently available. Please check back later.');
+          return;
+        }
+
+        const eventIdElement = document.getElementById('event-id-hidden');
+        if (!eventIdElement) {
+          console.error('Event ID element not found');
+          return;
+        }
+
+        const eventId = eventIdElement.value;
+        if (eventId) {
+          try {
+            localStorage.setItem('selectedEvent', eventId);
+          } catch (error) {
+            console.warn('Could not save to localStorage:', error);
+          }
+        }
+
+        let applicationId;
+        try {
+          applicationId = localStorage.getItem('applicationId');
+        } catch (error) {
+          console.warn('Could not access localStorage:', error);
+        }
+
+        if (applicationId) {
+          window.location.href = '/queue';
+        } else {
+          window.location.href = CONFIG.jobsUrl;
+        }
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Store timestamp in localStorage
+      try {
+        localStorage.setItem('eventTimestamp', CONFIG.eventTimestamp.toString());
+      } catch (error) {
+        console.warn('Could not save timestamp to localStorage:', error);
+      }
+      
+      Countdown.init();
+    });
+
+    window.addEventListener('beforeunload', () => {
+      Countdown.stop();
+    });
   </script>
 </body>
 </html>

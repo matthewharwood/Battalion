@@ -102,9 +102,32 @@
                             </div>
                         </form>
                     </div>
+                    <div class="circular-progressbar-wrapper">
+                        <div class="progress-container">
+                            <svg class="progress-ring" width="300" height="300">
+                                <circle class="progress-ring__background"></circle>
+                                <circle class="progress-ring__progress"></circle>
+                            </svg>
+                            <div class="inner-circle"></div>
+                            <div class="progress-text" style="text-align: center; color: #05DF72">
+                                Form Completion: [ 0% ]
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="join-community-btn">
+        {% set discord_svg = icons::discord_large_icon() %}
+        {{ components::button(
+          label="Join the community",
+          type="button",
+          primary=false,
+          size="small",
+          backIcon=discord_svg,
+          extra_attrs='onclick="openDiscordInvite()"'
+        ) }}
     </div>
 
     <script>
@@ -120,11 +143,42 @@
             // Add your navigation logic here
         });
 
-        // Add form validation
-        document.querySelector('.form-fields').addEventListener('submit', function(e) {
+        // Handle form submission with AJAX
+        document.getElementById('resume-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             console.log('Form submitted');
-            // Add your form submission logic here
+            
+            const formData = new FormData(this);
+            const urlEncodedData = new URLSearchParams(formData);
+            
+            try {
+                const response = await fetch('/apply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: urlEncodedData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success && result.application_id) {
+                    // Store the application ID in localStorage
+                    localStorage.setItem('applicationId', result.application_id);
+                    console.log('Application ID stored:', result.application_id);
+                    
+                    // Redirect to the queue page
+                    if (result.redirect) {
+                        window.location.href = result.redirect;
+                    }
+                } else {
+                    console.error('Application submission failed:', result.error);
+                    alert('Failed to submit application. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('An error occurred while submitting the application.');
+            }
         });
 
         // Add smooth scrolling for form fields
@@ -139,6 +193,50 @@
                 isScrolling = true;
             }
         });
+
+        // Progress bar functionality
+        function updateProgressBar() {
+            const allInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="url"], textarea');
+            const totalFields = allInputs.length;
+            let filledFields = 0;
+
+            allInputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    filledFields++;
+                }
+            });
+
+            const progressPercentage = totalFields > 0 ? Math.round((filledFields / totalFields) * 100) : 0;
+            
+            const progressText = document.querySelector('.progress-text');
+            progressText.textContent = `Form Completion: [ ${progressPercentage}% ]`;
+
+            const progressCircle = document.querySelector('.progress-ring__progress');
+            if (progressCircle) {
+                const radius = 135;
+                const circumference = 2 * Math.PI * radius;
+                const offset = circumference - (progressPercentage / 100) * circumference;
+                
+                progressCircle.style.strokeDasharray = circumference;
+                progressCircle.style.strokeDashoffset = offset;
+            }
+        }
+
+        updateProgressBar();
+
+        // Add event listeners to all form inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const allInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="url"], textarea');
+            
+            allInputs.forEach(input => {
+                input.addEventListener('input', updateProgressBar);
+                input.addEventListener('blur', updateProgressBar);
+            });
+        });
+
+        function openDiscordInvite() {
+            window.open('https://discord.com/invite/XJ2PBd3F', '_blank', 'noopener,noreferrer');
+        }
     </script>
 </body>
 </html>

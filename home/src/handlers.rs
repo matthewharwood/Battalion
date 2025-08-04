@@ -24,10 +24,29 @@ pub async fn index(State(state): State<Arc<AppState>>) -> Result<Html<String>, (
         .take(0)                    
         .map_err(internal_error)?; 
 
+    let job_count: Vec<Value> = state
+        .db
+        .query("SELECT count() AS count FROM job;")
+        .await
+        .map_err(internal_error)?
+        .take(0)
+        .map_err(internal_error)?;
+
+    let has_jobs = if let Some(Value::Object(count_obj)) = job_count.get(0) {
+        if let Some(Value::Number(count)) = count_obj.get("count") {
+            count.as_u64().unwrap_or(0) > 0
+        } else {
+            false
+        }
+    } else {
+        false
+    };
+
     // Step 2: Create Tera context and insert event options
     let mut ctx = Context::new();
     eprintln!("select_opts{:?}", select_opts);
     ctx.insert("event_options", &select_opts);
+    ctx.insert("has_jobs", &has_jobs);
 
     if let Some(Value::Object(first)) = select_opts.get(0) {
         if let Some(Value::String(start_date)) = first.get("startDate") {

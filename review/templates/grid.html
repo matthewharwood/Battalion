@@ -1,77 +1,301 @@
+{% import "macros/components.html" as components %}
+{% import "macros/icons.html" as icons %}
+{% import "macros/forms.html" as forms %}
+{% import "macros/rich_editor.html" as rich_editor %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>{{ page_title | default(value="Responsive Grid Prototype") }}</title>
-    <link rel="stylesheet" href="/css/grid.css">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Portal</title>
+    <link rel="stylesheet" href="/css/review.css" />
+    <link rel="stylesheet" href="/css/forms.css" />
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/stepper.css">
+    <link rel="stylesheet" href="/css/rich_text_editor.css">
 </head>
+
 <body>
-    <!-- 1 ▸ SCOREBOARD STRIP ------------------------------------------------>
-    <header>
-        <!-- <nav class="scoreboard" aria-label="Voting summary">
-            {% for box in scoreboard %}
-            <div class="score {{ box.class }}">
-                <span class="count">{{ box.count }}</span>
-                <span class="label">{{ box.label }}</span>
+    <div class="container-background-jobs">
+        <div class="grid-container">
+            <div class="container-child">
+                {{ components::stepper(current_step=4) }}
+
+                <div class="main-container">
+                    <div class="application-form">
+                        <div class="left-panel-child">
+                            <div style="display: flex;">
+                                <div class="back-button" role="button" tabindex="0" onclick="history.back()">
+                                    {{ icons::back_icon() | safe }}
+                                </div>
+                                <div class="page-title">Votes</div>
+                            </div>
+                            <div style="display: flex; width: 300px; gap: 1.5rem;">
+                                <div class="nay-button vote-btn" role="button" tabindex="1" data-score="-1">
+                                    <div style="display: flex; width: 90%; justify-content: space-around;">
+                                        <div class="nay-content">
+                                            {{ icons::down_arrow_icon() }}
+                                        </div>
+                                        <div class="nay-content" style="padding-left: 8px; color: #FF6467;">
+                                            NAY
+                                        </div>
+                                    </div>
+                                    <div style="border-left: 1px solid #ccc; height: 100%; margin: 0 8px;"></div>
+                                    <div id="nay-count">
+                                        {{ nay_count | default(value=0) }}
+                                    </div>
+                                </div>
+                                <div class="yay-button vote-btn" tabindex="2" data-score="1">
+                                    <div style="display: flex; width: 90%; justify-content: space-around;">
+                                        <div class="yay-content" style="padding-right: 8px; color: #05DF72;">
+                                            YAY
+                                        </div>
+                                        <div>
+                                            {{ icons::up_arrow_icon() }}
+                                        </div>
+                                    </div>
+                                    <div style="border-left: 1px solid #ccc; height: 100%; margin: 0 8px;"></div>
+                                    <div id="yay-count">
+                                        {{ yay_count | default(value=0) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; padding-bottom: 1rem; justify-content: center; font-size: 12px; align-items: center; background: rgba(21, 21, 21, 0.8); backdrop-filter: blur(0.625rem);">
+                            <div style="width: 42%; display: flex; align-items: center;">
+                                <div style="opacity: 0.5; margin-right: 4rem;">
+                                    Selected Job
+                                </div>
+                                <div class="event-name"> 
+                                    {{ job.title }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <div class="application-fields">
+                                <div class="profile-header">
+                                    <div>
+                                        <h1 class="profile-name">{{ applicant.name | default(value="N/A") | safe }}</h1>
+                                        <div class="social-links">
+                                            <a href="{{ applicant.github }}" class="social-link" title="GitHub">
+                                                {{ icons::github_profile_icon() }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">Email</div>
+                                    <div class="question-answer">{{ applicant.email | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What got you started in programming?</div>
+                                    <div class="question-answer">{{ applicant.what_programming | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">Why do you want to be a programmer?</div>
+                                    <div class="question-answer">{{ applicant.why_programming | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">When/where did you start?</div>
+                                    <div class="question-answer">{{ applicant.when_start | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">Who got you into programming?</div>
+                                    <div class="question-answer">{{ applicant.who_program | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What would be your ultimate project right now?</div>
+                                    <div class="question-answer">{{ applicant.ultimate_project | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What is one piece of work you're proud of?</div>
+                                    <div class="question-answer">{{ applicant.proud_work | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What skills do you want to master in the next 5 years?</div>
+                                    <div class="question-answer">{{ applicant.future_skills | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">Any on-call horror stories?</div>
+                                    <div class="question-answer">{{ applicant.oncall_stories | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What strategies do you use to stay focused while working on a task?</div>
+                                    <div class="question-answer">{{ applicant.focus_strategies | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What support system do you rely on to stay focused, and how can we help improve it?</div>
+                                    <div class="question-answer">{{ applicant.support_systems | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">What's your favorite comfort food and why?</div>
+                                    <div class="question-answer">{{ applicant.comfort_food | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">How do you typically spend your weekends?</div>
+                                    <div class="question-answer">{{ applicant.weekend | default(value="N/A") | safe }}</div>
+                                </div>
+
+                                <div class="question-block">
+                                    <div class="question-title">If you could travel anywhere, where would you go?</div>
+                                    <div class="question-answer">{{ applicant.travel_wish | default(value="N/A") | safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blog-container">
+                        {{ rich_editor::rich_text_editor() | safe }}
+                    </div>
+                </div>
             </div>
-            {% endfor %}
-        </nav> -->
-        {% include "vote_widget.html" %}
-    </header>
+        </div>
+    </div>
+        <div class="join-community-btn">
+        {% set discord_svg = icons::discord_large_icon() %}
+        {{ components::button(
+          label="Join the community",
+          type="button",
+          primary=false,
+          size="small",
+          backIcon=discord_svg,
+          extra_attrs='onclick="openDiscordInvite()"'
+        ) }}
+    </div>
 
-    <!-- 2 ▸ MAIN GRID ------------------------------------------------------->
-    <main class="layout">
-        <!-- 2A ▸ LEFT‑HAND ARTICLE (big panel) -->
-        <article class="entry">
-            <header class="entry-meta">
-                <h2>{{ game_title | default(value="Game") }}</h2>
-                <time datetime="{{ game_date | default(value="2025-06-23") }}">
-                    {{ game_date | default(value="June 23, 2025") }}
-                </time>
-            </header>
+    <script>
+        let socket;
+        let isVoted = false;
 
-            {% for q in questions | default(value=[1,2,3,4]) %}
-            <section class="qa">
-                <h3 class="question">Questions{{ q }}</h3>
-                <p class="answer">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non rutrum augue. 
-                    In scelerisque mauris egestas justo blandit iaculis. In hac habitasse platea dictumst.
-                </p>
-            </section>
-            {% endfor %}
-        </article>
+        // Initialize WebSocket connection
+        function initWebSocket() {
+            socket = new WebSocket(`ws://${location.host}/rpc`);
+            
+            socket.onopen = function() {
+                console.log('WebSocket connected');
+            };
+            
+            socket.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data[0] === 'Create' && data[1]) {
+                        updateVoteCount(data[1].score);
+                    }
+                } catch (error) {
+                    console.error('Error parsing WebSocket message:', error);
+                }
+            };
+            
+            socket.onclose = function() {
+                console.log('WebSocket disconnected');
+                // Attempt to reconnect after 3 seconds
+                setTimeout(initWebSocket, 3000);
+            };
+            
+            socket.onerror = function(error) {
+                console.error('WebSocket error:', error);
+            };
+        }
 
-        <!-- 2B ▸ RIGHT‑HAND ASIDE (info panel) -->
-        <aside class="sidebar">
-            <section class="detail">
-                <h1>Evaluating Your Job Readiness<br><small>One Resume at a Time</small></h1>
-                <p class="role">Software Eng II @Uber – Code Review</p>
-            </section>
+        // Update vote count in UI
+        function updateVoteCount(score) {
+            let countElement;
+            if (score === 1) {
+                countElement = document.getElementById('yay-count');
+            } else if (score === -1) {
+                countElement = document.getElementById('nay-count');
+            }
+            
+            if (countElement) {
+                const currentCount = parseInt(countElement.textContent) || 0;
+                countElement.textContent = currentCount + 1;
+            }
+        }
 
-            <section class="subbar">
-                <div class="timer">
-                    <strong>02 : 00 : 000</strong><br><small>Timer</small>
-                </div>
-                <div class="votes">
-                    <strong>001<span class="total">/136</span></strong><br><small>Votes</small>
-                </div>
-            </section>
+        // Submit vote
+        async function submitVote(score) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const applicantId = urlParams.get('applicant_id') || '{{ applicant_id | default(value="") }}';
 
-            <section class="notes">
-                <h2>Notes</h2>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                    Nullam non rutrum augue. In scelerisque mauris egestas justo blandit iaculis.
-                </p>
-            </section>
+            if (!applicantId) {
+                console.error('No applicant ID found');
+                return;
+            }
 
-            <footer class="actions">
-                <button type="submit" class="primary">Submit →</button>
-                <button type="button" class="secondary" aria-label="Previous">←</button>
-                <button type="button" class="secondary" aria-label="Next">→</button>
-            </footer>
-        </aside>
-    </main>
+            // Check if applicantId is already in localStorage 'voted' array
+            const votedApplicants = JSON.parse(localStorage.getItem('voted') || '[]');
+            if (votedApplicants.includes(applicantId)) {
+                alert('You have already voted!');
+                return;
+            }
+
+            const payload = {
+                applicantId: applicantId,
+                eventId: '{{ event_id | default(value="") }}',
+                sessionId: '{{ session_id | default(value="") }}',
+                score: score
+            };
+
+            try {
+                const response = await fetch('/vote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.status === 201) {
+                    isVoted = true;
+                    // Add applicantId to localStorage 'voted' array
+                    const votedApplicants = JSON.parse(localStorage.getItem('voted') || '[]');
+                    votedApplicants.push(applicantId);
+                    localStorage.setItem('voted', JSON.stringify(votedApplicants));
+                    console.log('Vote submitted successfully');
+                } else if (response.status === 409) {
+                    isVoted = true;
+                    alert('You have already voted!');
+                } else {
+                    console.error('Failed to submit vote');
+                }
+            } catch (error) {
+                console.error('Error submitting vote:', error);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initWebSocket();
+
+            // Add click handlers for vote buttons
+            document.querySelectorAll('.vote-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const score = parseInt(this.dataset.score);
+                    submitVote(score);
+                });
+            });
+
+            // Back button handler
+            document.querySelector('.back-button').addEventListener('click', function() {
+                console.log('Back button clicked');
+                history.back();
+            });
+        });
+        function openDiscordInvite() {
+            window.open('https://discord.com/invite/XJ2PBd3F', '_blank', 'noopener,noreferrer');
+        }
+    </script>
 </body>
 </html>

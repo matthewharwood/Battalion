@@ -1,5 +1,5 @@
  @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap');
-        
+@import './variables.css';
 * {
     margin: 0;
     padding: 0;
@@ -9,9 +9,9 @@
 body {
     font-family: var(--font-body);
     font-size: var(--body-size, 1rem);
-    background: #0a0a0a;
+    background: var(--color-black);
     min-height: 100vh;
-    color: #ffffff;
+    color: var(--color-white);
     position: relative;
     overflow: hidden !important;
 }
@@ -25,9 +25,9 @@ body::before {
     right: 0;
     bottom: 0;
     background-image: 
-        radial-gradient(circle at 25% 25%, #1a1a1a 1px, transparent 1px),
+        radial-gradient(circle at 25% 25%, var(--color-gray-background) 1px, transparent 1px),
         radial-gradient(circle at 75% 75%, rgba(255,255,255,0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background-size: var(--space-10) var(--space-10);
     z-index: -1;
 }
 
@@ -50,7 +50,7 @@ body::before {
 
 .container-child {
     box-sizing: border-box; 
-    padding: 44px 78px 0px 48px; 
+    padding: 44px 78px var(--space-0) 48px; 
     background: transparent;
 }
 
@@ -58,147 +58,156 @@ body::before {
 .main-container {
     /* flex: 1;
     padding: 2rem; */
-    width: 40%;
-    margin-top: 4px;
+    width: 100%;
+    margin-top: var(--space-1);
+    display: flex;
 }
 
 .application-form {
-    max-width: 550px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    width: var(--width-40, 40%);
+    max-width: var(--max-width-550, 550px);
+    background: var(--bg-black-70, rgba(0, 0, 0, 0.7));
+    border-radius: var(--rounded-xl);
+    backdrop-filter: blur(var(--blur-8, 8px));
+    box-shadow: var(--shadow-offset-x) var(--shadow-offset-x) var(--space-5) var(--shadow-black-60, rgba(0,0,0,0.6));
+}
+
+.circular-progressbar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--width-60, 60%);
 }
 
 .left-panel-child {
     display: flex;
     align-items: center;
-    padding-bottom: 2rem;
-    padding-left: 1.5rem;
-    padding-top: 1.5rem;
-    background: rgba(21, 21, 21, 0.8); 
-    backdrop-filter: blur(0.625rem);
-    -webkit-backdrop-filter: blur(0.625rem);
+    padding-bottom: var(--space-8);
+    padding-left: var(--space-6);
+    padding-top: var(--space-6);
+    background: var(--color-primary-bg);
+    backdrop-filter: blur(var(--blur-10, 0.625rem));
+    -webkit-backdrop-filter: blur(var(--blur-10, 0.625rem));
 }
 
 .back-button {
     background: none;
     border: none;
-    color: #ffffff;
-    font-size: 1.5rem;
+    color: var(--color-white);
+    font-size: var(--text-2xl);
     cursor: pointer;
-    margin-right: 1rem;
-    padding: 0.5rem;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
+    margin-right: var(--space-4);
+    padding: var(--space-2);
+    border-radius: var(--rounded-md);
+    transition: background-color var(--transition-300, 0.3s) ease;
 }
 
 .back-button:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--border-background-black);
 }
 
 .page-title {
     font-family: var(--font-h2);
     font-size: var(--h2-size, 1.5rem);
     font-weight: 400;
-    color: #ffffff;
+    color: var(--color-white);
 }
 
 .form-section {
-    background: rgba(21, 21, 21, 0.8); 
-    backdrop-filter: blur(0.625rem);
-    -webkit-backdrop-filter: blur(0.625rem);
+    background: var(--color-primary-bg);
+    backdrop-filter: blur(var(--blur-10, 0.625rem));
+    -webkit-backdrop-filter: blur(var(--blur-10, 0.625rem));
 }
 
 .job-meta-details {
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
     /* margin-left: 3.75rem; */
-    margin-left: 6.5rem;
-    padding-right: 18px;
+    margin-left: var(--space-26, 6.5rem);
+    padding-right: var(--space-18, 18px);
 }
 
 .application-fields {
    overflow: scroll; 
-   margin-left: 60px;
+   margin-left: var(--space-60, 60px);
 }
 
 .job-title {
     font-family: var(--font-h3);
     font-size: var(--h3-size, 1.125rem);
     font-weight: 600;
-    color: #ffffff;
-    margin-bottom: 0.5rem;
+    color: var(--color-white);
+    margin-bottom: var(--space-2);
 }
 
 .job-date {
-    font-size: 0.875rem;
-    color: #888888;
-    margin-bottom: 1rem;
+    font-size: var(--text-sm);
+    color: var(--color-gray-888, #888888);
+    margin-bottom: var(--space-4);
 }
 
 .form-fields {
-    max-height: 60vh;
+    max-height: var(--max-height-60vh, 60vh);
     overflow-y: auto;
-    padding-right: 1rem;
+    padding-right: var(--space-4);
 
-    padding-left: 2.75rem;
+    padding-left: var(--space-11, 2.75rem);
 }
 
 .form-fields::-webkit-scrollbar {
-    width: 6px;
+    width: var(--width-6, 6px);
 }
 
 .form-fields::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
+    background: var(--border-background-black);
+    border-radius: var(--rounded-sm);
 }
 
 .form-fields::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
+    background: var(--bg-white-30, rgba(255, 255, 255, 0.3));
+    border-radius: var(--rounded-sm);
 }
 
 .form-fields::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--bg-white-50, rgba(255, 255, 255, 0.5));
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-6);
 }
 
 .form-label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-2);
     font-family: var(--font-body);
     font-weight: 500;
-    color: #ffffff;
-    font-size: 0.875rem;
+    color: var(--color-white);
+    font-size: var(--text-sm);
 }
 
 .form-input,
 .form-textarea,
 .form-select {
     width: 100%;
-    padding: 0.75rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    color: #ffffff;
+    padding: var(--space-3);
+    background: var(--bg-white-05, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--border-background-black);
+    border-radius: var(--rounded-md);
+    color: var(--color-white);
     font-family: var(--font-body);
     font-size: var(--body-size, 1rem);
-    transition: all 0.3s ease;
+    transition: all var(--transition-300, 0.3s) ease;
 }
 
 .form-input:focus,
 .form-textarea:focus,
 .form-select:focus {
     outline: none;
-    border-color: rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--border-white-30, rgba(255, 255, 255, 0.3));
+    background: var(--bg-white-08, rgba(255, 255, 255, 0.08));
 }
 
 .form-textarea {
-    min-height: 100px;
+    min-height: var(--min-height-100, 100px);
     resize: vertical;
 }
 
@@ -206,35 +215,35 @@ body::before {
     cursor: pointer;
     appearance: none;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 0.5rem center;
+    background-position: right var(--space-2) center;
     background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-    padding-right: 2.5rem;
+    background-size: var(--size-1-5em, 1.5em) var(--size-1-5em, 1.5em);
+    padding-right: var(--space-10);
 }
 
 .form-input::placeholder,
 .form-textarea::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--color-white-40, rgba(255, 255, 255, 0.4));
 }
 
 .back-button {
     background: none;
     border: none;
-    color: #ffffff;
+    color: var(--color-white);
     cursor: pointer;
-    margin-right: 3rem;
-    padding: 0.5rem;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
+    margin-right: var(--space-12);
+    padding: var(--space-2);
+    border-radius: var(--rounded-md);
+    transition: background-color var(--transition-300, 0.3s) ease;
 }
 
 .back-button:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--border-background-black);
 }
 
 .application-submit {
     margin-bottom: var(--space-7);  
-    width: 50%;
+    width: var(--width-50, 50%);
 }
 
 @media (max-width: 480px) {
@@ -243,6 +252,56 @@ body::before {
     }
 
     .step::after {
-        margin-left: 0.5rem;
+        margin-left: var(--space-2);
     }
+}
+
+.progress-container {
+    position: relative;
+    width: var(--width-300, 300px);
+    height: var(--height-300, 300px);
+}
+
+.progress-ring {
+    transform: rotate(var(--rotate-neg-90, -90deg));
+    width: var(--width-300, 300px);
+    height: var(--height-300, 300px);
+}
+
+.progress-ring__background {
+    stroke: var(--color-gray-darkest);
+    stroke-width: var(--stroke-width-2, 2);
+    fill: transparent;
+    r: var(--radius-140, 140);
+    cx: var(--center-150, 150);
+    cy: var(--center-150, 150);
+}
+
+.progress-ring__progress {
+    stroke: var(--color-white);
+    stroke-width: var(--stroke-width-80, 80);
+    fill: transparent;
+    r: var(--radius-110, 110);
+    cx: var(--center-150, 150);
+    cy: var(--center-150, 150);
+    stroke-dasharray: var(--dash-array-690, 690.884); /* 2 * PI * r = 2 * 3.14159 * 110 */
+    stroke-dashoffset: var(--dash-offset-165, 165.812); /* 76% = 690.884 * (1 - 0.76) */
+    transition: stroke-dashoffset var(--transition-2s, 2s) ease-in-out;
+}
+
+.inner-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--width-140, 140px);
+    height: var(--height-140, 140px);
+    background: var(--color-black);
+    border-radius: 50%;
+    border: var(--border-2, 2px) solid var(--color-gray-darkest);
+}
+
+.progress-text {
+    color: var(--color-green);
+    text-align: center;
 }

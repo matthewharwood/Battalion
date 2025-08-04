@@ -45,6 +45,7 @@
     /* Base Colors */
     --color-black: #000000;
     --color-white: #ffffff;
+    --color-green: #05DF72;
     --color-gray-dark: #4a4a4a;
     --color-gray-medium: #555555;
     --color-gray-light: #cccccc;
@@ -99,6 +100,10 @@
     --space-12: 3rem;
     --space-14: 3.25rem;
     --space-16: 4rem;
+    --space-20: 5rem;
+    
+    /* Additional spacing values */
+    --space-half: 0.125rem;  /* 2px */
 
     /* Font Sizes */
     --text-xs: 0.75rem;

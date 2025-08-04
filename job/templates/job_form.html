@@ -12,7 +12,7 @@
 </head>
 <body>
     <!-- Horizontal Stepper -->
-    <div class="container-background-jobs">
+    <div class="container-background-jobs">  
         <div class="grid-container">
             <div class="container-wrapper">
                 {{ components::stepper(current_step=1) }}
@@ -60,10 +60,33 @@
                 </div>
             </div>
         </div>
+        <div class="join-community-btn">
+            {% set discord_svg = icons::discord_large_icon() %}
+            {{ components::button(
+            label="Join the community",
+            type="button",
+            primary=false,
+            size="small",
+            backIcon=discord_svg,
+            extra_attrs='onclick="openDiscordInvite()"'
+            ) }}
+        </div>
     </div>
 
     <script>
-        // Job card selection functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                const applicationId = localStorage.getItem('applicationId');
+                if (applicationId) {
+                    // User already has an application, redirect to queue
+                    window.location.href = '/queue';
+                    return;
+                }
+            } catch (error) {
+                console.warn('Could not access localStorage:', error);
+            }
+        });
+
         const jobCards = document.querySelectorAll('.job-card');
         const resumeForm = document.getElementById('resume-form');
         let selectedJobId = null;
@@ -73,21 +96,17 @@
                 jobCards.forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
                 
-                // Store the selected job ID (you'll need to add data-job-id to your job cards)
-                selectedJobId = card.dataset.jobId || index + 1; // fallback to index if no job ID
+                selectedJobId = card.dataset.jobId || index + 1;
                 
-                // Update form action with the selected job ID
                 resumeForm.action = `/apply/${selectedJobId}`;
             });
         });
 
-        // Initialize with first job selected
         if (jobCards.length > 0) {
             selectedJobId = jobCards[0].dataset.jobId || 1;
             resumeForm.action = `/apply/${selectedJobId}`;
         }
 
-        // Add form submission handler to store job_id in localStorage
         resumeForm.addEventListener('submit', function(e) {
             if (selectedJobId) {
                 localStorage.setItem('selectedJobId', selectedJobId);

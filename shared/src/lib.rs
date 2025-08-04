@@ -11,5 +11,6 @@ pub fn add_templates(tera: &mut Tera) {
         ("./shared/templates/macros/forms.html", Some("macros/forms.html")),
         ("./shared/templates/macros/components.html", Some("macros/components.html")),
         ("./shared/templates/macros/icons.html", Some("macros/icons.html")),
+        ("./shared/templates/macros/rich_editor.html", Some("macros/rich_editor.html")),
     ]).expect("Failed to load shared macros");
 }
