@@ -1,4 +1,5 @@
 {% import "macros/forms.html" as forms %}
+{% import "macros/components.html" as components %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +29,7 @@
                  options     = job_options,
                  placeholder = "No spotlight job"
             ) }}
-            <button type="submit" form="resume-form" class="btn-submit">Submit</button>
+             {{ components::button(label="BEGIN APPLICATION", form="resume-form",  type="submit", primary=false, size="big") }}
         </form>
     </div>
 </body>

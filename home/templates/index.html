@@ -3,49 +3,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Battalion</title>
-  <link rel="stylesheet" href="/css/home_page.css" />
+  <link rel="stylesheet" href="/css/home_page.css">
   <link rel="stylesheet" href="/css/button.css">
 </head>
 <body>
   <div class="container-background">
-    <div class="top-section">
-      <div class="logo-header">
-        <h1 class="logo">Battalion</h1>
-        <div class="tagline">A Battalion Of Product Designers. And Engineers.</div>
-      </div>
-      <section class="sidebar-card">
-        <h2 style="margin: 0px; padding-bottom: 16px;">How Battalion Works</h2>
-        <p style="font-size: 16px;">
-          Battalion is an ATS platform built to provide applicants with actionable feedback from industry professionals.
-          Feedback is done in 2-minute sessions, and a total of 20 applicants are selected from this process.
-        </p>
-        <!-- <button class="discord-btn">JOIN DISCORD 🎮</button> -->
-        {% set discord_icon_svg = icons::discord_icon() %}
-        {{ components::button(
-          label="JOIN DISCORD",
-          type="button",
-          primary=false,
-          size="big",
-          backIcon=discord_icon_svg,
-          extra_attrs='onclick="window.open(&quot;https://discord.com/invite/XJ2PBd3F&quot;, &quot;_blank&quot;)"'
-        ) }}
-
-        <ol class="steps">
-          <li>Select a job link</li>
-          <li>Fill out the application</li>
-          <li>Join the stream</li>
-          <li>Review, vote and give feedback</li>
-          <li>Compare leaderboard scores</li>
-        </ol>
-        <div class="event-info">
-          <p>Next Event: <span class="timer">[ 02:00:00 ]</span></p>
-          <!-- <button class="apply-btn">BEGIN APPLICATION</button> -->
-          {{ components::button(label="BEGIN APPLICATION", type="",  primary=false, size="big") }}
+    <div class="grid-container">
+      <div class="top-section">
+        <div class="logo-header">
+          <h1 class="logo">Battalion</h1>
+          <div class="tagline">A Battalion Of Product Designers. And Engineers.</div>
         </div>
-      </section>
+          
+        <section class="sidebar-card">
+          <div class="sidebar-child-card-1">
+            <h2>How Battalion Works</h2>
+            <p>
+              Battalion is an ATS platform built to provide applicants with actionable feedback from industry professionals.
+              Feedback is done in 2-minute sessions, and a total of 20 applicants are selected from this process.
+            </p>
+            <div class="button-wrapper">
+              {% set discord_icon_svg = icons::discord_icon() %}
+              {{ components::button(
+                label="JOIN DISCORD",
+                type="button",
+                primary=true,
+                size="big",
+                backIcon=discord_icon_svg,
+                extra_attrs='onclick="Discord.openInvite()"'
+              ) }}
+            </div>
+          </div>
+          <div class="sidebar-child-card-2">
+            <ol class="steps">
+              <li>Select a job link</li>
+              <li>Fill out the application</li>
+              <li>Join the stream</li>
+              <li>Review, vote and give feedback</li>
+              <li>Compare leaderboard scores</li>
+            </ol>
+            <div class="event-info">
+              <p>Next Event: <span class="timer" id="countdown"></span></p>
+              <input 
+                type="hidden" 
+                id="event-id-hidden" 
+                name="event_id" 
+                value="{% if event_options and event_options[0] %}{{ event_options[0].value }}{% endif %}">
+              {{ components::button(
+                label="BEGIN APPLICATION", 
+                form="resume-form", 
+                type="submit", 
+                primary=true, 
+                size="big",
+                extra_attrs='onclick="Application.begin()"'
+              ) }}
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
+  <div class="join-community-btn">
+    {% set discord_svg = icons::discord_large_icon() %}
+    {{ components::button(
+      label="Join the community",
+      type="button",
+      primary=false,
+      size="small",
+      backIcon=discord_svg,
+      extra_attrs='onclick="Discord.openInvite()"'
+    ) }}
+  </div>
+
+  <script>
+    // Configuration
+    const CONFIG = {
+      eventTimestamp: {% if time_stamp %}{{ time_stamp }}{% else %}Math.floor(Date.now() / 1000) + 7200{% endif %},
+      hasJobs: {% if has_jobs %}true{% else %}false{% endif %},
+      discordInviteUrl: 'https://discord.com/invite/XJ2PBd3F',
+      jobsUrl: '/jobs'
+    };
+
+    // Utility functions
+    const Utils = {
+      formatTime(seconds) {
+        const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+        const secs = String(seconds % 60).padStart(2, '0');
+        return `${hrs}:${mins}:${secs}`;
+      },
+
+      getCurrentTimestamp() {
+        return Math.floor(Date.now() / 1000);
+      }
+    };
+
+    // Countdown functionality
+    const Countdown = {
+      element: null,
+      interval: null,
+
+      init() {
+        this.element = document.getElementById('countdown');
+        if (!this.element) {
+          console.error('Countdown element not found');
+          return;
+        }
+        this.update();
+        this.interval = setInterval(() => this.update(), 1000);
+      },
+
+      update() {
+        const now = Utils.getCurrentTimestamp();
+        const remaining = CONFIG.eventTimestamp - now;
+
+        if (remaining > 0) {
+          this.element.textContent = Utils.formatTime(remaining);
+        } else {
+          this.element.textContent = 'Live Now!';
+          this.stop();
+        }
+      },
+
+      stop() {
+        if (this.interval) {
+          clearInterval(this.interval);
+          this.interval = null;
+        }
+      }
+    };
+
+    // Discord functionality
+    const Discord = {
+      openInvite() {
+        window.open(CONFIG.discordInviteUrl, '_blank', 'noopener,noreferrer');
+      }
+    };
+
+    // Application functionality
+    const Application = {
+      begin() {
+        if (!CONFIG.hasJobs) {
+          alert('No jobs are currently available. Please check back later.');
+          return;
+        }
+
+        const eventIdElement = document.getElementById('event-id-hidden');
+        if (!eventIdElement) {
+          console.error('Event ID element not found');
+          return;
+        }
+
+        const eventId = eventIdElement.value;
+        if (eventId) {
+          try {
+            localStorage.setItem('selectedEvent', eventId);
+          } catch (error) {
+            console.warn('Could not save to localStorage:', error);
+          }
+        }
+
+        let applicationId;
+        try {
+          applicationId = localStorage.getItem('applicationId');
+        } catch (error) {
+          console.warn('Could not access localStorage:', error);
+        }
+
+        if (applicationId) {
+          window.location.href = '/queue';
+        } else {
+          window.location.href = CONFIG.jobsUrl;
+        }
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Store timestamp in localStorage
+      try {
+        localStorage.setItem('eventTimestamp', CONFIG.eventTimestamp.toString());
+      } catch (error) {
+        console.warn('Could not save timestamp to localStorage:', error);
+      }
+      
+      Countdown.init();
+    });
+
+    window.addEventListener('beforeunload', () => {
+      Countdown.stop();
+    });
+  </script>
 </body>
 </html>

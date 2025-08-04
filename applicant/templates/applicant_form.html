@@ -1,166 +1,263 @@
+{% import "macros/components.html" as components %}
+{% import "macros/icons.html" as icons %}
 {% import "macros/forms.html" as forms %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Resume Review</title>
-
-    <!-- JetBrains Mono Bold font -->
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
-
-    <!-- Type & core variables -->
-    <link rel="stylesheet" href="/css/variables.css">
-    <!-- The main stylesheet shown further below -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/apply.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Portal</title>
+    <link rel="stylesheet" href="/css/apply_section.css" />
+    <link rel="stylesheet" href="/css/forms.css" />
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/stepper.css">
 </head>
 
 <body>
-<main class="container" aria-labelledby="page-title">
-    <h1 id="page-title" class="sr-only">Resume readiness form</h1>
+    <div class="container-background-jobs">
+        <div class="grid-container">
+            <div class="container-child">
+                {{ components::stepper(current_step=2) }}
 
+                <div class="main-container">
+                    <div class="application-form">
+                        <div class="left-panel-child">
+                            <div class="back-button" role="button" tabindex="0" onclick="history.back()">
+                                {{ icons::back_icon() | safe }}
+                            </div>
+                            <div class="page-title">Application Page</div>
+                        </div>
 
-    <form id="resume-form" class="form-section" action="/apply" method="post">
-        <!-- Event selector -->
-        <fieldset class="section-event">
-            <legend class="label-bold">Select event</legend>
+                        <form id="resume-form" class="form-section" action="/apply" method="post">
+                            <input type="hidden" id="selectedJobId" name="job" value="">
+                            <div class="job-meta-details">
+                                <p class="job-title">Software Eng II @Uber - Code Review</p>
+                                <p class="job-date">June 23rd, 2025</p>
+                                {{ forms::select_input_ref(
+                                    name="event",
+                                    label="",
+                                    options=event_options,
+                                    placeholder="No Events Available",
+                                )}}
+                            </div>
+                            <div class="form-fields application-fields">
+                                {{ forms::text_input(
+                                    name="name",
+                                    label="Name",
+                                    placeholder="Enter your name"
+                                ) }}
 
-            <div class="event-row">
-                <div class="event-details">
-                    <time class="event-date" datetime="2025-06-23">June 23<sup>rd</sup>, 2025</time>
-                    {{ forms::select_input_ref(
-                        name="event",
-                        label="Event",
-                        options=event_options,
-                        placeholder="No Events Available",
-                    )}}
+                                {{ forms::text_input(
+                                    name="github",
+                                    label="GitHub",
+                                    placeholder="GitHub URL",
+                                    type="url",
+                                    pattern="https?://(www\.)?github\.com/[A-Za-z0-9_.-]+/?",
+                                    title="Enter a valid GitHub profile URL (e.g., https://github.com/username)"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="email",
+                                    label="Email",
+                                    type="email",
+                                    placeholder="Email",
+                                    autocomplete="email",
+                                    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+                                    title="Enter a valid email address"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="resume",
+                                    label="Resume URL",
+                                    placeholder="Link to your resume",
+                                    type="url"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="portfolio",
+                                    label="Portfolio URL",
+                                    placeholder="Link to your portfolio (optional)",
+                                    type="url"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="linkedin",
+                                    label="LinkedIn Profile",
+                                    placeholder="LinkedIn URL (optional)",
+                                    type="url"
+                                ) }}
+
+                                {{ forms::textarea(name="whatProgramming", label="What got you started in programming?") }}
+                                {{ forms::textarea(name="whyProgramming", label="Why do you want to be a programmer?") }}
+                                {{ forms::textarea(name="whenStart", label="When/where did you start?") }}
+                                {{ forms::textarea(name="whoProgram", label="Who got you into programming?") }}
+                                {{ forms::textarea(name="whatProject", label="What would be your ultimate project right now?") }}
+                                {{ forms::textarea(name="proudWork", label="What is one piece of work you’re proud of?") }}
+                                {{ forms::textarea(name="skillsToMaster", label="What skills do you want to master in the next 5 years?") }}
+                                {{ forms::textarea(name="oncallHorror", label="Any on-call horror stories?") }}
+                                {{ forms::textarea(name="focusStrategy", label="What strategies do you use to stay focused while working on a task?") }}
+
+                                {{ forms::text_input(
+                                    name="supportSystem",
+                                    label="What support system do you rely on to stay focused, and how can we help improve it?"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="comfortFood",
+                                    label="What's your favorite comfort food and why?"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="weekendRoutine",
+                                    label="How do you typically spend your weekends?"
+                                ) }}
+
+                                {{ forms::text_input(
+                                    name="travelDestination",
+                                    label="If you could travel anywhere, where would you go?"
+                                ) }}
+                                <div class="application-submit">
+                                    {% set arrow_right_svg = icons::arrow_right() %}
+                                    {{ components::button(label="SUBMIT", form="resume-form", type="submit", primary=true, size="big", backIcon=arrow_right_svg) }}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="circular-progressbar-wrapper">
+                        <div class="progress-container">
+                            <svg class="progress-ring" width="300" height="300">
+                                <circle class="progress-ring__background"></circle>
+                                <circle class="progress-ring__progress"></circle>
+                            </svg>
+                            <div class="inner-circle"></div>
+                            <div class="progress-text" style="text-align: center; color: #05DF72">
+                                Form Completion: [ 0% ]
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="event-details">
-                     {{ forms::select_input_ref(
-                        name="job",
-                        label="Spotlight Job",
-                        options=job_options,
-                        placeholder="No spotlight job"
-                    ) }}
-                </div>
-
-                <a class="btn-job-link" href="#" target="_blank" rel="noopener">Job link</a>
             </div>
-        </fieldset>
-
-        <!-- Compact two‑column pairs -->
-        <div class="flex-pair">
-            {{ forms::text_input(name="name", label="Name", placeholder="Enter your name") }}
-            {{ forms::text_input(
-                name="github",
-                label="Github",
-                placeholder="Github URL",
-                type="url",
-                pattern="https?://(www\.)?github\.com/[A-Za-z0-9_.-]+/?",
-                title="Enter a valid GitHub profile URL (e.g., https://github.com/username)"
-            ) }}
         </div>
+    </div>
+    <div class="join-community-btn">
+        {% set discord_svg = icons::discord_large_icon() %}
+        {{ components::button(
+          label="Join the community",
+          type="button",
+          primary=false,
+          size="small",
+          backIcon=discord_svg,
+          extra_attrs='onclick="openDiscordInvite()"'
+        ) }}
+    </div>
 
-        <div class="flex-pair">
-            {{ forms::text_input(
-                name="email",
-                label="Email",
-                type="email",
-                placeholder="Email",
-                autocomplete="email",
-                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
-                title="Enter a valid email address"
-            ) }}
-            {{ forms::text_input(
-                name="resume",
-                label="Resume link",
-                type="url",
-                placeholder="URL or file share link",
-                pattern="https?://.+",
-                title="Enter a valid URL for your résumé"
-            ) }}
-        </div>
+    <script>
+        // Set selectedJobId from localStorage
+        const selectedJobIdInput = document.getElementById('selectedJobId');
+        const storedJobId = localStorage.getItem('selectedJobId');
+        if (storedJobId) {
+            selectedJobIdInput.value = storedJobId;
+        }
 
-        <div class="flex-pair">
-            {{ forms::text_input(name="codeBase", label="Most code written for", type="text") }}
-            {{ forms::text_input(
-                name="linkedin",
-                label="LinkedIn URL",
-                placeholder="LinkedIn URL",
-                type="url",
-                pattern="https?://(www\.)?linkedin\.com/.*",
-                title="Enter a valid LinkedIn profile URL (e.g., https://linkedin.com/in/username)"
-            ) }}
-        </div>
+        document.querySelector('.back-button').addEventListener('click', function() {
+            console.log('Back button clicked');
+            // Add your navigation logic here
+        });
 
-        <div class="flex-pair">
-            {{ forms::text_input(name="language", label="Most‑used language", placeholder="Javascript") }}
-            {{ forms::text_input(
-                name="portfolio",
-                label="Portfolio",
-                placeholder="Portfolio URL",
-                type="url",
-                pattern="https?://.+",
-                title="Enter a valid portfolio URL"
-            ) }}
-        </div>
+        // Handle form submission with AJAX
+        document.getElementById('resume-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            console.log('Form submitted');
+            
+            const formData = new FormData(this);
+            const urlEncodedData = new URLSearchParams(formData);
+            
+            try {
+                const response = await fetch('/apply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: urlEncodedData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success && result.application_id) {
+                    // Store the application ID in localStorage
+                    localStorage.setItem('applicationId', result.application_id);
+                    console.log('Application ID stored:', result.application_id);
+                    
+                    // Redirect to the queue page
+                    if (result.redirect) {
+                        window.location.href = result.redirect;
+                    }
+                } else {
+                    console.error('Application submission failed:', result.error);
+                    alert('Failed to submit application. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('An error occurred while submitting the application.');
+            }
+        });
 
-        <!-- Open‑ended questions -->
-        <fieldset class="section-qa">
-            <legend class="sr-only">Questionnaire</legend>
-            {{ forms::textarea(name="whyProgramming", label="5Ws got you into programming?") }}
-            {{ forms::textarea(name="ultimateProject", label="Ultimate project right now?") }}
-            {{ forms::textarea(name="proudWork", label="One piece of work you’re most proud of?") }}
-            {{ forms::textarea(name="futureSkills", label="Skills you want to master in 3‑5 years?") }}
-            {{ forms::textarea(name="oncallStories", label="Any on‑call horror stories?") }}
-            {{ forms::textarea(name="focusStrategies", label="Strategies to stay focused &amp; present?") }}
-            {{ forms::textarea(name="supportSystems", label="Support systems you rely on &amp; how we can help?") }}
-            {{ forms::textarea(name="comfortFood", label="Favourite comfort food &amp; why?") }}
-            {{ forms::textarea(name="weekend", label="How do you spend your weekends?") }}
-            {{ forms::textarea(name="travelWish", label="If you could travel anywhere?") }}
-        </fieldset>
+        // Add smooth scrolling for form fields
+        const formFields = document.querySelector('.form-fields');
+        let isScrolling = false;
 
-        <!-- Two truths & a lie -->
-        <fieldset class="section-truths">
-            <legend>Two truths & a lie</legend>
+        formFields.addEventListener('scroll', function() {
+            if (!isScrolling) {
+                window.requestAnimationFrame(function() {
+                    isScrolling = false;
+                });
+                isScrolling = true;
+            }
+        });
 
-            <div class="field">
-                <label for="truth1">Truth #1</label>
-                <input id="truth1" name="truth1" type="text" maxlength="120">
-            </div>
+        // Progress bar functionality
+        function updateProgressBar() {
+            const allInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="url"], textarea');
+            const totalFields = allInputs.length;
+            let filledFields = 0;
 
-            <div class="field">
-                <label for="truth2">Truth #2</label>
-                <input id="truth2" name="truth2" type="text" maxlength="120">
-            </div>
+            allInputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    filledFields++;
+                }
+            });
 
-            <div class="field">
-                <label for="lie">Lie</label>
-                <input id="lie" name="lie" type="text" maxlength="120">
-            </div>
-        </fieldset>
-    </form><!-- /form-section -->
+            const progressPercentage = totalFields > 0 ? Math.round((filledFields / totalFields) * 100) : 0;
+            
+            const progressText = document.querySelector('.progress-text');
+            progressText.textContent = `Form Completion: [ ${progressPercentage}% ]`;
 
+            const progressCircle = document.querySelector('.progress-ring__progress');
+            if (progressCircle) {
+                const radius = 110;
+                const circumference = 2 * Math.PI * radius;
+                const offset = circumference - (progressPercentage / 100) * circumference;
+                
+                progressCircle.style.strokeDasharray = circumference;
+                progressCircle.style.strokeDashoffset = offset;
+            }
+        }
 
-    <!-- ────────────────  SIDE PANEL  ──────────────── -->
-    <aside class="sidebar" aria-label="Submission progress">
-        <h2 class="headline">Evaluating your job‑readiness—one résumé at a time.</h2>
+        updateProgressBar();
 
-        <ol class="checklist" aria-label="Checklist">
-            <li>Review the job post</li>
-            <li>Fill out form</li>
-            <li>Add to calendar</li>
-        </ol>
+        // Add event listeners to all form inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const allInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="url"], textarea');
+            
+            allInputs.forEach(input => {
+                input.addEventListener('input', updateProgressBar);
+                input.addEventListener('blur', updateProgressBar);
+            });
+        });
 
-        <label id="progress-label" class="progress-label" for="progress-bar">50 % completed</label>
-        <progress id="progress-bar" class="progress" value="50" max="100"
-                  aria-labelledby="progress-label"></progress>
-
-        <button type="submit" form="resume-form" class="btn-submit">
-            Submit
-        </button>
-    </aside>
-</main>
+        function openDiscordInvite() {
+            window.open('https://discord.com/invite/XJ2PBd3F', '_blank', 'noopener,noreferrer');
+        }
+    </script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 # List of module directories
 # MODULES=("job" "event" "applicant" "vote")
-MODULES=("job" "event" "applicant" "vote")
+MODULES=("job" "event" "applicant")
 
 for module in "${MODULES[@]}"; do
   echo "📂 Entering $module directory..."

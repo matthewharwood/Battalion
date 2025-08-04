@@ -1,0 +1,256 @@
+{% import "macros/components.html" as components %}
+{% import "macros/icons.html" as icons %}
+{% import "macros/forms.html" as forms %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboards - Job Application Portal</title>
+    <link rel="stylesheet" href="/css/variables.css" />
+    <link rel="stylesheet" href="/css/leaderboard.css">
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/stepper.css">
+    <link rel="stylesheet" href="/css/grid.css">
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body>
+    <div class="background-pattern"> 
+        <div class="grid-container">
+            <div class="leaderboard-container">
+                {{ components::stepper(current_step=5) }}
+                <div style="display: flex; margin: 16px 0px; justify-content: center;">
+                    <div class="leaderboard-content">
+                        
+                        <div class="page-header">
+                            <div style="display: flex; justify-content: space-between;">
+                                <h1 class="page-title">Leaderboards</h1>
+                                <div class="application-description">{{ vote_stats | length }} Applicants</div>
+                            </div>
+                            <p class="page-description">
+                                See how you stack up
+                            </p>
+                            <div class="job-info">
+                                {{ forms::select_input_ref(
+                                    name="job",
+                                    label="",
+                                    options=job_options,
+                                    placeholder="No Jobs Available",
+                                )}}
+                            </div>
+                        </div>
+                        
+                        <div class="search-section">
+                            <div class="search-container">
+                                <div class="search-text">Search</div>
+                                <input type="text" class="search-input" placeholder="Enter a Name">
+                            </div>
+                        </div>
+                        
+
+                        <div class="table-wrapper">
+                            <div class="table-header">
+                                <div>Name</div>
+                                <div>Yay</div>
+                                <div>Nay</div>
+                                <div>Application Link</div>
+                            </div>
+                            {% set link_icon_svg = icons::link_icon() %}
+                            <div class="table-rows-container" id="vote-stats-table">
+                                {% for entry in vote_stats %}
+                                <div class="table-row">
+                                    <div style="padding: 0 16px;">{{ entry.name }}</div>
+                                    <div>{{ entry.yay_count | default(value=0) }}</div>
+                                    <div>{{ entry.nay_count | default(value=0) }}</div>
+                                    <div style="padding-right: 16px;">
+                                        {{ components::button(label="View Application", primary=true, size="small", backIcon=link_icon_svg, extra_attrs='data-applicant-id="' ~ entry.id ~ '" onclick="viewApplication(this.dataset.applicantId)"') }}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="no-results" id="no-results-section" style="display: none;">
+                                <h2 style="margin-top: 0px">This Session Hasn't Been Ranked Yet.</h2>
+                                
+                                <div class="countdown-section">
+                                    <div class="countdown-label">Event Begins:</div>
+                                    <div class="countdown-timer" id="leaderboard-countdown">[ 02:00:000 ]</div>
+                                </div>
+                                
+                                <div class="button-wrapper">
+                                    {{ components::button(label="RETURN HOME", 
+                                        form="resume-form", 
+                                        type="submit", 
+                                        primary=true, 
+                                        size="big",
+                                        extra_attrs='onclick="redirectHomepage()"'
+                                    ) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="join-community-btn">
+        {% set discord_svg = icons::discord_large_icon() %}
+        {{ components::button(
+          label="Join the community",
+          type="button",
+          primary=false,
+          size="small",
+          backIcon=discord_svg,
+          extra_attrs='onclick="openDiscordInvite()"'
+        ) }}
+    </div>
+    
+    <script>
+        // Add keyboard navigation for back button
+        function redirectHomepage() {
+            window.location.href = "/";
+            return
+        }
+
+        function viewApplication(applicantId) {
+            window.location.href = "/reviews?applicant_id=" + applicantId;
+        }
+
+        // Countdown timer functionality
+        function updateCountdown() {
+            const countdownElement = document.querySelector('.countdown-timer');
+            if (countdownElement) {
+                const currentTime = countdownElement.textContent;
+                // This would normally connect to a real countdown
+                // For now, it displays the static time from the screenshot
+            }
+        }
+
+        // Search functionality
+        let searchTimeout;
+        document.querySelector('.search-input').addEventListener('input', function(e) {
+            const searchValue = e.target.value.trim();
+            const tableRows = document.querySelectorAll('.table-row');
+            
+            clearTimeout(searchTimeout);
+            
+            tableRows.forEach(row => {
+                const nameCell = row.querySelector('div:first-child');
+                if (nameCell) {
+                    const name = nameCell.textContent.toLowerCase().trim();
+                    if (name.includes(searchValue.toLowerCase())) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+            
+            searchTimeout = setTimeout(() => {
+                const url = new URL(window.location);
+                if (searchValue) {
+                    url.searchParams.set('name', searchValue);
+                } else {
+                    url.searchParams.delete('name');
+                }
+                window.history.replaceState({}, '', url.toString());
+            }, 500);
+        });
+
+        // Job filter functionality
+        document.querySelector('select[name="job"]').addEventListener('change', function(e) {
+            const selectedJob = e.target.value;
+            const tableRows = document.querySelectorAll('.table-row');
+            
+            tableRows.forEach(row => {
+                const applicantId = row.querySelector('[data-applicant-id]')?.dataset.applicantId;
+                if (applicantId) {
+                    const voteStats = {{ vote_stats | json_encode() | safe }};
+                    const applicantStats = voteStats.find(stat => stat.id === applicantId);
+                    
+                    if (applicantStats) {
+                        if (!selectedJob || selectedJob === '' || applicantStats.job_id === selectedJob) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    }
+                }
+            });
+            
+            const url = new URL(window.location);
+            if (selectedJob && selectedJob !== '') {
+                url.searchParams.set('job', selectedJob);
+            } else {
+                url.searchParams.delete('job');
+            }
+            window.history.replaceState({}, '', url.toString());
+        });
+
+        // Event timing check functionality
+        function checkEventTiming() {
+            try {
+                const eventTimestamp = localStorage.getItem('eventTimestamp');
+                const voteStatsTable = document.getElementById('vote-stats-table');
+                const noResultsSection = document.getElementById('no-results-section');
+                const leaderboardCountdown = document.getElementById('leaderboard-countdown');
+                
+                if (!eventTimestamp || !voteStatsTable || !noResultsSection) return;
+                
+                const eventTime = parseInt(eventTimestamp, 10);
+                const currentTime = Math.floor(Date.now() / 1000);
+                
+                if (currentTime >= eventTime) {
+                    // Event has started or passed, show vote stats table
+                    voteStatsTable.style.display = '';
+                    noResultsSection.style.display = 'none';
+                } else {
+                    // Event is in the future, show no-results with countdown
+                    voteStatsTable.style.display = 'none';
+                    noResultsSection.style.display = '';
+                    
+                    // Update countdown timer
+                    if (leaderboardCountdown) {
+                        const remaining = eventTime - currentTime;
+                        const hours = Math.floor(remaining / 3600);
+                        const minutes = Math.floor((remaining % 3600) / 60);
+                        const seconds = remaining % 60;
+                        
+                        const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                        leaderboardCountdown.textContent = `[ ${timeString} ]`;
+                    }
+                }
+            } catch (error) {
+                console.warn('Error checking event timing:', error);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const nameParam = urlParams.get('name');
+            const jobParam = urlParams.get('job');
+            const searchInput = document.querySelector('.search-input');
+            const jobSelect = document.querySelector('select[name="job"]');
+            
+            if (nameParam) {
+                searchInput.value = nameParam;
+                searchInput.dispatchEvent(new Event('input'));
+            }
+            
+            if (jobParam && jobSelect) {
+                jobSelect.value = jobParam;
+                jobSelect.dispatchEvent(new Event('change'));
+            }
+            
+            // Check event timing on page load and update every second
+            checkEventTiming();
+            setInterval(checkEventTiming, 1000);
+        });
+
+        function openDiscordInvite() {
+            window.open('https://discord.com/invite/XJ2PBd3F', '_blank', 'noopener,noreferrer');
+        }
+    </script>
+</body>
+</html>

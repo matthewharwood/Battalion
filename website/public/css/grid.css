@@ -1,3 +1,4 @@
+@import './variables.css';
 /* ---------- 1. TOKEN DEFINITIONS ---------- */
 :root {
     --gap: 1rem;
@@ -10,7 +11,7 @@
     --clr-may: #ffd740;
     --clr-nay: #ff6363;
 
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: "Urbanist", sans-serif;
     color-scheme: dark;
 }
 
@@ -42,7 +43,7 @@ html, body {
     font-size: .75rem;
     letter-spacing: .05em;
 }
-.score .count   { display:block; font-size:1.25rem; font-weight:600; line-height:1; }
+.score .count   { display:block; font-size:1.25rem; font-weight:600; line-height:1; font-family: "IBM Plex Mono", monospace; }
 .score.yay  { --accent: var(--clr-yay); }
 .score.may  { --accent: var(--clr-may); }
 .score.nay  { --accent: var(--clr-nay); }
@@ -105,7 +106,7 @@ html, body {
     }
 }
 /* headline area */
-.detail h1 { margin:.25rem 0 0; font-size:1.1rem; line-height:1.3; }
+.detail h1 { margin:.25rem 0 0; font-size:1.1rem; line-height:1.3; font-family: "Urbanist", sans-serif; }
 .detail small { font-weight:400; color:var(--clr-subtle); }
 .role { margin:.5rem 0 0; font-size:.75rem; color:var(--clr-subtle); }
 
@@ -130,7 +131,8 @@ html, body {
     gap: var(--gap);
 }
 button {
-    font: inherit;
+    font-family: "Urbanist", sans-serif;
+    font-size: 1rem;
     cursor: pointer;
     border: 0;
     border-radius: .25rem;

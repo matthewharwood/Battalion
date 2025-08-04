@@ -1,0 +1,176 @@
+{% import "macros/components.html" as components %}
+{% import "macros/icons.html" as icons %}
+{% import "macros/forms.html" as forms %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Portal</title>
+    <link rel="stylesheet" href="/css/queue_section.css" />
+    <link rel="stylesheet" href="/css/forms.css" />
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/stepper.css">
+</head>
+
+<body>
+    <div class="container-background-jobs">
+        <div class="grid-container">
+            <div class="container-child-queue">
+                {{ components::stepper(current_step=3) }}
+                
+                <div class="main-container">
+                    <div class="queue-card">
+                            <div class="left-panel-child">
+                                <div class="back-button-queue" role="button" tabindex="0" onclick="history.back()">
+                                    {{ icons::back_icon() | safe }}
+                                </div>
+                                <div class="page-title">You're Queued!</div>
+                            </div>
+                            <div class="event-date" id="event-date"></div>
+                    
+                            <div class="event-info">
+                                <p>You're signed up for the event, make sure to add it to your calendar.</p>
+                                <p>When the event is live, you can access it here.</p>
+                            </div>
+                            
+                            <div class="signup-count">
+                                <!-- 19 Sign Ups  Need to take values from handler.rs--> 
+                            </div>
+                            
+                            <div class="countdown-section">
+                                <div class="countdown-label">Event Starts In:</div>
+                                <div class="countdown-timer" id="countdown"></div>
+                            </div>
+                            
+                            <div class="action-buttons">
+                                <div class="action-buttons-child">
+                                    <div id="calendar-button">
+                                        {{ components::button(label="ADD TO CALENDAR", form="", type="", primary=true, size="big", extra_attrs='onclick="addToCalendar()"') }}
+                                    </div>
+                                    <div id="leaderboard-button" style="display: none;">
+                                        {{ components::button(label="GO TO LEADERBOARDS", form="", type="", primary=true, size="big", extra_attrs='onclick="goToLeaderboards()"') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="share-section">
+                                <div class="share-text">Share this event with your friends</div>
+                                    <div class="social-buttons">
+                                        <a href="#" class="social-button" title="Share on LinkedIn">
+                                            {{ icons::linkedin_icon() }}
+                                        </a>
+                                        <a href="#" class="social-button" title="Share on Instagram">
+                                            {{ icons::instagram_icon() }}
+                                        </a>
+                                        <a href="#" class="social-button" title="Share on Twitter">
+                                            {{ icons::twitter_icon() }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="join-community-btn">
+        {% set discord_svg = icons::discord_large_icon() %}
+        {{ components::button(
+          label="Join the community",
+          type="button",
+          primary=false,
+          size="small",
+          backIcon=discord_svg,
+          extra_attrs='onclick="openDiscordInvite()"'
+        ) }}
+    </div>
+
+    <script>
+        const eventTimestamp = {% if time_stamp %}{{ time_stamp }}{% else %}0{% endif %}; // Injected by Tera as UNIX timestamp
+        const countdownEl = document.getElementById("countdown");
+        const eventDateEl = document.getElementById("event-date");
+
+        if (eventTimestamp > 0) {
+            const eventDate = new Date(eventTimestamp * 1000);
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            };
+            eventDateEl.textContent = eventDate.toLocaleDateString('en-US', options);
+        }
+        
+        function formatTime(seconds) {
+            const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(seconds % 60).padStart(2, '0');
+            return `[ ${hrs}:${mins}:${secs} ]`;
+        }
+        
+        function updateCountdown() {
+            const now = Math.floor(Date.now() / 1000); // current UNIX timestamp in seconds
+            const remaining = eventTimestamp - now;
+            const calendarButton = document.getElementById('calendar-button');
+            const leaderboardButton = document.getElementById('leaderboard-button');
+
+            if (remaining > 0) {
+                countdownEl.textContent = formatTime(remaining);
+                calendarButton.style.display = 'block';
+                leaderboardButton.style.display = 'none';
+            } else {
+                countdownEl.textContent = "Live Now!";
+                calendarButton.style.display = 'none';
+                leaderboardButton.style.display = 'block';
+                clearInterval(timerInterval);
+            }
+        }
+
+        function addToCalendar() {
+            const eventDate = new Date(eventTimestamp * 1000);
+            const endDate = new Date(eventDate.getTime() + (2 * 60 * 60 * 1000)); // 2 hours duration
+            
+            const formatDate = (date) => {
+                return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+            };
+            
+            const icsContent = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'PRODID:-//Battalion//Event Calendar//EN',
+                'BEGIN:VEVENT',
+                `UID:${Date.now()}@battalion.com`,
+                `DTSTART:${formatDate(eventDate)}`,
+                `DTEND:${formatDate(endDate)}`,
+                'SUMMARY:Battalion Event',
+                'DESCRIPTION:You are registered for this Battalion event. Join us for an exciting experience!',
+                'STATUS:CONFIRMED',
+                'END:VEVENT',
+                'END:VCALENDAR'
+            ].join('\r\n');
+            
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'battalion-event.ics';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        function goToLeaderboards() {
+            window.location.href = '/leaderboard';
+        }
+        function openDiscordInvite() {
+            window.open('https://discord.com/invite/XJ2PBd3F', '_blank', 'noopener,noreferrer');
+        }
+
+        updateCountdown();
+        const timerInterval = setInterval(updateCountdown, 1000);
+    </script>
+
+</body>
+</html>

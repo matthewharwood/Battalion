@@ -1,0 +1,283 @@
+@import url('./variables.css');
+
+* {
+    margin: var(--space-0);
+    padding: var(--space-0);
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-urban);
+    font-size: var(--body-size);
+    background: var(--background-black);
+    min-height: 100vh;
+    color: var(--secondary);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Background Pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: var(--space-0);
+    left: var(--space-0);
+    right: var(--space-0);
+    bottom: var(--space-0);
+    background-size: 2.5rem 2.5rem;
+    z-index: -1;
+}
+
+.container-background-jobs {
+    background-image: url("../images/Home.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    /* padding: var(--space-8); */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.grid-container {
+    background-image: url("../images/grid.svg");
+    background-repeat: repeat;
+    background-size: auto;
+}
+
+/* Main Content */
+.main-container {
+    /* padding: 2.5rem; */
+    margin-top: 4px;
+    width: 40%;
+    display: grid;
+    /* grid-template-columns: 1fr 1fr; */
+    /* gap: 2.5rem; */
+    background: transparent;
+
+
+    min-height: calc(100vh - 7.5rem);
+}
+
+.left-panel-wrapper {
+    background: rgba(21, 21, 21, 0.8); 
+    backdrop-filter: blur(0.625rem);
+    -webkit-backdrop-filter: blur(0.625rem);
+    padding: 32px 24px;
+    margin-bottom: 4px;
+}
+
+.page-title {
+    font-family: var(--font-urban);
+    font-size: var(--h2-size);
+    font-weight: 400;
+    margin-bottom: 1rem;
+    margin-left: 3.625rem;
+}
+
+.page-subtitle {
+    font-family: var(--font-urban);
+    font-size: var(--text-sm);
+    opacity: 0.7;
+    line-height: 1.5;
+    max-width: 25rem;
+}
+
+/* Job Cards */
+.job-list {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2.5rem;
+
+    background: rgba(21, 21, 21, 0.8); 
+    backdrop-filter: blur(0.625rem);
+    -webkit-backdrop-filter: blur(0.625rem);
+}
+
+.job-list-wrapper {
+    background: rgba(21, 21, 21, 0.8); 
+    backdrop-filter: blur(0.625rem);
+    -webkit-backdrop-filter: blur(0.625rem);
+}
+
+.job-card {
+    border-bottom: 0.0625rem solid rgba(255,255,255,0.2);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    backdrop-filter: blur(0.625rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.job-card:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: var(--secondary);
+    transform: translateY(-0.0625rem);
+}
+
+.job-card.selected {
+}
+
+.job-card::before {
+    content: '';
+    position: absolute;
+    /* left: 1.25rem; */
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--space-3);
+    height: var(--space-3);
+    border: 0.125rem solid rgba(255,255,255,0.5);
+    background: transparent;
+}
+
+.job-card.selected::before {
+    background: #FFD084;
+    border-color: #FFD084;
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+}
+
+.job-title {
+    font-family: var(--font-urban);
+    font-size: var(--h3-size);
+    font-weight: 600;
+    padding-left: 1.875rem;
+}
+
+.company-icon {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.job-details {
+    display: flex;
+    gap: 1.25rem;
+    font-size: var(--text-sm);
+    opacity: 0.8;
+    padding-left: 1.875rem;
+}
+
+.job-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.3125rem;
+}
+
+/* Apply Button */
+.apply-button {
+    background: #ff6b35;
+    color: var(--secondary);
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 0.5rem;
+    font-family: var(--font-urban);
+    font-size: var(--button-size);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.0625rem;
+}
+
+.apply-button:hover {
+    background: var(--color-orange);
+    transform: translateY(-0.125rem);
+    box-shadow: 0 0.5rem 1.5625rem rgba(255,107,53,0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 48rem) {
+    .stepper {
+        padding: 0 1.25rem;
+        flex-wrap: wrap;
+        gap: 0.625rem;
+    }
+    
+    .step {
+        margin-right: 0.625rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .step::after {
+        right: -0.5rem;
+    }
+    
+    .step-label {
+        font-size: var(--text-xs);
+    }
+    
+    .step-number {
+        width: 1.5rem;
+        height: 1.5rem;
+        font-size: var(--text-xs);
+        margin-right: 0.5rem;
+    }
+    
+    .main-container {
+        padding: 1.25rem;
+    }
+    
+    .job-title {
+        font-size: 1.125rem;
+    }
+    
+    .right-panel {
+        position: static;
+        margin-top: 1.25rem;
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+.left-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.left-panel-child {
+    display: flex;
+}
+
+.job-footer {
+    display: flex; 
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: var(--secondary);
+    font-size: 1.125rem;
+    cursor: pointer;
+    margin-bottom: var(--space-3);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.back-button:hover {
+    opacity: 1;
+}
+
+.container-wrapper {
+    box-sizing: border-box;
+    background: transparent;
+    padding-top: 44px;
+    padding-left: 47px;
+    padding-right: 78px;
+}

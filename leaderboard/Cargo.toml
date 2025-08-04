@@ -1,0 +1,22 @@
+[package]
+name = "leaderboard"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+surrealdb = { workspace = true }
+tokio = { workspace = true }
+tera = { workspace = true }
+schemars = { workspace = true }
+url = { workspace = true }
+shared = { path = "../shared" }
+chrono = { workspace = true }
+serde_with = { workspace = true, features = ["macros"] }
+serde_withs = { path = "../serde_withs" }
+applicant = { path = "../applicant" }
+vote = { path = "../vote" }
+job = { path = "../job" }
+event = { path = "../event" }

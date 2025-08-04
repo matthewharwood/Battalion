@@ -1502,6 +1502,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "home"
+version = "0.1.0"
+dependencies = [
+ "applicant",
+ "axum",
+ "chrono",
+ "serde",
+ "serde_json",
+ "shared",
+ "tera",
+]
+
+[[package]]
 name = "html5ever"
 version = "0.31.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1951,6 +1964,28 @@ name = "lazy_static"
 version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bbd2bcb4c963f2ddae06a2efc7e9f3591312473c50c6685e1f298068316e66fe"
+
+[[package]]
+name = "leaderboard"
+version = "0.1.0"
+dependencies = [
+ "applicant",
+ "axum",
+ "chrono",
+ "event",
+ "job",
+ "schemars",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "serde_withs",
+ "shared",
+ "surrealdb",
+ "tera",
+ "tokio",
+ "url",
+ "vote",
+]
 
 [[package]]
 name = "lexicmp"
@@ -2654,6 +2689,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "queue"
+version = "0.1.0"
+dependencies = [
+ "applicant",
+ "axum",
+ "chrono",
+ "schemars",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "serde_withs",
+ "shared",
+ "surrealdb",
+ "tera",
+ "tokio",
+ "url",
+]
+
+[[package]]
 name = "quick_cache"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2981,6 +3035,7 @@ version = "0.1.0"
 dependencies = [
  "applicant",
  "axum",
+ "job",
  "schemars",
  "serde",
  "serde_json",
@@ -4730,7 +4785,10 @@ dependencies = [
  "applicant",
  "axum",
  "event",
+ "home",
  "job",
+ "leaderboard",
+ "queue",
  "review",
  "schemars",
  "serde",

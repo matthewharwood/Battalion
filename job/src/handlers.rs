@@ -1,13 +1,45 @@
 use std::sync::Arc;
-use axum::{Form, Json, extract::{State, Path}, response::{Html, IntoResponse}, http::StatusCode};
+use axum::{
+    extract::{Path, State},
+    response::{Html, IntoResponse},
+    Form, Json,
+    http::StatusCode,
+};
 use applicant::AppState;
 use crate::models::Job;
+use tera::{Context};
 
-pub(crate) async fn show_form(State(state): State<Arc<AppState>>) -> impl IntoResponse {
+pub(crate) async fn show_form(State(state): State<Arc<AppState>>) -> Result<impl IntoResponse, (StatusCode, &'static str)> {
     let tera = &state.views;
-    let ctx = tera::Context::new();
-    let rendered = tera.render("job_form.html", &ctx).unwrap();
-    Html(rendered)
+    let db = &state.db;
+
+    let jobs: Vec<Job> = db
+        .query("SELECT *, string::concat('job:', record::id(id)) AS value FROM job")
+        .await
+        .map_err(|e| {
+            eprintln!("Query error: {:?}", e);
+            (StatusCode::INTERNAL_SERVER_ERROR, "Query failed")
+        })?
+        .take(0)
+        .map_err(|e| {
+            eprintln!("Deserialization error: {:?}", e);
+            (StatusCode::INTERNAL_SERVER_ERROR, "Deserialization failed")
+        })?;
+
+    println!("Jobs: {:?}", jobs);
+
+    // let jobs_json = serde_json::to_value(&jobs).unwrap();
+    // println!("Jobs as JSON: {}", jobs_json);
+    
+    let mut ctx = Context::new();
+    ctx.insert("jobs", &jobs);
+
+    tera.render("job_form.html", &ctx)
+        .map(Html)
+        .map_err(|e| {
+            eprintln!("Template rendering error: {:?}", e);
+            (StatusCode::INTERNAL_SERVER_ERROR, "Template rendering failed")
+        })
 }
 
 pub(crate) async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Job>) -> impl IntoResponse {

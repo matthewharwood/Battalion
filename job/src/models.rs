@@ -3,19 +3,24 @@ use surrealdb::{Surreal, engine::remote::ws::Client as WsClient, sql::Thing};
 use shared::impl_id_to_string_for;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
 pub enum JobLevel {
     Intern,
+    #[serde(alias = "junior")]
     Junior,
+    #[serde(alias = "mid")]
     Mid,
-    Senior, 
+    #[serde(alias = "senior")]
+    Senior,
+    #[serde(alias = "staff")]
     Staff,
 }
+
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Job {
     pub id: Option<Thing>,
+    pub value: Option<String>,
     pub title: String,
     pub level: JobLevel,
     pub team: String,
