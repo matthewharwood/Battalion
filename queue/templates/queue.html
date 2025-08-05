@@ -21,14 +21,18 @@
                 
                 <div class="main-container">
                     <div class="queue-card">
+
+                        <div class="queue-child-card first-card">
                             <div class="left-panel-child">
                                 <div class="back-button-queue" role="button" tabindex="0" onclick="history.back()">
                                     {{ icons::back_icon() | safe }}
                                 </div>
-                                <div class="page-title">You're Queued!</div>
+                                <div class="queue-content-wrapper">
+                                    <div class="page-title">You're Queued!</div>
+                                    <div class="event-date" id="event-date"></div>
+                                </div>
                             </div>
-                            <div class="event-date" id="event-date"></div>
-                    
+                        
                             <div class="event-info">
                                 <p>You're signed up for the event, make sure to add it to your calendar.</p>
                                 <p>When the event is live, you can access it here.</p>
@@ -37,12 +41,15 @@
                             <div class="signup-count">
                                 <!-- 19 Sign Ups  Need to take values from handler.rs--> 
                             </div>
-                            
+                                    
                             <div class="countdown-section">
                                 <div class="countdown-label">Event Starts In:</div>
                                 <div class="countdown-timer" id="countdown"></div>
                             </div>
-                            
+                        </div>
+
+
+                        <div class="queue-child-card">   
                             <div class="action-buttons">
                                 <div class="action-buttons-child">
                                     <div id="calendar-button">
@@ -55,22 +62,23 @@
                             </div>
                             <div class="share-section">
                                 <div class="share-text">Share this event with your friends</div>
-                                    <div class="social-buttons">
-                                        <a href="#" class="social-button" title="Share on LinkedIn">
-                                            {{ icons::linkedin_icon() }}
-                                        </a>
-                                        <a href="#" class="social-button" title="Share on Instagram">
-                                            {{ icons::instagram_icon() }}
-                                        </a>
-                                        <a href="#" class="social-button" title="Share on Twitter">
-                                            {{ icons::twitter_icon() }}
-                                        </a>
-                                    </div>
+                                <div class="social-buttons">
+                                    <a href="#" class="social-button" title="Share on LinkedIn">
+                                        {{ icons::linkedin_icon() }}
+                                    </a>
+                                    <a href="#" class="social-button" title="Share on Instagram">
+                                        {{ icons::instagram_icon() }}
+                                    </a>
+                                    <a href="#" class="social-button" title="Share on Twitter">
+                                        {{ icons::twitter_icon() }}
+                                    </a>
                                 </div>
                             </div>
+                        </div>  
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>
@@ -116,15 +124,20 @@
             const remaining = eventTimestamp - now;
             const calendarButton = document.getElementById('calendar-button');
             const leaderboardButton = document.getElementById('leaderboard-button');
+            const countdownSection = document.querySelector('.countdown-label');
 
             if (remaining > 0) {
                 countdownEl.textContent = formatTime(remaining);
+                countdownEl.removeAttribute('data-status');
                 calendarButton.style.display = 'block';
                 leaderboardButton.style.display = 'none';
+                countdownSection.style.display = 'block';
             } else {
                 countdownEl.textContent = "Live Now!";
+                countdownEl.setAttribute('data-status', 'live');
                 calendarButton.style.display = 'none';
                 leaderboardButton.style.display = 'block';
+                countdownSection.style.display = 'none';
                 clearInterval(timerInterval);
             }
         }

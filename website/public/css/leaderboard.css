@@ -11,7 +11,7 @@
     width: 900px;
     /* height: 500px; */
     box-sizing: border-box;
-    padding: 1rem 0;
+    padding: var(--space-6) 0px var(--space-8) 0px;
     /* margin: 0 auto; */
     background: var(--color-primary-bg);
     backdrop-filter: blur(32px);
@@ -33,7 +33,7 @@
     max-width: 100%;
     overflow: hidden;
     display: grid;
-    grid-template-columns: 9fr 1fr 1fr 2fr;
+    grid-template-columns: 8fr 1fr 1fr 3fr;
     align-items: center;
     padding: var(--space-4) var(--space-0);
     gap: var(--space-4);
@@ -48,23 +48,21 @@
 
 .page-title {
     font-family: var(--font-urban);
-    font-size: var(--space-7);
+    font-size: var(--h2-size);
     font-weight: 400 !important;
-    /* margin-bottom: 1rem; */
     margin: 0px !important;
 
 }
 
 .page-description {
-    font-family: var(--font-urban);
+    font-family: var(--font-urban); 
     font-size: var(--body-size);
-    color: var(--color-date);
-    max-width: 400px;
+    font-weight: 300;
+
     margin-bottom: 2rem;
-    /* font-size: var(--text-sm);
-    color: var(--color-date);
-    margin-bottom: var(--space-8);
-    text-align: left; */
+    margin-top: 1.5rem;
+
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .application-description {
@@ -74,7 +72,7 @@
 }
 
 .job-info {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-inter);
     color: var(--color-gray-light);
     font-size: var(--h6-size);
     margin-bottom: 2rem;
@@ -84,13 +82,14 @@
     position: absolute;
     top: 2rem;
     right: 2rem;
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: var(--font-inter);
     color: var(--color-gray-light);
     font-size: var(--number-size);
+    font-weight: 300;
 }
 
 .search-section {
-    margin: 2rem 1rem;
+    margin: 1.5rem 1rem;
 }
 
 .search-container {
@@ -104,13 +103,16 @@
 .search-input {
     width: 412px;
     height: 23px;
-    padding: var(--space-2);
+    padding: 0px var(--space-2);
     background: #212121;
     border: none;
     border-radius: 4px;
     color: var(--color-white);
-    font-family: var(--font-urban);
-    font-size: var(--body-size);
+    font-family: var(--font-inter);
+    font-size: var(--space-3);
+    box-sizing: border-box;
+
+    outline: none;
 }
 
 .search-input::placeholder {
@@ -124,20 +126,24 @@
 
 .table-header {
     display: grid;
-    grid-template-columns: 9fr 1fr 1fr 2fr;
+    grid-template-columns: 8fr 1fr 1fr 3fr;
     align-items: center;
     padding: 16px;
     gap: var(--space-4);
     /* border-bottom: 1px solid var(--color-white); */
     border-top: 1px solid var(--color-white);
-    margin: 2rem 0 1rem 0;
+    margin: 1.5rem 0 1rem 0;
+}
+
+.tabler-header-data {
+    font-weight: 300;
 }
 
 .table-header span {
-    font-family: 'Inter', sans-serif;
     color: var(--color-gray-light);
     font-size: var(--h6-size);
     text-transform: uppercase;
+    font-weight: 300;
 }
 
 .table-wrapper {
@@ -176,31 +182,35 @@
 
 .no-results h2 {
     font-family: var(--font-urban);
-    font-size: var(--h2-size);
-    margin-bottom: 1rem;
     color: var(--color-white);
+    margin-top: 0px;
+    font-weight: 400; 
+    font-size: var(--h2-size);
 }
+
 
 .countdown-section {
     text-align: center;
     margin: 2rem 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .countdown-label {
     font-family: var(--font-urban);
-    color: var(--color-gray-light);
-    margin-bottom: 1rem;
+    margin-right: var(--space-8);
+    font-size: var(--h3-size);
 }
 
 .countdown-timer {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: var(--number-size);
-    color: var(--color-white);
-    background: var(--color-gray-dark);
-    padding: 1rem 2rem;
-    border-radius: 4px;
+    font-family: var(--font-inter);
+    font-size: var(--h3-size);
+    color: var(--color-yellow);
     display: inline-block;
     letter-spacing: 0.1em;
+    font-weight: 400;
 }
 
 .return-button {

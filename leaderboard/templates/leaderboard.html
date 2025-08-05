@@ -52,10 +52,10 @@
 
                         <div class="table-wrapper">
                             <div class="table-header">
-                                <div>Name</div>
-                                <div>Yay</div>
-                                <div>Nay</div>
-                                <div>Application Link</div>
+                                <div class="tabler-header-data">Name</div>
+                                <div class="tabler-header-data">Yay</div>
+                                <div class="tabler-header-data">Nay</div>
+                                <div class="tabler-header-data">Application Link</div>
                             </div>
                             {% set link_icon_svg = icons::link_icon() %}
                             <div class="table-rows-container" id="vote-stats-table">
@@ -71,7 +71,7 @@
                                 {% endfor %}
                             </div>
                             <div class="no-results" id="no-results-section" style="display: none;">
-                                <h2 style="margin-top: 0px">This Session Hasn't Been Ranked Yet.</h2>
+                                <h2 class="no-results-content">This Session Hasn't Been Ranked Yet.</h2>
                                 
                                 <div class="countdown-section">
                                     <div class="countdown-label">Event Begins:</div>
