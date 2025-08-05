@@ -61,109 +61,116 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="display: flex; padding-bottom: 1rem; justify-content: center; font-size: 12px; align-items: center; background: rgba(21, 21, 21, 0.8); backdrop-filter: blur(0.625rem);">
-                            <div style="width: 42%; display: flex; align-items: center;">
-                                <div style="opacity: 0.5; margin-right: 4rem;">
-                                    Selected Job
-                                </div>
-                                <div class="event-name"> 
-                                    {{ job.title }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-section">
-                            <div class="application-fields"> 
-                                <div class="profile-header">
-                                    <div>
-                                        <h1 class="profile-name">{{ applicant.name | default(value="N/A") | safe }}</h1>
-                                        <div class="social-link-wrapper" style="display: flex; gap: 0.75rem">
-                                            <div class="social-links">
-                                                <a href="{{ applicant.github }}" class="social-link" title="GitHub">
-                                                    {{ icons::github_profile_icon() }}
-                                                </a>
-                                            </div>
-                                            <div class="social-links">
-                                                <a href="{{ applicant.linkedin }}" class="social-link" title="GitHub">
-                                                    {{ icons::linkedin_icon() }}
-                                                </a>
-                                            </div>
-                                            <div class="social-links">
-                                                <a href="{{ applicant.portfolio }}" class="social-link" title="GitHub">
-                                                    {{ icons::link_chain_icon() }}
-                                                </a>
-                                            </div>
+                        <div class="jobs-review-container">
+                            <div class="jobs-container-wrapper">
+                                <div class="jobs-container">
+                                    <div class="job-content">
+                                        Selected Job
+                                    </div>
+                                    <div class="event-name"> 
+                                        <div>
+                                            {{ job.title }}
+                                        </div>
+                                        <div>
+                                            {{ icons::arrow45degrees()  }}
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-section">
+                                <div class="application-fields"> 
+                                    <div class="profile-header">
+                                        <div>
+                                            <h1 class="profile-name">{{ applicant.name | default(value="N/A") | safe }}</h1>
+                                            <div class="social-link-wrapper" style="display: flex; gap: 0.75rem">
+                                                <div class="social-links">
+                                                    <a href="{{ applicant.github }}" class="social-link" title="GitHub">
+                                                        {{ icons::github_profile_icon() }}
+                                                    </a>
+                                                </div>
+                                                <div class="social-links">
+                                                    <a href="{{ applicant.linkedin }}" class="social-link" title="GitHub">
+                                                        {{ icons::linkedin_icon() }}
+                                                    </a>
+                                                </div>
+                                                <div class="social-links">
+                                                    <a href="{{ applicant.portfolio }}" class="social-link" title="GitHub">
+                                                        {{ icons::link_chain_icon() }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">Email</div>
-                                    <div class="question-answer">{{ applicant.email | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">Email</div>
+                                        <div class="question-answer">{{ applicant.email | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">What got you started in programming?</div>
-                                    <div class="question-answer">{{ applicant.what_programming | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">What got you started in programming?</div>
+                                        <div class="question-answer">{{ applicant.what_programming | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">Why do you want to be a programmer?</div>
-                                    <div class="question-answer">{{ applicant.why_programming | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">Why do you want to be a programmer?</div>
+                                        <div class="question-answer">{{ applicant.why_programming | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">When/where did you start?</div>
-                                    <div class="question-answer">{{ applicant.when_start | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">When/where did you start?</div>
+                                        <div class="question-answer">{{ applicant.when_start | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">Who got you into programming?</div>
-                                    <div class="question-answer">{{ applicant.who_program | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">Who got you into programming?</div>
+                                        <div class="question-answer">{{ applicant.who_program | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">What would be your ultimate project right now?</div>
-                                    <div class="question-answer">{{ applicant.ultimate_project | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">What would be your ultimate project right now?</div>
+                                        <div class="question-answer">{{ applicant.ultimate_project | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">What is one piece of work you're proud of?</div>
-                                    <div class="question-answer">{{ applicant.proud_work | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">What is one piece of work you're proud of?</div>
+                                        <div class="question-answer">{{ applicant.proud_work | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">What skills do you want to master in the next 5 years?</div>
-                                    <div class="question-answer">{{ applicant.future_skills | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">What skills do you want to master in the next 5 years?</div>
+                                        <div class="question-answer">{{ applicant.future_skills | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">Any on-call horror stories?</div>
-                                    <div class="question-answer">{{ applicant.oncall_stories | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">Any on-call horror stories?</div>
+                                        <div class="question-answer">{{ applicant.oncall_stories | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">What strategies do you use to stay focused while working on a task?</div>
-                                    <div class="question-answer">{{ applicant.focus_strategies | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">What strategies do you use to stay focused while working on a task?</div>
+                                        <div class="question-answer">{{ applicant.focus_strategies | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">What support system do you rely on to stay focused, and how can we help improve it?</div>
-                                    <div class="question-answer">{{ applicant.support_systems | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">What support system do you rely on to stay focused, and how can we help improve it?</div>
+                                        <div class="question-answer">{{ applicant.support_systems | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">What's your favorite comfort food and why?</div>
-                                    <div class="question-answer">{{ applicant.comfort_food | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">What's your favorite comfort food and why?</div>
+                                        <div class="question-answer">{{ applicant.comfort_food | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">How do you typically spend your weekends?</div>
-                                    <div class="question-answer">{{ applicant.weekend | default(value="N/A") | safe }}</div>
-                                </div>
+                                    <div class="question-block">
+                                        <div class="question-title">How do you typically spend your weekends?</div>
+                                        <div class="question-answer">{{ applicant.weekend | default(value="N/A") | safe }}</div>
+                                    </div>
 
-                                <div class="question-block">
-                                    <div class="question-title">If you could travel anywhere, where would you go?</div>
-                                    <div class="question-answer">{{ applicant.travel_wish | default(value="N/A") | safe }}</div>
+                                    <div class="question-block">
+                                        <div class="question-title">If you could travel anywhere, where would you go?</div>
+                                        <div class="question-answer">{{ applicant.travel_wish | default(value="N/A") | safe }}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

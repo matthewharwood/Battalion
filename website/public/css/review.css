@@ -67,7 +67,6 @@ position: fixed;
 
 .application-form {
     width: 55%;
-    background: var(--color-primary-bg);
     border-radius: var(--rounded-xl);
     box-shadow: 0 0 20px rgba(0,0,0,0.6);
 }
@@ -83,11 +82,35 @@ position: fixed;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: var(--space-8);
-    padding-left: var(--space-6);
-    padding-top: var(--space-6);
-    padding-right: var(--space-6);
+    padding: var(--space-6);
     background: var(--color-primary-bg); 
+    backdrop-filter: blur(0.625rem);
+}
+
+.jobs-review-container {
+    margin-top: var(--space-1);
+    background: var(--color-primary-bg); 
+    backdrop-filter: blur(0.625rem);
+}
+
+.jobs-container-wrapper {
+    font-size: var(--h6-size); 
+    align-items: center; 
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-8);
+}
+
+.jobs-container {
+    padding-left: 15.5rem; 
+    display: flex; 
+    align-items: center;
+    font-family: var(--font-inter);
+}
+
+.job-content {
+    font-family: var(--font-inter);
+    opacity: 0.5; 
+    margin-right: 4rem;
 }
 
 .page-title {
@@ -98,13 +121,12 @@ position: fixed;
 }
 
 .form-section {
-    background: var(--color-primary-bg); 
     margin: auto;
     display: flex;
-    justify-content: center;
+    padding-left: 15.5rem;
     max-height: 63vh;
     overflow: auto;
-    padding-top: var(--space-12);
+    padding-top: var(--space-8);
 }
 
 .job-meta-details {
@@ -114,7 +136,7 @@ position: fixed;
 }
 
 .application-fields {
-   width: 42%;
+
 }
 
 .job-title {
@@ -253,7 +275,7 @@ position: fixed;
     font-weight: 300;
     color: var(--color-white);
     opacity: 0.5;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-8);
 }
 
 .social-links {
@@ -287,6 +309,7 @@ position: fixed;
 }
 
 .question-title {
+    width: 80%;
     color: #888;
     font-size: var(--text-base);
     margin-bottom: var(--space-3);
