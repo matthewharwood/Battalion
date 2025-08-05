@@ -13,7 +13,7 @@ body {
     min-height: 100vh;
     color: var(--secondary);
     position: relative;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 /* Background Pattern */
@@ -99,6 +99,10 @@ body::before {
     background: rgba(21, 21, 21, 0.8); 
     backdrop-filter: blur(0.625rem);
     -webkit-backdrop-filter: blur(0.625rem);
+
+    max-height: calc(100vh - 280px);
+    overflow: auto;
+    flex: 1;
 }
 
 .job-card {
@@ -245,6 +249,9 @@ body::before {
 .left-panel {
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    margin-bottom: var(--space-8);
+    height: calc(100vh - 120px);
 }
 
 .left-panel-child {
@@ -252,9 +259,21 @@ body::before {
 }
 
 .job-footer {
-    display: flex; 
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    background: rgba(21, 21, 21, 0.8);
+}
+
+.job-footer-child {
+    display: flex;
     justify-content: center;
-    margin-bottom: 2rem;
+
+    padding-bottom: var(--space-8);
+
+    width: 100%;
 }
 
 .back-button {

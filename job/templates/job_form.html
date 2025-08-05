@@ -38,7 +38,6 @@
                                         <div class="job-content">
                                             <h3 class="job-title">{{ job.title }}</h3>
                                             <div class="job-details">
-                                                <!-- <div class="job-meta">ID: {{ job.value }}</div> -->
                                                 <div class="job-meta">{{ job.level }}</div>
                                                 <div class="job-meta">See Job Posting</div>
                                                 <div class="job-meta">{{ job.team }} Applicants</div>
@@ -48,8 +47,9 @@
                                     </div>
                                 {% endfor %}
                             </div>
-
-                            <div class="job-footer">
+                        </div>
+                        <div class="job-footer">
+                            <div class="job-footer-child">
                                 <form id="resume-form" action="/apply" method="get"></form>
                                     <div style="width: 50%">
                                         {{ components::button(label="APPLY NOW", form="resume-form", type="submit", primary=true, size="big") }}
