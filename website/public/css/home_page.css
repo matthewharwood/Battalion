@@ -29,7 +29,7 @@ body, html {
 
 .logo-header {
   font-size: var(--text-2xl);
-  font-weight: bold;
+  font-weight: 400;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -37,7 +37,20 @@ body, html {
 }
 
 .logo {
+  font-size: var(--h1-size);
+  font-weight: 400;
+
   margin: 0;
+}
+
+.sidebar-child-header {
+  font-family: 'Urbanist';
+  font-weight: 400;
+  font-size: var(--text-2xl);
+}
+
+.sidebar-battalion-content {
+  font-weight: 300;
 }
 
 .top-section {
@@ -47,9 +60,50 @@ body, html {
   gap: var(--space-8);
   height: calc(100vh - var(--space-8));
   box-sizing: border-box;
-  padding-top: 44px;
-  padding-left: 64px;
-  padding-right: 78px;
+  padding-top: 2.75rem;
+  padding-left: 4rem;
+  padding-right: 3rem;
+}
+
+@media (min-width: 1470px) {
+  .top-section {
+    padding-right: 4.9rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .top-section {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-section {
+    padding-left: 2rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-section {
+    padding-left: 1rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-section {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 .sidebar-card {
@@ -58,22 +112,25 @@ body, html {
   width: 40%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   backdrop-filter: blur(0.625rem);
+  overflow: hidden;
 }
 
 .sidebar-child-card-1 {
   padding: 0 var(--space-6) 2rem var(--space-6);
   border-bottom: 0.5px solid var(--border-background-black);
+  overflow: hidden;
 }
 
 .sidebar-child-card-2 {
-  padding: 0 var(--space-6) 2rem var(--space-6);
+  padding: 2rem var(--space-6) 2rem var(--space-6);
+  overflow: hidden;
 }
 
 .button-wrapper {
   display: flex;
   justify-content: center;
+  padding-top: var(--space-4);
 }
 
 .sidebar-card .button {
@@ -110,33 +167,45 @@ body, html {
 
 .steps {
   list-style: decimal inside;
-  margin-top: var(--space-8);
+  margin-top: 0px;
   margin-bottom: var(--space-6);
   padding: 0px;
 }
 
 .steps li {
-  margin: var(--space-6) 0;
-  font-size: var(--text-sm);
+  margin-bottom: var(--space-6);
+  font-size: var(--text-base);
+  font-weight: 300;
 }
 
 .event-info {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-direction: column;
   text-align: center;
-  margin-top: auto;
+  flex-grow: 1;
+  overflow: hidden;
 }
 
 .event-info .button {
-  /* width: 242px; */
-
   margin: 0 auto;
   display: flex;
   justify-content: center;
   width: 50%;
 }
 
+.next-event-text {
+  font-weight: 400;
+  font-size: var(--h3-size);
+  margin-right: var(--space-8);
+}
+
 .timer {
-  color: var(--color-light-yellow);
-  font-weight: bold;
+  font-family: var(--font-mono);
+  color: var(--color-yellow);
+  font-weight: 400;
+  font-size: var(--h3-size);
 }
 
 .apply-btn {
@@ -160,11 +229,14 @@ body, html {
 }
 
 .tagline {
-  font-size: var(--text-sm);
-  opacity: 0.85;
-  width: 250px;
+  font-size: var(--text-2xl);
+  font-weight: 400;
+
+  /* width: 350px; */
+  width: 22rem;
   color: var(--secondary);
   padding-bottom: var(--space-4);
+  text-transform: capitalize;
 }
 
 .footer-content {
