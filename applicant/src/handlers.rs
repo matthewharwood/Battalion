@@ -42,12 +42,13 @@ pub async fn show_form(
 }
 
 pub async fn submit_form(State(state): State<Arc<AppState>>, Form(form): Form<Apply>) -> impl IntoResponse {
-    eprintln!("Received form data: {:?}", form);
+    println!("=== APPLICANT FORM SUBMISSION ===");
+    println!("Form data: {:?}", form);
     match form.create(&state.db).await {
         Ok(created_app) => {
             eprintln!("created_app: {:?}", created_app);
             // Create review record after successful application creation
-            if let (Some(app_id), Some(event), Some(job)) = (created_app.id.as_ref(), created_app.event.as_ref(), created_app.job.as_ref()) {
+            if let (Some(app_id), Some(event), Some(_job)) = (created_app.id.as_ref(), created_app.event.as_ref(), created_app.job.as_ref()) {
                 // Create vote_record after successful application creation
                 let vote_query = "CREATE vote_record CONTENT {
                     applicant_id: $applicant_id,

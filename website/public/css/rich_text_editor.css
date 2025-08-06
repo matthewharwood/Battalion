@@ -37,8 +37,11 @@
     align-items: center;
     gap: var(--space-2);
     padding: var(--space-0) var(--space-3);
-    background: rgba(0, 0, 0, 0.9);
     color: var(--color-white);
+    backdrop-filter: blur(0.625rem);
+    font-family: var(--font-inter);
+    font-weight: 300;
+    font-size: var(--h6-size);
 }
 
 .dropdown-container {
@@ -54,11 +57,12 @@
     background: var(--color-primary-bg);
     border: none;
     border-radius: var(--rounded);
-    font-size: var(--text-sm);
-    font-weight: 500;
+    font-size: var(--h6-size);
+    font-weight: 300;
     cursor: pointer;
     transition: background-color 0.2s;
     color: var(--color-white);
+    font-family: var(--font-inter);
 }
 
 .dropdown-btn:hover {
@@ -94,6 +98,8 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.2s;
+
+    outline: none;
 }
 
 .dropdown-menu button:hover {
@@ -121,16 +127,13 @@
     border: none;
     cursor: pointer;
     transition: all 0.2s;
-    font-size: var(--text-sm);
-    font-weight: 500;
+    font-size: var(--h6-size);
+    font-weight: 300;
     display: flex;
     align-items: center;
     gap: var(--space-1);
     color: var(--color-white);
-}
-
-.toolbar-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    font-family: var(--font-inter);
 }
 
 .toolbar-btn svg {
@@ -141,7 +144,7 @@
 .editor-container {
     position: relative;
     margin-bottom: var(--space-8);
-    margin-top: 60px;
+    margin-top: 2.5rem;
     z-index: auto;
     flex-grow: 1;
     display: flex;
@@ -152,7 +155,7 @@
 
 .editor-content {
     flex-grow: 1;
-    padding: var(--space-4);
+    padding: var(--space-3);
     border-radius: var(--rounded-lg);
     line-height: 1.6;
     font-size: var(--text-base);

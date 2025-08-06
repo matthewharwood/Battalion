@@ -1,13 +1,16 @@
 @import url('./variables.css'); 
 
 .stepper-container {
-    font-family: var(--font-urban);
+    font-family: var(--font-inter);
     font-size: var(--text-xs);
     background: var(--color-primary-bg); 
     backdrop-filter: blur(0.625rem);
     -webkit-backdrop-filter: blur(0.625rem);
-    padding: var(--text-base) 0;
+    padding: var(--space-3) 0; 
     border-bottom: 0.0625rem solid var(--border-background-black);
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .stepper {
@@ -17,18 +20,41 @@
     color: var(--secondary);
     padding: 0 var(--space-6);
     position: relative;
+    gap: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .step {
     flex: 1 1 20%;
-    max-width: 20%;
+    /* max-width: 20%; */
     display: flex;
     align-items: center;
     justify-content: flex-start;
     position: relative;
     z-index: 2;
-    padding: 0 var(--space-3) 0.5rem var(--space-3);
+    padding: 0 0 0.5rem var(--space-1);
     transition: all 0.3s ease;
+    border-bottom: 0.5px solid var(--secondary);
+    opacity: 0.5;
+    font-weight: 300;
+}
+
+.step:nth-child(1),
+.step:nth-child(2),
+.step:nth-child(3) {
+    flex: 1;
+}
+
+.step:nth-child(4) {
+    flex: 1;
+    justify-content: space-between;
+}
+
+.step:nth-child(5) {
+    flex: 0 0 auto;
+    max-width: none;
 }
 
 .step:last-child {
@@ -45,7 +71,8 @@
 }
 
 .step.active {
-    border-bottom: 0.0625rem solid var(--secondary);
+    border-bottom: 0.5px solid var(--secondary);
+    opacity: 1;
 }
 
 .step.active .step-number {
@@ -54,13 +81,19 @@
 }
 
 .step-label {
-    font-family: var(--font-urban);
-    font-weight: 500;
+    font-family: var(--font-inter);
+    font-weight: 300;
     opacity: 0.5;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .step.active .step-label {
+    opacity: 1;
+}
+
+.step.active::after {
     opacity: 1;
 }
 
@@ -88,7 +121,7 @@
 .step-content-container {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 85%;
 }
 
 .step-content-flex {

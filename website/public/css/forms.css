@@ -25,8 +25,9 @@
     color: var(--color-white);
     font-size: var(--body-size);
     transition: all 0.3s ease;
-    font-family: var(--font-body);
+    font-family: var(--font-inter);
     box-shadow: var(--form-box-shadow);
+    font-weight: 300;
 }
 
 .field input:focus,
@@ -55,4 +56,8 @@
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
     padding-right: var(--space-8);
+}
+
+.form-select option {
+    font-weight: 300;
 }

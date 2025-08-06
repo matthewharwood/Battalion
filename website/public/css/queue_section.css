@@ -4,7 +4,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; 
 }
 
 body {
@@ -48,6 +48,7 @@ body::before {
     background-image: url("../images/grid.svg");
     background-repeat: repeat;
     background-size: auto;
+    height: 100%;
 }
 
 .container-child-queue {
@@ -68,7 +69,7 @@ body::before {
 .left-panel-child {
     display: flex;
     align-items: center;
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-16);  
 }
 
 .back-button-queue {
@@ -76,10 +77,12 @@ body::before {
     border: none;
     color: var(--color-white);
     cursor: pointer;
-    margin-right: var(--space-4);
+    /* margin-right: var(--space-4); */
     padding: var(--space-1);
     border-radius: var(--rounded-md);
     transition: background-color 0.3s ease;
+
+    margin-top: var(--space-1);
 }
 
 .back-button-queue:hover {
@@ -89,12 +92,21 @@ body::before {
 .queue-card {
     width: 100%;
     max-width: 600px;
-    background: var(--color-primary-bg);
-    padding: var(--space-12);
+    /* background: var(--color-primary-bg); */
     backdrop-filter: blur(20px);
     box-shadow: 0 8px 32px rgba(0,0,0,0.7);
     text-align: center;
     position: relative;
+    margin-bottom: var(--space-12);
+}
+
+.first-card {
+    margin-bottom: var(--space-1);
+}
+
+.queue-child-card {
+    background: var(--color-primary-bg);
+    padding: var(--space-8) var(--space-6);
 }
 
 .header-section {
@@ -130,7 +142,7 @@ body::before {
 .page-title {
     font-family: var(--font-urban);
     font-size: var(--h2-size);
-    font-weight: 500;
+    font-weight: 400;
     color: var(--color-white);
     margin: 0;
     text-align: left;
@@ -138,22 +150,32 @@ body::before {
 }
 
 .event-date {
-    font-size: var(--text-sm);
-    color: var(--color-date);
-    margin-bottom: var(--space-8);
+    font-size: var(--text-base);
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 300;
     text-align: left;
+}
+
+.queue-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding-left: 3.625rem;
+    gap: var(--space-1);
 }
 
 .event-info {
     margin-bottom: var(--space-8);
     text-align: left;
+    margin-left: 4.875rem; 
+    width: 80%;
+    font-weight: 300;
 }
 
 .event-info p {
     font-size: var(--text-base);
     line-height: 1.6;
-    color: var(--color-gray-light);
     margin-bottom: var(--space-4);
+    font-weight: 300;
 }
 
 .signup-count {
@@ -164,34 +186,46 @@ body::before {
 }
 
 .countdown-section {
-    margin-bottom: var(--space-4);
+    /* margin-bottom: var(--space-8); */
+    display: flex;
+    align-items: center;
+    padding-left: 4.875rem;
+    padding-top: 3rem;
 }
 
 .countdown-label {
-    font-size: var(--text-base);
-    color: var(--color-white);
-    margin-bottom: var(--space-4);
+    font-size: var(--h3-size);
+    font-weight: 400;
+
     text-align: left;
+    margin-right: var(--space-8);
+
+    color: var(--color-white);
 }
 
 .countdown-timer {
-    background: rgba(0,0,0,0.5);
-    border: 1px solid var(--border-background-black);
-    border-radius: var(--rounded-lg);
-    padding: var(--space-4);
+    font-size: var(--h3-size);
     font-family: var(--font-mono);
-    font-size: var(--number-size);
-    font-weight: 600;
-    color: var(--color-yellow);
+    font-weight: 400;
+
     text-align: center;
     letter-spacing: 0.1em;
+
+    color: var(--color-yellow);
+}
+
+.countdown-timer[data-status="live"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
 }
 
 .action-buttons {
     display: flex;
     justify-content: center;
     gap: var(--space-4);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-6);
     width: 100%;
 }
 
@@ -223,8 +257,8 @@ body::before {
 
 .share-text {
     font-size: var(--text-sm);
-    color: var(--color-date);
-    margin-bottom: var(--space-4);
+    color: var(--color-white);
+    margin-bottom: var(--space-6);
 }
 
 .social-buttons {
