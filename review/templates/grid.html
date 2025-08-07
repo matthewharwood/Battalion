@@ -24,11 +24,17 @@
                 <div class="main-container">
                     <div class="application-form">
                         <div class="left-panel-child">
-                            <div style="display: flex;">
+                            <div class="vote-wrapper">
                                 <div class="back-button" role="button" tabindex="0" onclick="history.back()">
                                     {{ icons::back_icon() | safe }}
                                 </div>
-                                <div class="page-title">Votes</div>
+                                <div class="show-votes">
+                                    <div class="page-title">Votes</div>
+                                    <div class="page-title display-count">
+                                        <span id="positive-count">{{ yay_count | default(value=0) }} </span>
+                                        <span class="total-count">/ {{ total_apply_records | default(value=0) }}</span>
+                                    </div>
+                                </div>
                             </div>
                             <div style="display: flex; width: 300px; gap: 1.5rem;">
                                 <div class="nay-button vote-btn" role="button" tabindex="1" data-score="-1">
@@ -233,6 +239,10 @@
             let countElement;
             if (score === 1) {
                 countElement = document.getElementById('yay-count');
+                let positive_count = document.getElementById('positive-count')
+                const count = parseInt(positive_count.textContent) || 0;
+                positive_count.textContent = count + 1;
+
             } else if (score === -1) {
                 countElement = document.getElementById('nay-count');
             }

@@ -48,6 +48,14 @@ pub(crate) async fn show_page(
         .take(0)
         .map_err(internal_error)?;
 
+    let total_apply_records: Vec<Value> = state
+        .db
+        .query("SELECT count() FROM apply;")
+        .await
+        .map_err(internal_error)?
+        .take(0)
+        .map_err(internal_error)?;
+
     // Get the applicant ID to filter votes by - either from params or use first applicant
     let target_applicant_id = params.applicant_id.as_ref()
         .map(|id| id.clone())
@@ -179,9 +187,17 @@ pub(crate) async fn show_page(
         ctx.insert("job", job);
     }
 
+    let total_count = total_apply_records
+        .get(0)
+        .and_then(|obj| obj.get("count"))
+        .and_then(|val| val.as_u64())
+        .unwrap_or(0);
+    
     ctx.insert("applicant", &first_applicant);
     ctx.insert("yay_count", &yay_count);
     ctx.insert("nay_count", &nay_count);
+    ctx.insert("may_count", &may_count);
+    ctx.insert("total_apply_records", &total_count);
 
     let rendered = tera.render("grid.html", &ctx).map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 

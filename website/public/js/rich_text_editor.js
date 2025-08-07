@@ -323,7 +323,7 @@ class RichTextEditor {
         const checkbox = `<div contenteditable="false" style="display: inline-block; margin-right: 8px;">
             <input type="checkbox" style="margin-right: 4px;" />
         </div>`;
-        this.execCommand('insertHTML', checkbox + '<span>Checkbox item</span><br>');
+        this.execCommand('insertHTML', checkbox + '<span>Checkbox item</span>');
         this.saveToStorage();
     }
 
