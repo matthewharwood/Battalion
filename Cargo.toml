@@ -23,7 +23,6 @@ surrealdb = { version = "2.3.3", features = ["kv-mem", "protocol-ws"] }
 tera = "1.20.0"
 tokio = { version = "1.45.1", features = ["full"] }
 tower-http = { version = "0.5", features = ["fs"] }
-schemars = { version = "0.8", features = ["derive", "url", "chrono", "uuid1"] }
 url = { version = "2.5", features = ["serde"] }
 chrono = { version = "0.4", features = ["serde"] }
 serde_with = { version = "3", features = ["macros"] }

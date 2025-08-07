@@ -1,4 +1,3 @@
-extern crate schemars;
 pub use applicant::AppState;
 
 pub mod models;

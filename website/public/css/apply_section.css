@@ -127,7 +127,7 @@ body::before {
 }
 
 .application-fields {
-   overflow: scroll; 
+   /* overflow: scroll;  */
    margin-left: var(--space-60, 60px);
 }
 
