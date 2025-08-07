@@ -400,3 +400,21 @@ position: fixed;
     display: flex;
     gap: var(--space-3);
 }
+
+.vote-wrapper {
+   display: flex; 
+   align-items: center;
+}
+
+.show-votes {
+    display: flex; 
+    flex-direction: column;
+}
+
+.display-count {
+    text-align: right;
+}
+
+.total-count {
+    opacity: 0.5;
+}
