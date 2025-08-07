@@ -204,16 +204,6 @@ pub(crate) async fn show_page(
     Ok(Html(rendered))
 }
 
-pub(crate) async fn create_review(State(state): State<Arc<AppState>>, Form(form): Form<Review>) -> impl IntoResponse {
-    match form.create(&state.db).await {
-        Ok(_) => Html(String::from("Success")),
-        Err(e) => {
-            eprintln!("Failed to insert: {:?}", e);
-            Html(String::from("Error"))
-        }
-    }
-}
-
 pub(crate) async fn fetch_review(State(state): State<Arc<AppState>>, Path(id): Path<String>) -> impl IntoResponse {
     match Review::get(&state.db, &id).await {
         Ok(Some(review)) => Json(review).into_response(),
