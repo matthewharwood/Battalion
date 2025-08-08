@@ -66,6 +66,20 @@ Your app will be running on: [http://localhost:6969](http://localhost:6969)
 | Database    | 8000         |
 
 
+## Docker
+
+Run the application and database using Docker:
+
+```bash
+docker compose up
+```
+
+This starts two containers:
+
+- **SurrealDb** on port `8000`
+- **Website** on ports `6969` and `3000`, running migrations on startup
+
+
 A CRM-like platform to form a battalion of cracked engineers and designers. 
 
 ### Design

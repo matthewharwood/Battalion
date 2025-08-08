@@ -1,29 +1,30 @@
+use axum::Router;
 use std::path::Path;
 use std::sync::Arc;
-use axum::Router;
 // use axum::routing::get;
-use surrealdb::engine::remote::ws::Ws;
-use surrealdb::opt::auth::Root;
-use surrealdb::Surreal;
-use tera::Tera;
-use tower_http::services::ServeDir;
 use applicant::{self, AppState};
 use event;
-use job;
-use review;
-use vote;
-use queue;
-use leaderboard;
-use shared;
 use home;
+use job;
+use leaderboard;
+use queue;
+use review;
+use shared;
+use surrealdb::Surreal;
+use surrealdb::engine::remote::ws::Ws;
+use surrealdb::opt::auth::Root;
+use tera::Tera;
 use tokio::sync::broadcast;
+use tower_http::services::ServeDir;
+use vote;
 
 #[tokio::main]
 async fn main() {
     let public_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("public");
     println!("Public Dir: {:?}", public_dir);
     let static_files_service = ServeDir::new(public_dir).append_index_html_on_directories(false);
-    let db = match Surreal::new::<Ws>("127.0.0.1:8000").await {
+    let db_url = std::env::var("SURREALDB_URL").unwrap_or_else(|_| "127.0.0.1:8000".to_string());
+    let db = match Surreal::new::<Ws>(db_url).await {
         Ok(s) => {
             println!("Surreal instance created");
             s
@@ -32,7 +33,7 @@ async fn main() {
             panic!("Surreal initialization error: {}", e);
         }
     };
-    
+
     if let Err(e) = db
         .signin(Root {
             username: "root",
@@ -43,7 +44,7 @@ async fn main() {
         eprintln!("FATAL: Could not sign in to SurrealDB: {:?}", e);
         ::std::process::exit(1);
     };
-    
+
     if let Err(e) = db.use_ns("test").use_db("test").await {
         eprintln!(
             "FATAL: Could not use namespace/database in SurrealDB: {:?}",
@@ -59,8 +60,8 @@ async fn main() {
         db: shared_db,
         broadcaster: broadcaster_tx,
     });
-    
-    let app  = Router::new()
+
+    let app = Router::new()
         // .route("/", get(|| async { "Hello, World!" }))
         .merge(home::routes::routes())
         .merge(applicant::routes::routes())
@@ -73,27 +74,38 @@ async fn main() {
         .fallback_service(static_files_service)
         .with_state(app_state);
     println!("Here in port 6969");
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:6969").await.unwrap();
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:6969").await.unwrap();
     axum::serve(listener, app).await.unwrap();
-
 }
 
 fn views() -> Arc<Tera> {
     let mut tera = Tera::default();
     shared::add_templates(&mut tera);
     tera.add_template_files(vec![
-        ("./applicant/templates/applicant_form.html", Some("applicant_form.html")),
-        ("./applicant/templates/applicant_list.html", Some("applicant_list.html")),
+        (
+            "./applicant/templates/applicant_form.html",
+            Some("applicant_form.html"),
+        ),
+        (
+            "./applicant/templates/applicant_list.html",
+            Some("applicant_list.html"),
+        ),
         ("./event/templates/event_form.html", Some("event_form.html")),
         ("./event/templates/event_list.html", Some("event_list.html")),
         ("./job/templates/job_form.html", Some("job_form.html")),
         ("./job/templates/job_list.html", Some("job_list.html")),
         ("./review/templates/grid.html", Some("grid.html")),
-        ("./vote/templates/vote_widget.html", Some("vote_widget.html")),
+        (
+            "./vote/templates/vote_widget.html",
+            Some("vote_widget.html"),
+        ),
         ("./home/templates/index.html", Some("index.html")),
         ("./queue/templates/queue.html", Some("queue.html")),
-        ("./leaderboard/templates/leaderboard.html", Some("leaderboard.html")),
-    ]).expect("Failed to load templates");
+        (
+            "./leaderboard/templates/leaderboard.html",
+            Some("leaderboard.html"),
+        ),
+    ])
+    .expect("Failed to load templates");
     Arc::new(tera)
 }
-

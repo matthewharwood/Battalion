@@ -1,0 +1,20 @@
+version: "3.8"
+name: Battalion
+services:
+  surrealdb:
+    container_name: SurrealDb
+    image: surrealdb/surrealdb:latest
+    command: start --bind 0.0.0.0:8000 --user root --pass root memory
+    ports:
+      - "8000:8000"
+  website:
+    container_name: Website
+    build: .
+    command: bash -c "chmod +x run_all_migrations.sh && ./run_all_migrations.sh && cargo watch -x 'run --package website'"
+    environment:
+      SURREALDB_URL: surrealdb:8000
+    depends_on:
+      - surrealdb
+    ports:
+      - "6969:6969"
+      - "3000:3000"
