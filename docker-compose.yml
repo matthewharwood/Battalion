@@ -10,7 +10,7 @@ services:
   website:
     container_name: Website
     build: .
-    command: cargo watch -x 'run --package website'
+    command: bash -c "chmod +x run_all_migrations.sh && ./run_all_migrations.sh && cargo watch -x 'run --package website'"
     environment:
       SURREALDB_URL: surrealdb:8000
     depends_on:

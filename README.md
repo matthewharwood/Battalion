@@ -77,7 +77,7 @@ docker compose up
 This starts two containers:
 
 - **SurrealDb** on port `8000`
-- **Website** on ports `6969` and `3000`
+- **Website** on ports `6969` and `3000`, running migrations on startup
 
 
 A CRM-like platform to form a battalion of cracked engineers and designers. 
