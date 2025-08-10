@@ -11,13 +11,13 @@ pub async fn index(State(state): State<Arc<AppState>>) -> Result<Html<String>, (
         .db
         .query("SELECT string::concat('event:', record::id(id)) AS value, title as title, startDate AS startDate FROM event;")
         .await
-        .map_err(internal_error)?   
-        .take(0)                    
-        .map_err(internal_error)?; 
+        .map_err(internal_error)?
+        .take(0)
+        .map_err(internal_error)?;
 
     let mut ctx = Context::new();
-    
-    if let Some(Value::Object(first)) = select_opts.get(0) {
+
+    if let Some(Value::Object(first)) = select_opts.first() {
         if let Some(Value::String(start_date)) = first.get("startDate") {
             if let Ok(datetime) = start_date.parse::<DateTime<Utc>>() {
                 // Get Unix timestamp in seconds

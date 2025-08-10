@@ -57,11 +57,13 @@ pub(crate) async fn show_page(
         .map_err(internal_error)?;
 
     // Get the applicant ID to filter votes by - either from params or use first applicant
-    let target_applicant_id = params.applicant_id.as_ref()
-        .map(|id| id.clone())
+    let target_applicant_id = params
+        .applicant_id
+        .clone()
         .or_else(|| {
             // If no applicant_id in params, get the first applicant's ID
-            select_applicants.get(0)
+            select_applicants
+                .first()
                 .and_then(|obj| obj.get("value"))
                 .and_then(|val| val.as_str())
                 .map(|s| s.to_string())
@@ -115,21 +117,22 @@ pub(crate) async fn show_page(
     ctx.insert("scoreboard", &scoreboard);
 
     let first_event = select_opts
-        .get(0)
+        .first()
         .and_then(|obj| obj.get("value"))
         .and_then(|val| val.as_str())
         .map(|s| s.to_string());
 
     let first_job = select_jobs
-        .get(0)
+        .first()
         .and_then(|obj| obj.get("value"))
         .and_then(|val| val.as_str())
         .map(|s| s.to_string());
 
-    let first_application = select_applicants.get(0)
-    .and_then(|obj| obj.get("value"))
-    .and_then(|val| val.as_str())
-    .map(|s| s.to_string());
+    let first_application = select_applicants
+        .first()
+        .and_then(|obj| obj.get("value"))
+        .and_then(|val| val.as_str())
+        .map(|s| s.to_string());
 
     let session_id = generate_session_id(first_application.as_deref(), first_event.as_deref(), first_job.as_deref());
     eprintln!("Generated session ID: {:?}", session_id);
@@ -142,7 +145,7 @@ pub(crate) async fn show_page(
         // Use the full applicant_id as provided (should be "apply:xxxxx")
         let query = format!("SELECT * FROM apply WHERE id = {}", applicant_id);
         eprintln!("Querying for applicant with ID: {}", applicant_id);
-        
+
         state.db
             .query(&query)
             .await
@@ -188,11 +191,11 @@ pub(crate) async fn show_page(
     }
 
     let total_count = total_apply_records
-        .get(0)
+        .first()
         .and_then(|obj| obj.get("count"))
         .and_then(|val| val.as_u64())
         .unwrap_or(0);
-    
+
     ctx.insert("applicant", &first_applicant);
     ctx.insert("yay_count", &yay_count);
     ctx.insert("nay_count", &nay_count);

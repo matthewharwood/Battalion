@@ -9,3 +9,4 @@ echo "📊 Running database migrations..."
 # Start the website
 echo "🌐 Starting website..."
 cargo watch -x "run --package website"
+

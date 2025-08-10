@@ -20,9 +20,9 @@ pub async fn index(State(state): State<Arc<AppState>>) -> Result<Html<String>, (
         .db
         .query("SELECT string::concat('event:', record::id(id)) AS value, title as title, startDate AS startDate FROM event;")
         .await
-        .map_err(internal_error)?   
-        .take(0)                    
-        .map_err(internal_error)?; 
+        .map_err(internal_error)?
+        .take(0)
+        .map_err(internal_error)?;
 
     let job_count: Vec<Value> = state
         .db
@@ -32,7 +32,7 @@ pub async fn index(State(state): State<Arc<AppState>>) -> Result<Html<String>, (
         .take(0)
         .map_err(internal_error)?;
 
-    let has_jobs = if let Some(Value::Object(count_obj)) = job_count.get(0) {
+    let has_jobs = if let Some(Value::Object(count_obj)) = job_count.first() {
         if let Some(Value::Number(count)) = count_obj.get("count") {
             count.as_u64().unwrap_or(0) > 0
         } else {
@@ -48,7 +48,7 @@ pub async fn index(State(state): State<Arc<AppState>>) -> Result<Html<String>, (
     ctx.insert("event_options", &select_opts);
     ctx.insert("has_jobs", &has_jobs);
 
-    if let Some(Value::Object(first)) = select_opts.get(0) {
+    if let Some(Value::Object(first)) = select_opts.first() {
         if let Some(Value::String(start_date)) = first.get("startDate") {
             if let Ok(datetime) = start_date.parse::<DateTime<Utc>>() {
                 // Get Unix timestamp in seconds
