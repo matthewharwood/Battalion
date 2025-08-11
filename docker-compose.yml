@@ -12,7 +12,7 @@ services:
     build: .
     command: bash -c "chmod +x run_all_migrations.sh && ./run_all_migrations.sh && cargo watch -x 'run --package website'"
     environment:
-      SURREALDB_URL: surrealdb:8000
+      SURREALDB_URL: localhost:8000
     depends_on:
       - surrealdb
     ports:
