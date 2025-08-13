@@ -206,7 +206,8 @@
 
         // Initialize WebSocket connection
         function initWebSocket() {
-            socket = new WebSocket(`ws://${location.host}/rpc`);
+            const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            socket = new WebSocket(`${protocol}//${location.host}/rpc`);
             
             socket.onopen = function() {
                 console.log('WebSocket connected');
