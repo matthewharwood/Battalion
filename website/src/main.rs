@@ -2,21 +2,13 @@ use axum::Router;
 use std::path::Path;
 use std::sync::Arc;
 // use axum::routing::get;
-use applicant::{self, AppState};
-use event;
-use home;
-use job;
-use leaderboard;
-use queue;
-use review;
-use shared;
-use surrealdb::Surreal;
+use applicant::AppState;
 use surrealdb::engine::remote::ws::Ws;
 use surrealdb::opt::auth::Root;
+use surrealdb::Surreal;
 use tera::Tera;
 use tokio::sync::broadcast;
 use tower_http::services::ServeDir;
-use vote;
 
 #[tokio::main]
 async fn main() {

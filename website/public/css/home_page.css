@@ -249,3 +249,82 @@ body, html {
 .footer-text {
   color: var(--secondary);
 }
+
+/* Height-based responsive styles for medium height screens */
+@media (max-height: 820px) {
+  .sidebar-card {
+    padding: var(--space-4) 0px;
+  }
+
+  .sidebar-child-card-1 {
+    padding: 0 var(--space-4) 1.2rem var(--space-4);
+  }
+
+  .sidebar-child-card-2 {
+    padding: 1.2rem var(--space-4) 1.2rem var(--space-4);
+  }
+
+  .button-wrapper {
+    padding-top: var(--space-2);
+  }
+
+  .sidebar-card h2 {
+    padding-bottom: var(--space-2);
+    font-size: var(--text-xl);
+  }
+
+  .sidebar-card p {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .steps {
+    margin-bottom: var(--space-3);
+  }
+
+  .steps li {
+    margin-bottom: var(--space-3);
+    /* font-size: var(--text-sm); */
+  }
+}
+
+/* Height-based responsive styles for small height screens */
+@media (max-height: 700px) {
+  .sidebar-card {
+    padding: var(--space-2) 0px;
+  }
+
+  .sidebar-child-card-1 {
+    padding: 0 var(--space-3) 0.8rem var(--space-3);
+  }
+
+  .sidebar-child-card-2 {
+    padding: 4px var(--space-3) 0.8rem var(--space-3);
+  }
+
+  .steps {
+    margin-bottom: var(--space-2);
+  }
+
+  .steps li {
+    margin-bottom: var(--space-2);
+    /* font-size: var(--text-xs); */
+    line-height: 1.3;
+  }
+
+  .button-wrapper {
+    padding-top: 0;
+  }
+
+  .sidebar-card h2 {
+    padding-bottom: var(--space-1);
+    font-size: var(--text-lg);
+  }
+
+  .sidebar-card p {
+    margin-bottom: var(--space-1);
+    font-size: var(--text-xs);
+    line-height: 1.3;
+  }
+}
