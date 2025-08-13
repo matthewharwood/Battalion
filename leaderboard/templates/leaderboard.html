@@ -26,7 +26,12 @@
                         
                         <div class="page-header">
                             <div style="display: flex; justify-content: space-between;">
-                                <h1 class="page-title">Leaderboards</h1>
+                                <div style="display: flex; align-items: center; gap: 16px;">
+                                    <div class="back-button" onclick="history.back()">
+                                        {{ icons::back_icon() | safe }}
+                                    </div>
+                                    <h1 class="page-title">Leaderboards</h1>
+                                </div>
                                 <div class="application-description">{{ vote_stats | length }} Applicants</div>
                             </div>
                             <p class="page-description">
