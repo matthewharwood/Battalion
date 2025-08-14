@@ -1081,6 +1081,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "error"
+version = "0.1.0"
+dependencies = [
+ "applicant",
+ "axum",
+ "serde",
+ "serde_json",
+ "shared",
+ "tera",
+]
+
+[[package]]
 name = "event"
 version = "0.1.0"
 dependencies = [
@@ -4781,6 +4793,7 @@ version = "0.1.0"
 dependencies = [
  "applicant",
  "axum",
+ "error",
  "event",
  "home",
  "job",

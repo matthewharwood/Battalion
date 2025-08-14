@@ -1,4 +1,4 @@
-use axum::Router;
+use axum::{Router, response::Redirect, http::Uri, routing::get_service};
 use std::path::Path;
 use std::sync::Arc;
 // use axum::routing::get;
@@ -63,6 +63,7 @@ async fn main() {
         .merge(vote::routes::routes())
         .merge(queue::routes::routes())
         .merge(leaderboard::routes::routes())
+        .merge(error::routes::routes())
         .fallback_service(static_files_service)
         .with_state(app_state);
     println!("Here in port 6969");
@@ -86,6 +87,7 @@ fn views() -> Arc<Tera> {
         ("./event/templates/event_list.html", Some("event_list.html")),
         ("./job/templates/job_form.html", Some("job_form.html")),
         ("./job/templates/job_list.html", Some("job_list.html")),
+        ("./error/templates/error.html", Some("error.html")),
         ("./review/templates/grid.html", Some("grid.html")),
         (
             "./vote/templates/vote_widget.html",

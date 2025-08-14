@@ -1,0 +1,58 @@
+{% import "macros/components.html" as components %}
+{% import "macros/icons.html" as icons %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battalion</title>
+    <link rel="stylesheet" href="/css/error.css">
+    <link rel="stylesheet" href="/css/button.css">
+  </head>
+  <body>
+    <div class="container-background">
+      <div class="grid-container">
+        <div class="top-section">
+          <div class="logo-header">
+            <h1 class="logo">Battalion</h1>
+            <div class="tagline">Building A Battalion Of Product Designers. And Engineers.</div>
+          </div>
+            
+          <section class="sidebar-card">
+            <div style="padding: 32px 24px; height: 100%;">
+              <div class="error-status">
+                404
+              </div>
+              <div class="error-body">
+                Battalion is a premier platform dedicated to transforming the way 
+                resumes are evaluated. It serves as a dynamic arena where applicants 
+                can showcase their professional narratives while having their credentials 
+                assessed through a structured, insightful review process.
+              </div>
+
+              <div class="return-home">
+                {{  components::button(label="RETURN HOME", 
+                    form="resume-form", 
+                    type="submit", 
+                    primary=true, 
+                    size="big",
+                    extra_attrs='onclick="redirectHomepage()"'
+                )}}
+              </div>
+
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        function redirectHomepage() {
+          window.location.href = "/";
+          return
+        }
+      });
+    </script>
+  </body>
+</html>

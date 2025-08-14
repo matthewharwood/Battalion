@@ -21,3 +21,4 @@ shared = { path = "../shared" }
 home = { path = "../home" }
 queue = { path = "../queue" }
 leaderboard = { path = "../leaderboard" }
+error = { path = "../error" }
