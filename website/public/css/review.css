@@ -418,3 +418,44 @@ position: fixed;
 .total-count {
     opacity: 0.5;
 }
+
+.progress-container {
+    margin: var(--space-5) 0;
+}
+
+.progress-container {
+    margin: 0 var(--space-5);
+    flex: 1;
+}
+
+.progress-bar {
+    display: flex;
+    height: var(--space-4);
+    overflow: hidden;
+    background-color: transparent;
+    position: relative;
+    align-items: center;
+}
+
+.segment {
+    height: var(--space-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: var(--h5-size);
+    position: relative;
+}
+
+.positive {
+    background-color: var(--color-green);
+    align-self: flex-start;
+    margin-top: 0;
+}
+
+.negative {
+    background-color: var(--color-red);
+    align-self: flex-end;
+    margin-bottom: 0;
+}
+        

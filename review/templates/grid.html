@@ -36,6 +36,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar"></div>
+                            </div>
                             <div style="display: flex; width: 300px; gap: 1.5rem;">
                                 <div class="nay-button vote-btn" role="button" tabindex="1" data-score="-1">
                                     <div style="display: flex; width: 90%; justify-content: space-around;">
@@ -203,6 +206,7 @@
     <script>
         let socket;
         let isVoted = false;
+        let voteAnalytics;
 
         // Initialize WebSocket connection
         function initWebSocket() {
@@ -235,7 +239,19 @@
             };
         }
 
-        // Update vote count in UI
+        function updateAnalytics(value) {
+            let lastElement = voteAnalytics[voteAnalytics.length - 1]
+            if(lastElement && lastElement.score === value) {
+                voteAnalytics[voteAnalytics.length - 1] = {
+                    ...voteAnalytics[voteAnalytics.length - 1],
+                    count: voteAnalytics[voteAnalytics.length - 1].count + 1
+                }
+            } else {
+                voteAnalytics.push({ score: value, count: 1 });
+            }
+            createProgressBar(voteAnalytics)
+        }
+
         function updateVoteCount(score) {
             let countElement;
             if (score === 1) {
@@ -251,6 +267,8 @@
             if (countElement) {
                 const currentCount = parseInt(countElement.textContent) || 0;
                 countElement.textContent = currentCount + 1;
+
+                updateAnalytics(score)
             }
         }
 
@@ -307,6 +325,8 @@
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
+            voteAnalytics = {{ vote_analytics | json_encode() | safe }};
+
             initWebSocket();
 
             // Add click handlers for vote buttons
@@ -322,7 +342,29 @@
                 console.log('Back button clicked');
                 history.back();
             });
+
+            createProgressBar(voteAnalytics)
         });
+
+        function createProgressBar(dataAnalytics) {
+            const progressBar = document.getElementById('progressBar');
+            if (!progressBar) return;
+            
+            progressBar.innerHTML = '';
+            
+            const totalCount = dataAnalytics.reduce((sum, item) => sum + item.count, 0);
+            if (totalCount === 0) return;
+            
+            dataAnalytics.forEach(item => {
+                const percentage = (item.count / totalCount) * 100;
+                const segment = document.createElement('div');
+                segment.className = `segment ${item.score === 1 ? 'positive' : 'negative'}`;
+                segment.style.width = percentage + '%';
+                
+                progressBar.appendChild(segment);
+            });
+        }
+
         function openDiscordInvite() {
             window.open('https://discord.gg/sTzQBrbnBM', '_blank', 'noopener,noreferrer');
         }
