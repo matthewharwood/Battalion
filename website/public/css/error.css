@@ -116,6 +116,11 @@ body, html {
   transform: translate(-50%, -50%);
 }
 
+.error-wrapper {
+  padding: var(--space-8) var(--space-6); 
+  height: 100%;
+}
+
 .error-status {
     font-family: var(--font-urban);
     font-weight: 300;

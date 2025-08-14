@@ -1,4 +1,9 @@
-use axum::{Router, response::Redirect, http::Uri, routing::get_service};
+use axum::{
+    Router,
+    body::Body,
+    http::{Request, StatusCode},
+    response::{IntoResponse, Redirect},
+};
 use std::path::Path;
 use std::sync::Arc;
 // use axum::routing::get;
@@ -9,6 +14,7 @@ use surrealdb::Surreal;
 use tera::Tera;
 use tokio::sync::broadcast;
 use tower_http::services::ServeDir;
+use tower::util::ServiceExt;
 
 #[tokio::main]
 async fn main() {
@@ -64,7 +70,7 @@ async fn main() {
         .merge(queue::routes::routes())
         .merge(leaderboard::routes::routes())
         .merge(error::routes::routes())
-        .fallback_service(static_files_service)
+        .fallback(handle_fallback)
         .with_state(app_state);
     println!("Here in port 6969");
     let listener = tokio::net::TcpListener::bind("0.0.0.0:6969").await.unwrap();
@@ -102,4 +108,13 @@ fn views() -> Arc<Tera> {
     ])
     .expect("Failed to load templates");
     Arc::new(tera)
+}
+
+async fn handle_fallback(req: Request<Body>) -> impl IntoResponse {
+    let public_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("public");
+    let service = ServeDir::new(public_dir).append_index_html_on_directories(false);
+    match service.oneshot(req).await {
+        Ok(res) if res.status() != StatusCode::NOT_FOUND => res.into_response(),
+        _ => Redirect::to("/error").into_response(),
+    }
 }

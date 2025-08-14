@@ -4806,6 +4806,7 @@ dependencies = [
  "surrealdb",
  "tera",
  "tokio",
+ "tower",
  "tower-http 0.5.2",
  "url",
  "vote",

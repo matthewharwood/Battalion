@@ -19,7 +19,7 @@
           </div>
             
           <section class="sidebar-card">
-            <div style="padding: 32px 24px; height: 100%;">
+            <div class="error-wrapper">
               <div class="error-status">
                 404
               </div>
@@ -47,12 +47,9 @@
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        function redirectHomepage() {
-          window.location.href = "/";
-          return
-        }
-      });
+      function redirectHomepage() {
+        window.location.href = "/";
+      }
     </script>
   </body>
 </html>
