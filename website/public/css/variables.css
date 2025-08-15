@@ -48,6 +48,7 @@
     --color-green: #05DF72;
     --color-gray-dark: #4a4a4a;
     --color-gray-medium: #555555;
+    --color-gray: #888888;
     --color-gray-light: #cccccc;
     --color-gray-lighter: #dddddd;
     --color-gray-darkest: #333333;
@@ -60,6 +61,7 @@
     --color-light-yellow: #f5c842;
     --color-orange: #e55a2e;
     --color-button-primary: #212121;
+    --color-red: #FF6467;
 
     /* Opacity Values */
     --opacity-80: 0.8;

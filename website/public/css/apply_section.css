@@ -127,7 +127,7 @@ body::before {
 }
 
 .application-fields {
-   overflow: scroll; 
+   /* overflow: scroll;  */
    margin-left: var(--space-60, 60px);
 }
 
@@ -304,4 +304,18 @@ body::before {
 .progress-text {
     color: var(--color-green);
     text-align: center;
+}
+
+.validation-error {
+    color: var(--color-danger);
+    font-size: var(--h5-size);
+    margin-top: var(--space-1);
+    margin-bottom: var(--space-2);
+    font-weight: 400;
+    display: block;
+}
+
+.form-field:has(+ .validation-error) input,
+.form-field:has(+ .validation-error) select {
+    border-color: var(--color-danger) !important;
 }

@@ -1,4 +1,3 @@
-extern crate schemars;
 use std::sync::Arc;
 use tera::Tera;
 use surrealdb::{Surreal, engine::remote::ws::Client as WsClient};

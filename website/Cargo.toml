@@ -7,11 +7,11 @@ edition = "2024"
 axum = { workspace = true }
 tokio = { workspace = true }
 tower-http = { workspace = true }
+tower = { workspace = true }
 tera = { workspace = true }
 surrealdb = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
-schemars = { workspace = true }
 url = { workspace = true }
 applicant = { path = "../applicant" }
 event = { path = "../event" }
@@ -22,3 +22,4 @@ shared = { path = "../shared" }
 home = { path = "../home" }
 queue = { path = "../queue" }
 leaderboard = { path = "../leaderboard" }
+error = { path = "../error" }

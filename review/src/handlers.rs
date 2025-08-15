@@ -48,12 +48,22 @@ pub(crate) async fn show_page(
         .take(0)
         .map_err(internal_error)?;
 
+    let total_apply_records: Vec<Value> = state
+        .db
+        .query("SELECT count() FROM apply;")
+        .await
+        .map_err(internal_error)?
+        .take(0)
+        .map_err(internal_error)?;
+
     // Get the applicant ID to filter votes by - either from params or use first applicant
-    let target_applicant_id = params.applicant_id.as_ref()
-        .map(|id| id.clone())
+    let target_applicant_id = params
+        .applicant_id
+        .clone()
         .or_else(|| {
             // If no applicant_id in params, get the first applicant's ID
-            select_applicants.get(0)
+            select_applicants
+                .first()
                 .and_then(|obj| obj.get("value"))
                 .and_then(|val| val.as_str())
                 .map(|s| s.to_string())
@@ -96,7 +106,61 @@ pub(crate) async fn show_page(
         (0, 0, 0)
     };
 
+    // Vote analytics - equivalent to the JavaScript code
+    let vote_analytics = if let Some(applicant_id) = &target_applicant_id {
+        let vote_query = format!("SELECT score, timestamp FROM vote_record WHERE applicantId = {} AND score != 0 ORDER BY timestamp", applicant_id);
+        let vote_records: Vec<serde_json::Value> = state.db
+            .query(&vote_query)
+            .await
+            .map_err(internal_error)?
+            .take(0)
+            .map_err(internal_error)?;
+
+        let mut array: Vec<serde_json::Value> = Vec::new();
+
+        for (i, record) in vote_records.iter().enumerate() {
+            let score = if let Some(score_val) = record.get("score") {
+                if let Some(num) = score_val.as_i64() {
+                    num
+                } else if let Some(num) = score_val.as_f64() {
+                    num as i64
+                } else if let Some(s) = score_val.as_str() {
+                    s.parse::<i64>().unwrap_or(0)
+                } else {
+                    continue;
+                }
+            } else {
+                continue;
+            };
+
+            if i > 0 {
+                if let Some(last_item) = array.last_mut() {
+                    if let Some(last_score) = last_item.get("score").and_then(|s| s.as_i64()) {
+                        if last_score == score {
+                            if let Some(last_count) = last_item.get("count").and_then(|c| c.as_u64()) {
+                                *last_item = serde_json::json!({
+                                    "score": score,
+                                    "count": last_count + 1
+                                });
+                            }
+                            continue;
+                        }
+                    }
+                }
+            }
+            array.push(serde_json::json!({
+                "score": score,
+                "count": 1
+            }));
+        }
+
+        array
+    } else {
+        Vec::new()
+    };
+
     println!("YAY count: {}, MAY count: {}, NAY count: {}", yay_count, may_count, nay_count);
+    println!("vote_analytics: {:?}", vote_analytics);
     let scoreboard = vec![
         ScoreBox { count: yay_count as u32, label: "YAY", class: "yay" },
         ScoreBox { count: may_count as u32, label: "MAY", class: "may" },
@@ -106,22 +170,25 @@ pub(crate) async fn show_page(
     let mut ctx = tera::Context::new();
     ctx.insert("scoreboard", &scoreboard);
 
+    ctx.insert("vote_analytics", &vote_analytics);
+
     let first_event = select_opts
-        .get(0)
+        .first()
         .and_then(|obj| obj.get("value"))
         .and_then(|val| val.as_str())
         .map(|s| s.to_string());
 
     let first_job = select_jobs
-        .get(0)
+        .first()
         .and_then(|obj| obj.get("value"))
         .and_then(|val| val.as_str())
         .map(|s| s.to_string());
 
-    let first_application = select_applicants.get(0)
-    .and_then(|obj| obj.get("value"))
-    .and_then(|val| val.as_str())
-    .map(|s| s.to_string());
+    let first_application = select_applicants
+        .first()
+        .and_then(|obj| obj.get("value"))
+        .and_then(|val| val.as_str())
+        .map(|s| s.to_string());
 
     let session_id = generate_session_id(first_application.as_deref(), first_event.as_deref(), first_job.as_deref());
     eprintln!("Generated session ID: {:?}", session_id);
@@ -134,7 +201,7 @@ pub(crate) async fn show_page(
         // Use the full applicant_id as provided (should be "apply:xxxxx")
         let query = format!("SELECT * FROM apply WHERE id = {}", applicant_id);
         eprintln!("Querying for applicant with ID: {}", applicant_id);
-        
+
         state.db
             .query(&query)
             .await
@@ -179,23 +246,21 @@ pub(crate) async fn show_page(
         ctx.insert("job", job);
     }
 
+    let total_count = total_apply_records
+        .first()
+        .and_then(|obj| obj.get("count"))
+        .and_then(|val| val.as_u64())
+        .unwrap_or(0);
+
     ctx.insert("applicant", &first_applicant);
     ctx.insert("yay_count", &yay_count);
     ctx.insert("nay_count", &nay_count);
+    ctx.insert("may_count", &may_count);
+    ctx.insert("total_apply_records", &total_count);
 
     let rendered = tera.render("grid.html", &ctx).map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 
     Ok(Html(rendered))
-}
-
-pub(crate) async fn create_review(State(state): State<Arc<AppState>>, Form(form): Form<Review>) -> impl IntoResponse {
-    match form.create(&state.db).await {
-        Ok(_) => Html(String::from("Success")),
-        Err(e) => {
-            eprintln!("Failed to insert: {:?}", e);
-            Html(String::from("Error"))
-        }
-    }
 }
 
 pub(crate) async fn fetch_review(State(state): State<Arc<AppState>>, Path(id): Path<String>) -> impl IntoResponse {

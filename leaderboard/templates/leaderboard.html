@@ -26,7 +26,12 @@
                         
                         <div class="page-header">
                             <div style="display: flex; justify-content: space-between;">
-                                <h1 class="page-title">Leaderboards</h1>
+                                <div style="display: flex; align-items: center; gap: 16px;">
+                                    <div class="back-button" onclick="goBack()">
+                                        {{ icons::back_icon() | safe }}
+                                    </div>
+                                    <h1 class="page-title">Leaderboards</h1>
+                                </div>
                                 <div class="application-description">{{ vote_stats | length }} Applicants</div>
                             </div>
                             <p class="page-description">
@@ -37,7 +42,7 @@
                                     name="job",
                                     label="",
                                     options=job_options,
-                                    placeholder="No Jobs Available",
+                                    placeholder="Select a Job",
                                 )}}
                             </div>
                         </div>
@@ -226,6 +231,22 @@
             }
         }
 
+        function goBack() {
+            const applicantionId = localStorage.getItem('applicationId');
+            const eventId = localStorage.getItem('selectedEvent');
+            if(applicantionId) {
+                window.location.href = '/queue';
+                return
+            } else {
+                if(eventId) {
+                    window.location.href = `/jobs`;
+                } else {
+                    window.location.href = '/';
+                }
+                return
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const nameParam = urlParams.get('name');
@@ -249,7 +270,7 @@
         });
 
         function openDiscordInvite() {
-            window.open('https://discord.com/invite/XJ2PBd3F', '_blank', 'noopener,noreferrer');
+            window.open('https://discord.gg/sTzQBrbnBM', '_blank', 'noopener,noreferrer');
         }
     </script>
 </body>

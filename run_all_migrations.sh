@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # List of module directories
+DB_URL=${SURREALDB_URL:-127.0.0.1:8000}
+
 # MODULES=("job" "event" "applicant" "vote")
 MODULES=("job" "event" "applicant")
 
@@ -10,7 +12,7 @@ for module in "${MODULES[@]}"; do
 
   for file in migrations/*.surql; do
     echo "🚀 Running migration: $module/$file"
-    surreal sql --conn http://127.0.0.1:8000 \
+    surreal sql --conn http://$DB_URL \
                 --user root \
                 --pass root \
                 --ns test \
