@@ -164,10 +164,89 @@
             // Add your navigation logic here
         });
 
-        // Handle form submission with AJAX
+        // Validation functions
+        function validateEventId() {
+            const eventSelect = document.querySelector('select[name="event"]');
+            const eventValue = eventSelect ? eventSelect.value : '';
+            const isValid = eventValue !== '';
+            showError('event', isValid ? '' : 'Please select an event');
+            return isValid;
+        }
+
+        function validateName() {
+            const nameInput = document.querySelector('input[name="name"]');
+            const nameValue = nameInput ? nameInput.value.trim() : '';
+            const isValid = nameValue !== '';
+            showError('name', isValid ? '' : 'Name is required');
+            return isValid;
+        }
+
+        function validateGithubUrl() {
+            const githubInput = document.querySelector('input[name="github"]');
+            const githubValue = githubInput ? githubInput.value.trim() : '';
+            const githubPattern = /^https?:\/\/(www\.)?github\.com\/[A-Za-z0-9_.-]+\/?$/;
+            const isValid = githubValue === '' || githubPattern.test(githubValue);
+            showError('github', isValid ? '' : 'Please enter a valid GitHub URL (e.g., https://github.com/username)');
+            return isValid;
+        }
+
+        function validateEmail() {
+            const emailInput = document.querySelector('input[name="email"]');
+            const emailValue = emailInput ? emailInput.value.trim() : '';
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const isValid = emailValue !== '' && emailPattern.test(emailValue);
+            showError('email', isValid ? '' : 'Please enter a valid email address');
+            return isValid;
+        }
+
+        function validateLinkedinUrl() {
+            const linkedinInput = document.querySelector('input[name="linkedin"]');
+            const linkedinValue = linkedinInput ? linkedinInput.value.trim() : '';
+            const linkedinPattern = /^https?:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_.-]+\/?$/;
+            const isValid = linkedinValue === '' || linkedinPattern.test(linkedinValue);
+            showError('linkedin', isValid ? '' : 'Please enter a valid LinkedIn URL (e.g., https://linkedin.com/in/username)');
+            return isValid;
+        }
+
+        function showError(fieldName, errorMessage) {
+            const existingError = document.querySelector(`[data-error-for="${fieldName}"]`);
+            if (existingError) {
+                existingError.remove();
+            }
+
+            if (errorMessage) {
+                let inputElement = document.querySelector(`input[name="${fieldName}"], select[name="${fieldName}"]`);
+                if (inputElement) {
+                    const errorElement = document.createElement('div');
+                    errorElement.className = 'validation-error';
+                    errorElement.setAttribute('data-error-for', fieldName);
+                    errorElement.textContent = errorMessage;
+                    
+                    const inputContainer = inputElement.closest('.form-field') || inputElement.parentElement;
+                    inputContainer.appendChild(errorElement);
+                }
+            }
+        }
+
+        function validateForm() {
+            const isEventValid = validateEventId();
+            const isNameValid = validateName();
+            const isGithubValid = validateGithubUrl();
+            const isEmailValid = validateEmail();
+            const isLinkedinValid = validateLinkedinUrl();
+            
+            return isEventValid && isNameValid && isGithubValid && isEmailValid && isLinkedinValid;
+        }
+
+        // Form submission with AJAX
         document.getElementById('resume-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             console.log('Form submitted');
+            
+            if (!validateForm()) {
+                console.log('Form validation failed');
+                return;
+            }
             
             const formData = new FormData(this);
             const urlEncodedData = new URLSearchParams(formData);
@@ -184,9 +263,7 @@
                 const result = await response.json();
                 
                 if (result.success && result.application_id) {
-                    // Store the application ID in localStorage
                     localStorage.setItem('applicationId', result.application_id);
-                    console.log('Application ID stored:', result.application_id);
                     
                     // Redirect to the queue page
                     if (result.redirect) {
@@ -247,11 +324,33 @@
 
         // Add event listeners to all form inputs
         document.addEventListener('DOMContentLoaded', function() {
-            const allInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="url"], textarea');
+            const allInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="url"], textarea, select');
             
             allInputs.forEach(input => {
-                input.addEventListener('input', updateProgressBar);
-                input.addEventListener('blur', updateProgressBar);
+                input.addEventListener('input', function() {
+                    updateProgressBar();
+
+                    const fieldName = this.getAttribute('name');
+                    if (fieldName) {
+                        showError(fieldName, '');
+                    }
+                });
+                input.addEventListener('blur', function() {
+                    updateProgressBar();
+                    // Validate specific fields on blur
+                    const fieldName = this.getAttribute('name');
+                    if (fieldName === 'github') {
+                        validateGithubUrl();
+                    } else if (fieldName === 'linkedin') {
+                        validateLinkedinUrl();
+                    } else if (fieldName === 'email') {
+                        validateEmail();
+                    } else if (fieldName === 'name') {
+                        validateName();
+                    } else if (fieldName === 'event') {
+                        validateEventId();
+                    }
+                });
             });
         });
 
