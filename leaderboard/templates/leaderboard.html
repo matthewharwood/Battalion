@@ -27,7 +27,7 @@
                         <div class="page-header">
                             <div style="display: flex; justify-content: space-between;">
                                 <div style="display: flex; align-items: center; gap: 16px;">
-                                    <div class="back-button" onclick="history.back()">
+                                    <div class="back-button" onclick="goBack()">
                                         {{ icons::back_icon() | safe }}
                                     </div>
                                     <h1 class="page-title">Leaderboards</h1>
@@ -228,6 +228,22 @@
                 }
             } catch (error) {
                 console.warn('Error checking event timing:', error);
+            }
+        }
+
+        function goBack() {
+            const applicantionId = localStorage.getItem('applicationId');
+            const eventId = localStorage.getItem('selectedEvent');
+            if(applicantionId) {
+                window.location.href = '/queue';
+                return
+            } else {
+                if(eventId) {
+                    window.location.href = `/jobs`;
+                } else {
+                    window.location.href = '/';
+                }
+                return
             }
         }
 

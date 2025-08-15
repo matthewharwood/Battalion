@@ -24,7 +24,7 @@
 
                         <div class="queue-child-card first-card">
                             <div class="left-panel-child">
-                                <div class="back-button-queue" role="button" tabindex="0" onclick="history.back()">
+                                <div class="back-button-queue" role="button" tabindex="0" onclick="goBack()">
                                     {{ icons::back_icon() | safe }}
                                 </div>
                                 <div class="queue-content-wrapper">
@@ -98,6 +98,7 @@
         const eventTimestamp = {% if time_stamp %}{{ time_stamp }}{% else %}0{% endif %}; // Injected by Tera as UNIX timestamp
         const countdownEl = document.getElementById("countdown");
         const eventDateEl = document.getElementById("event-date");
+        const applicationId = localStorage.getItem('applicationId');
 
         if (eventTimestamp > 0) {
             const eventDate = new Date(eventTimestamp * 1000);
@@ -110,6 +111,14 @@
                 hour12: true 
             };
             eventDateEl.textContent = eventDate.toLocaleDateString('en-US', options);
+        }
+
+        function goBack() {
+            if(applicationId) {
+                window.location.href = '/';
+            } else {
+                window.location.href = '/jobs';
+            }
         }
         
         function formatTime(seconds) {
